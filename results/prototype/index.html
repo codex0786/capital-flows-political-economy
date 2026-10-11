@@ -1184,7 +1184,7 @@ const renderers={analysis:renderAnalysis,monitor:renderMonitor,track:()=>{render
 function toView(v){ /* bring the top of the view to just below the sticky tab bar */
   const sec=$('#v-'+v), nav=document.querySelector('nav.tabs'); if(!sec) return;
   const top=sec.getBoundingClientRect().top+window.scrollY-(nav?nav.offsetHeight:0)-16;
-  try{ window.scrollTo({top:Math.max(0,top),behavior:'smooth'}); }catch(e){ window.scrollTo(0,Math.max(0,top)); }
+  window.scrollTo(0,Math.max(0,top));
   const tab=document.querySelector(`#tabs a[href="#${v}"]`); tab?.scrollIntoView?.({block:'nearest',inline:'nearest'}); }
 function route(){ let v=location.hash.replace('#',''); if(!views.includes(v)) v='analysis';
   views.forEach(x=>{ $('#v-'+x).hidden=(x!==v); });
