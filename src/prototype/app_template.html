@@ -87,6 +87,24 @@ article.report .fig{background:var(--surface);border:1px solid var(--line);borde
 .toc{display:flex;flex-wrap:wrap;gap:8px}
 .toc a{font:500 13px var(--f-ui);color:var(--accent);text-decoration:none;background:var(--accent-soft);padding:5px 10px;border-radius:999px}
 code{font-family:var(--f-mono);font-size:.9em;background:var(--surface-2);padding:1px 5px;border-radius:4px}
+.hm{border-collapse:separate;border-spacing:2px;font-size:12.5px;width:max-content;min-width:100%}
+.hm th,.hm td{border:0;padding:0}
+.hm thead th{position:sticky;top:0;background:var(--surface);padding:6px 4px;text-align:center;z-index:1}
+.hm th.cn{position:sticky;left:0;background:var(--surface);z-index:2;text-align:left;padding:0 10px 0 2px;font:500 13px var(--f-ui);color:var(--fg);text-transform:none;letter-spacing:0;white-space:nowrap;min-width:190px}
+.hm tbody tr{cursor:pointer}
+.hm tbody tr:hover th.cn,.hm tbody tr.sel th.cn{color:var(--accent)}
+.hm tbody tr.sel td{outline:1.5px solid var(--accent);outline-offset:-1px}
+.hm td{width:62px;height:28px;text-align:center;font:12px var(--f-mono);font-variant-numeric:tabular-nums;color:var(--fg);border-radius:4px;position:relative}
+.hm td.na{color:var(--fg-3);background:transparent}
+.hm td.el::after{content:"";position:absolute;top:3px;right:3px;width:6px;height:6px;border-radius:50%;background:var(--fg)}
+.hm td.el.early::after{background:transparent;border:1.5px solid var(--fg);width:5px;height:5px}
+.hm td.mean{font-weight:500;color:var(--fg-2)}
+.hmwrap{max-height:640px;overflow:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.scale{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--fg-3);flex-wrap:wrap}
+.scale .bar{width:180px;height:10px;border-radius:5px}
+.prof td,.prof th{font-size:13px;padding:6px 8px}
+.prof td.n{min-width:56px}
+input[type=search]{font:15px var(--f-ui);color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;max-width:100%}
 footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);font-size:13px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -97,7 +115,7 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
   <p class="lede">An interactive version of a pre-registered study of whether national elections, institutional quality and global risk change cross-border capital flows. Every estimate here comes from the same reproducible pipeline as the written report.</p>
 </header>
 <nav class="tabs" aria-label="Sections"><div class="wrap" id="tabs">
-  <a href="#overview">Overview</a><a href="#countries">Countries</a><a href="#models">Model lab</a><a href="#dynamics">Dynamics</a><a href="#robustness">Robustness</a><a href="#report">Report</a><a href="#data">Data &amp; methods</a>
+  <a href="#overview">Overview</a><a href="#countries">Countries</a><a href="#years">Country × year</a><a href="#models">Model lab</a><a href="#dynamics">Dynamics</a><a href="#robustness">Robustness</a><a href="#report">Report</a><a href="#data">Data &amp; methods</a>
 </div></nav>
 
 <main class="wrap">
@@ -140,6 +158,26 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
     <p class="small muted">Quarterly flows as annualised % of GDP (100 × 4 × flow ÷ annual GDP), not winsorised. Vertical lines mark national elections: solid = scheduled, dashed = early (rule-based), grey = non-executive contest. The shaded band is 2026: partial year, projected GDP denominator, excluded from all estimates.</p>
   </div>
   <div class="panel"><h3>Elections in the event file, 2015–2026</h3><div class="tbl" id="c-elections"></div></div>
+</section>
+
+<!-- COUNTRY x YEAR -->
+<section class="view" id="v-years" hidden>
+  <div class="panel">
+    <div><h3>Country × year</h3><p class="small muted">Annual values for all 121 economies in the annual sample, 2015–2025. A dot marks a year with an executive-relevant national election; a ring marks an early election (rule-based). Click a country for its full profile. 2026 is left out because only part of the year is published.</p></div>
+    <div class="controls">
+      <div class="ctl" style="flex:1 1 220px"><label for="y-var">Measure</label><select id="y-var"></select></div>
+      <div class="ctl"><label>Group</label><div class="seg" id="y-group"><button aria-pressed="true" data-v="all">All</button><button aria-pressed="false" data-v="AE">AE</button><button aria-pressed="false" data-v="EMDE">EMDE</button></div></div>
+      <div class="ctl" style="flex:1 1 200px"><label for="y-sort">Sort</label><select id="y-sort"><option value="name">Name</option><option value="desc">Average, high to low</option><option value="asc">Average, low to high</option><option value="chg">Change 2015–19 to 2021–25</option><option value="nel">Number of election years</option></select></div>
+      <div class="ctl" style="flex:1 1 180px"><label for="y-find">Find</label><input type="search" id="y-find" placeholder="Country name"></div>
+    </div>
+    <div class="scale" id="y-scale"></div>
+    <div class="hmwrap"><table class="hm" id="y-heat"></table></div>
+    <p class="small muted" id="y-note"></p>
+  </div>
+  <div class="panel" id="y-profile"></div>
+  <div class="panel"><h3>Election years against other years, country by country</h3>
+    <p class="small muted">For each country: average gross inflows in years with an executive-relevant election minus the average in other years. This is descriptive. Each country has only two or three election years, so single-country differences are dominated by noise. The study's regression estimates are in the Model lab.</p>
+    <div class="chart" id="y-contrast"></div><p class="small" id="y-contrast-note"></p></div>
 </section>
 
 <!-- MODELS -->
@@ -481,10 +519,96 @@ document.querySelectorAll('[data-jump]').forEach(a=>a.addEventListener('click',e
 const SRC=[['IMF Balance of Payments (BPM6), v21','Flows by category and accounting entry','2014–2026Q2'],['IMF World Economic Outlook','GDP, growth, inflation, fiscal, debt','current vintage; 2026 projected'],['World Bank WGI, 2026 release','Six governance dimensions','to 2025'],['World Bank WDI','Reserves, external debt, trade','updated 2026-10-08'],['V-Dem v16','Election years, executive constraints, leader names','to 2025'],['International IDEA Voter Turnout','Election corroboration and history','to 2026'],['Wikipedia national electoral calendars','Exact election dates','2010–2026'],['World Uncertainty Index; GPR; IMF RSUI','Uncertainty, geopolitical risk, unrest','to 2026'],['Chinn–Ito KAOPEN; BIS policy rates; FRED','Capital-account openness, policy rates, VIX and global factors','various']];
 $('#dt-sources').innerHTML='<table><thead><tr><th>Source</th><th>Used for</th><th>Coverage</th></tr></thead><tbody>'+SRC.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td class="small">${r[2]}</td></tr>`).join('')+'</tbody></table><p class="small muted" style="margin-top:8px">All retrieved 11 October 2026. File hashes and vintages are in <code>data/processed/source_register.csv</code>.</p>';
 
+/* ---------- COUNTRY x YEAR ---------- */
+const AN=B.annual, YRS=AN.years;
+fillSelect($('#y-var'),Object.fromEntries(Object.entries(AN.vars).map(([k,v])=>[k,`${v.label} (${v.unit})`])));
+let yGroup='all', ySel='BRA';
+const mean=a=>{const v=a.filter(x=>x!=null); return v.length? v.reduce((p,c)=>p+c,0)/v.length : null;};
+function cellColor(v, kind, cap){
+  if(v==null) return '';
+  const t=Math.min(1,Math.abs(v)/cap); const pct=Math.round(8+t*52);
+  if(kind==='seq') return `color-mix(in srgb, var(--accent) ${pct}%, var(--surface))`;
+  return v>=0 ? `color-mix(in srgb, var(--accent) ${pct}%, var(--surface))` : `color-mix(in srgb, var(--warm) ${pct}%, var(--surface))`;
+}
+function renderYears(){
+  const key=$('#y-var').value, meta=AN.vars[key], q=$('#y-find').value.trim().toLowerCase();
+  let rows=Object.entries(AN.countries).filter(([k,c])=>(yGroup==='all'||c.group===yGroup)&&(!q||c.name.toLowerCase().includes(q)||k.toLowerCase().includes(q)));
+  const avg=c=>mean(c.v[key]);
+  const chg=c=>{const a=mean(c.v[key].slice(0,5)), b=mean(c.v[key].slice(6,11)); return a==null||b==null?null:b-a;};
+  const srt=$('#y-sort').value;
+  rows.sort((a,b)=>{ const A=a[1],Bc=b[1];
+    if(srt==='name') return A.name.localeCompare(Bc.name);
+    const f= srt==='chg'?chg : srt==='nel'? (c=>c.exec_el.reduce((p,x)=>p+(x||0),0)) : avg;
+    const x=f(A), y=f(Bc); if(x==null) return 1; if(y==null) return -1; return srt==='asc'? x-y : y-x; });
+  const all=Object.values(AN.countries).flatMap(c=>c.v[key]).filter(v=>v!=null).map(Math.abs).sort((a,b)=>a-b);
+  const cap=all[Math.floor(all.length*0.9)]||1;
+  const dp = Math.abs(cap)<5 ? 2 : 1;
+  $('#y-scale').innerHTML = meta.kind==='div'
+    ? `<span>${fmt(-cap,dp)}</span><span class="bar" style="background:linear-gradient(90deg,color-mix(in srgb,var(--warm) 60%,var(--surface)),var(--surface),color-mix(in srgb,var(--accent) 60%,var(--surface)))"></span><span>+${fmt(cap,dp)} ${esc(meta.unit)}</span><span>· colour saturates at the 90th percentile of |values|</span><span>· ● election year ○ early election</span>`
+    : `<span>0</span><span class="bar" style="background:linear-gradient(90deg,var(--surface),color-mix(in srgb,var(--accent) 60%,var(--surface)))"></span><span>${fmt(cap,dp)} ${esc(meta.unit)}</span><span>· ● election year ○ early election</span>`;
+  const head='<thead><tr><th class="cn">Economy</th>'+YRS.map(y=>`<th>${y}</th>`).join('')+'<th>Avg</th></tr></thead>';
+  const body=rows.map(([k,c])=>`<tr data-iso="${k}"${k===ySel?' class="sel"':''}><th class="cn">${esc(c.name)} <span class="muted small">${c.group}${c.fc?' · FC':''}</span></th>`+
+    c.v[key].map((v,i)=>{ const el=c.exec_el[i]===1, early=c.early_el[i]===1;
+      const tip=`${c.name} ${YRS[i]}: ${v==null?'no data':fmt(v,dp)+' '+meta.unit}${c.elections[YRS[i]]?' · '+c.elections[YRS[i]]:''}`;
+      return `<td class="${v==null?'na':''}${el?' el':''}${early?' early':''}" style="background:${cellColor(v,meta.kind,cap)}" title="${esc(tip)}">${v==null?'–':fmt(v,dp)}</td>`; }).join('')+
+    `<td class="mean">${fmt(avg(c),dp)}</td></tr>`).join('');
+  $('#y-heat').innerHTML=head+'<tbody>'+body+'</tbody>';
+  $('#y-note').textContent=`${rows.length} economies shown. FC = financial centre (very large gross flows relative to GDP). Hover a cell for its value and that year's elections.`;
+  renderProfile(); renderContrast();
+}
+$('#y-heat').addEventListener('click',e=>{ const tr=e.target.closest('tr[data-iso]'); if(!tr) return; ySel=tr.dataset.iso; document.querySelectorAll('#y-heat tr.sel').forEach(r=>r.classList.remove('sel')); tr.classList.add('sel'); renderProfile(); $('#y-profile').scrollIntoView?.({behavior:'smooth',block:'start'}); });
+function renderProfile(){
+  const c=AN.countries[ySel]; if(!c) return;
+  const rowsDef=[['gross_in'],['gross_out'],['net'],['fdi'],['port'],['oi'],['res'],['vol'],['growth'],['infl'],['debt'],['ca'],['rl'],['pv'],['wui']];
+  const yesno=(a,i)=>a[i]==null?'–':a[i]?'Yes':'–';
+  const tbl='<table class="prof"><thead><tr><th>Measure</th>'+YRS.map(y=>`<th class="n">${y}</th>`).join('')+'</tr></thead><tbody>'+
+    rowsDef.map(([k])=>`<tr><td>${esc(AN.vars[k].label)} <span class="muted small">${esc(AN.vars[k].unit)}</span></td>`+c.v[k].map(v=>`<td class="n">${fmt(v,k==='rl'||k==='pv'||k==='wui'?2:1)}</td>`).join('')+'</tr>').join('')+
+    `<tr><td>Executive-relevant election</td>${YRS.map((y,i)=>`<td class="n">${c.exec_el[i]?(c.early_el[i]?'Early':'Yes'):'–'}</td>`).join('')}</tr>`+
+    `<tr><td>Chief executive changed (V-Dem)</td>${YRS.map((y,i)=>`<td class="n">${yesno(c.exec_change,i)}</td>`).join('')}</tr>`+
+    `<tr><td>Major social unrest (IMF RSUI)</td>${YRS.map((y,i)=>`<td class="n">${yesno(c.unrest,i)}</td>`).join('')}</tr>`+
+    `<tr><td>Sudden-stop quarters</td>${YRS.map((y,i)=>`<td class="n">${c.stop_q[i]==null?'–':c.stop_q[i]}</td>`).join('')}</tr>`+
+    '</tbody></table>';
+  const ct=c.el_contrast;
+  const elist=Object.entries(c.elections).map(([y,t])=>`<li><b>${y}</b>: ${esc(t)}</li>`).join('');
+  $('#y-profile').innerHTML=`<div class="controls" style="justify-content:space-between"><div><h3>${esc(c.name)}: year-by-year profile</h3><p class="small muted">${c.group==='AE'?'Advanced economy':'Emerging or developing economy'}${c.fc?' · financial centre':''}. Click another row in the table above to switch.</p></div></div>
+    <div class="legend"><span><i class="sw" style="background:var(--accent)"></i>Gross inflows</span><span><i class="sw" style="background:var(--warm)"></i>Gross outflows</span><span><i class="sw" style="background:var(--fg)"></i>Election year</span></div>
+    <div class="chart" id="y-pchart"></div>
+    <div class="tbl">${tbl}</div>
+    <div class="grid g2"><div><h3 style="margin-bottom:6px">Elections in the event file</h3>${elist?`<ul style="margin:0;padding-left:20px">${elist}</ul>`:'<p class="muted">No corroborated national elections, 2015–2025.</p>'}</div>
+    <div><h3 style="margin-bottom:6px">Election years vs other years</h3><p>Average gross inflows: <b class="mono">${fmt(ct.election_mean)}</b>% of GDP in ${ct.n_el_years} election year${ct.n_el_years===1?'':'s'}, <b class="mono">${fmt(ct.other_mean)}</b>% in ${ct.n_other} other years. Descriptive only.</p></div></div>`;
+  lineChart($('#y-pchart'),YRS,[{name:'Gross inflows',v:c.v.gross_in,color:css('--accent')},{name:'Gross outflows',v:c.v.gross_out,color:css('--warm')}],
+    {h:260,xlab:()=>true,markers:YRS.map((y,i)=>c.exec_el[i]?{i,color:css('--fg'),dash:c.early_el[i]?'5 4':''}:null).filter(Boolean),
+     extra:i=>c.elections[YRS[i]]?'<br>▲ '+esc(c.elections[YRS[i]]):''});
+}
+function renderContrast(){
+  const rows=Object.entries(AN.countries).filter(([k,c])=>(yGroup==='all'||c.group===yGroup)&&c.el_contrast.n_el_years>0&&c.el_contrast.election_mean!=null&&c.el_contrast.other_mean!=null)
+    .map(([k,c])=>({k,name:c.name,d:c.el_contrast.election_mean-c.el_contrast.other_mean})).sort((a,b)=>a.d-b.d);
+  const host=$('#y-contrast'); host.innerHTML=''; if(!rows.length) return;
+  const W=1100,H=300,m={l:48,r:12,t:12,b:24};
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Election-year minus other-year gross inflows by country'},host);
+  const ds=rows.map(r=>r.d).sort((a,b)=>a-b); const capL=ds[Math.floor(ds.length*0.02)], capH=ds[Math.ceil(ds.length*0.98)-1];
+  const lo=Math.min(0,capL), hi=Math.max(0,capH); const Y=v=>m.t+(hi-Math.max(lo,Math.min(hi,v)))/(hi-lo)*(H-m.t-m.b);
+  const g=el('g',{class:'grid'},svg); niceTicks(lo,hi).forEach(t=>{ el('line',{x1:m.l,x2:W-m.r,y1:Y(t),y2:Y(t)},g); const tx=el('text',{x:m.l-8,y:Y(t)+4,'text-anchor':'end'},svg); tx.textContent=fmt(t,0); });
+  el('line',{class:'zero',x1:m.l,x2:W-m.r,y1:Y(0),y2:Y(0)},svg);
+  const bw=(W-m.l-m.r)/rows.length; const tip=document.createElement('div'); tip.className='tip'; host.appendChild(tip);
+  rows.forEach((r,i)=>{ const x=m.l+i*bw, y0=Y(0), y1=Y(r.d);
+    const rect=el('rect',{x:x+bw*0.15,y:Math.min(y0,y1),width:Math.max(1,bw*0.7),height:Math.max(1,Math.abs(y1-y0)),rx:Math.min(2,bw*0.3),fill:r.d<0?css('--warm'):css('--accent'),opacity:r.k===ySel?1:0.8},svg);
+    const hit=el('rect',{x,y:m.t,width:bw,height:H-m.t-m.b,fill:'transparent'},svg);
+    hit.addEventListener('pointerenter',()=>{ tip.innerHTML=`<b>${esc(r.name)}</b><br>${fmt(r.d)} pp (election years − other years)`; tip.style.left=((x+bw/2)/W*100)+'%'; tip.style.top=(Math.min(y0,y1)/H*100)+'%'; tip.style.opacity=1; });
+    hit.addEventListener('pointerleave',()=>tip.style.opacity=0);
+    hit.addEventListener('click',()=>{ ySel=r.k; renderYears(); $('#y-profile').scrollIntoView?.({behavior:'smooth',block:'start'}); });
+  });
+  const neg=rows.filter(r=>r.d<0).length; const med=ds[Math.floor(ds.length/2)];
+  $('#y-contrast-note').innerHTML=`In <b>${neg} of ${rows.length}</b> economies, average gross inflows were lower in election years (median difference ${fmt(med)} pp). Orange = lower in election years, blue = higher. Extreme values are clipped at the 2nd/98th percentile; hover for exact values, click a bar to open that country.`;
+}
+['#y-var','#y-sort'].forEach(id=>$(id).addEventListener('change',renderYears));
+$('#y-find').addEventListener('input',renderYears);
+seg('#y-group',v=>{yGroup=v;renderYears();});
+
 /* ---------- routing ---------- */
-const views=['overview','countries','models','dynamics','robustness','report','data'];
+const views=['overview','countries','years','models','dynamics','robustness','report','data'];
 const rendered={};
-const renderers={overview:renderOverview,countries:renderCountry,models:renderModels,dynamics:renderDynamics,robustness:()=>{renderRobust();renderMT($('#r-mt'),['primary','H3_components','H5_family']);},report:renderReport,data:()=>{}};
+const renderers={overview:renderOverview,countries:renderCountry,years:renderYears,models:renderModels,dynamics:renderDynamics,robustness:()=>{renderRobust();renderMT($('#r-mt'),['primary','H3_components','H5_family']);},report:renderReport,data:()=>{}};
 function route(){ let v=location.hash.replace('#',''); if(!views.includes(v)) v='overview';
   views.forEach(x=>{ $('#v-'+x).hidden=(x!==v); });
   document.querySelectorAll('#tabs a').forEach(a=>a.setAttribute('aria-current',a.getAttribute('href')==='#'+v?'page':'false'));

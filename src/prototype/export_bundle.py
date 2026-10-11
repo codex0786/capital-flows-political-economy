@@ -160,6 +160,64 @@ def group_trends():
     return rows
 
 
+ANNUAL_VARS = {
+    # key: (column, label, unit, kind)  kind: div = diverging around 0, seq = sequential
+    "gross_in": ("gross_inflows_gdp", "Gross inflows", "% of GDP", "div"),
+    "gross_out": ("gross_outflows_gdp", "Gross outflows", "% of GDP", "div"),
+    "net": ("net_flows_gdp", "Net flows", "% of GDP", "div"),
+    "fdi": ("fdi_in_gdp", "FDI inflows", "% of GDP", "div"),
+    "port": ("port_in_gdp", "Portfolio inflows", "% of GDP", "div"),
+    "oi": ("oi_in_gdp", "Other investment inflows", "% of GDP", "div"),
+    "res": ("reserve_change_gdp", "Reserve accumulation", "% of GDP", "div"),
+    "vol": ("q_vol", "Inflow volatility within year", "SD, pp of GDP", "seq"),
+    "growth": ("gdp_growth", "Real GDP growth", "%", "div"),
+    "infl": ("inflation", "Inflation", "%", "seq"),
+    "debt": ("public_debt_gdp", "Public debt", "% of GDP", "seq"),
+    "ca": ("ca_gdp", "Current account", "% of GDP", "div"),
+    "rl": ("wgi_rl_est", "Rule of law (WGI)", "−2.5 to 2.5", "div"),
+    "pv": ("wgi_pv_est", "Political stability (WGI)", "−2.5 to 2.5", "div"),
+    "wui": ("wui", "World Uncertainty Index", "index", "seq"),
+}
+
+
+def annual_countries():
+    """Country x year panel (annual sample, 2015-2025) for the heatmap and country profiles."""
+    A = pd.read_parquet(PROCESSED / "annual_country_panel.parquet")
+    A = A[A.year.between(2015, 2025)].copy()
+    Q = pd.read_parquet(PROCESSED / "quarterly_country_panel.parquet")
+    Q = Q[Q.year.between(2015, 2025)]
+    qv = Q.groupby(["iso3", "year"]).agg(q_vol=("gross_inflows_gdp", "std"), stop_q=("sudden_stop", "sum"),
+                                         stop_obs=("sudden_stop", "count")).reset_index()
+    A = A.merge(qv, on=["iso3", "year"], how="left")
+    pe = pd.read_csv(PROCESSED / "political_events.csv")
+    el = pe[pe.event_type.str.startswith("election") & pe.verification_status.isin(["wikipedia+idea+vdem", "two_sources"])].copy()
+    el["year"] = pd.to_datetime(el.event_date).dt.year
+    years = list(range(2015, 2026))
+    out = {}
+    for iso3, g in A.groupby("iso3"):
+        g = g.set_index("year").reindex(years)
+        e = el[el.iso3 == iso3]
+        row = {"name": g.country_name.dropna().iloc[0], "group": g.country_group.dropna().iloc[0],
+               "fc": int(g.financial_centre.dropna().iloc[0]), "v": {}}
+        for k, (col, *_r) in ANNUAL_VARS.items():
+            row["v"][k] = [r(x, 2) for x in g[col]]
+        row["exec_el"] = [int(x) if pd.notna(x) else None for x in g.exec_election]
+        row["early_el"] = [int(x) if pd.notna(x) else None for x in g.early_exec_election]
+        row["exec_change"] = [int(x) if pd.notna(x) else None for x in g.exec_change]
+        row["unrest"] = [int(x) if pd.notna(x) else None for x in g.rsui_event]
+        row["stop_q"] = [int(x) if pd.notna(x) and pd.notna(o) and o > 0 else None for x, o in zip(g.stop_q, g.stop_obs)]
+        row["elections"] = {int(y): "; ".join(f"{t.replace('election_', '')} {d}" for t, d in zip(ee.event_type, ee.event_date))
+                            for y, ee in e.groupby("year") if 2015 <= y <= 2025}
+        # descriptive election-year contrast for gross inflows (not causal; few years per country)
+        gi = g.gross_inflows_gdp
+        ey = g.exec_election == 1
+        row["el_contrast"] = {"election_mean": r(gi[ey].mean(), 2), "other_mean": r(gi[~ey].mean(), 2),
+                              "n_el_years": int(ey.sum()), "n_other": int((~ey & gi.notna()).sum())}
+        out[iso3] = row
+    return {"years": years, "vars": {k: {"label": v[1], "unit": v[2], "kind": v[3]} for k, v in ANNUAL_VARS.items()},
+            "countries": out}
+
+
 def saved_results():
     M = pd.read_csv(TABLES / "multiple_testing.csv")
     R = pd.read_csv(TABLES / "robustness_matrix.csv")
@@ -183,6 +241,7 @@ def main():
         "events": event_grid(Q),
         "countries": countries(Q),
         "trends": group_trends(),
+        "annual": annual_countries(),
         "saved": saved_results(),
     }
     (OUT / "bundle.json").write_text(json.dumps(bundle, separators=(",", ":")))
