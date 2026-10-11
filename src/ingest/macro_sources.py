@@ -144,6 +144,20 @@ def idea_elections():
 
 ALL["idea"] = idea_elections
 
+
+# --- V-Dem v16 (country-year), as distributed by the V-Dem Institute's vdemdata package ---
+def vdem():
+    """The v-dem.net download requires a registration form (email + terms); the identical
+    country-year dataset is published by the V-Dem Institute in its GitHub package."""
+    base = "https://raw.githubusercontent.com/vdeminstitute/vdemdata/master/data"
+    fetch_raw(f"{base}/vdem.RData", RAW / "vdem" / "vdem_v16.RData", "V-Dem v16 (vdemdata GitHub)",
+              note="country-year full+others, v16 release commit 2026-03-17", timeout=600)
+    fetch_raw(f"{base}/codebook.RData", RAW / "vdem" / "codebook_v16.RData", "V-Dem v16 (vdemdata GitHub)",
+              note="codebook")
+
+
+ALL["vdem"] = vdem
+
 if __name__ == "__main__":
     for name in (sys.argv[1:] or ALL):
         try:

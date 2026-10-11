@@ -150,3 +150,36 @@ def placebo_k0(draws: int = 1000, seed: int = 20261011):
     out = pd.DataFrame(rows)
     out.to_csv(TABLES / "posthoc_placebo_k0.csv", index=False)
     print(out.round(4).to_string(index=False))
+
+
+def seasonality_check():
+    """Country x quarter-of-year fixed effects (absorbing country-specific seasonality, which
+    could coincide with fixed election calendars) plus quarter FE; clustered by country."""
+    from scipy import stats
+
+    from src.econometrics.models import _cluster_t, twfe_demean
+    Q = quarterly().merge(official_oi(), on=["iso3", "quarter"], how="left")
+    Q["private_inflows_gdp"] = 100 * 4 * (Q.gross_in_usd - Q.official_oi_usd) / Q.gdp_usd
+    lo, hi = np.nanpercentile(Q.private_inflows_gdp.dropna(), [1, 99])
+    Q["private_inflows_gdp_w"] = Q.private_inflows_gdp.clip(lo, hi)
+    Q = event_windows(Q)
+    meta = pd.read_csv(TABLES.parents[1] / "data" / "processed" / "country_metadata.csv").set_index("iso3")
+    Q["emde"] = Q.iso3.map(meta.country_group_alt_pre_euro) == "EMDE"
+    Q["iso_season"] = Q.iso3 + "_" + Q.quarter.str[-1]
+    terms = ["eq_pre12", "eq_k0", "eq_post12"]
+    rows = []
+    for label, df in (("EMDE", Q[Q.emde]), ("all", Q)):
+        for y in ["gross_inflows_gdp_w", "private_inflows_gdp_w"]:
+            for fe in ("country", "country_x_season"):
+                d = df.dropna(subset=[y] + terms + CTRL).copy()
+                d["_tid"] = d.quarter
+                ent = "iso3" if fe == "country" else "iso_season"
+                D = twfe_demean(d, [y] + terms + CTRL, ent=ent)
+                g = d.iso3.astype("category").cat.codes.to_numpy()
+                b, se = _cluster_t(D[terms + CTRL].to_numpy(), D[y].to_numpy(), g, 1)
+                G = g.max() + 1
+                rows.append({"sample": label, "outcome": y, "entity_fe": fe, "term": "eq_k0", "coef": b, "se": se,
+                             "p": 2 * stats.t.sf(abs(b / se), G - 1), "nobs": len(d), "status": "POST-HOC / EXPLORATORY"})
+    out = pd.DataFrame(rows)
+    out.to_csv(TABLES / "posthoc_seasonality_check.csv", index=False)
+    print(out.round(3).to_string(index=False))

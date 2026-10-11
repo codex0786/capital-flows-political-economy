@@ -1,0 +1,25 @@
+{
+ "candidates": 196,
+ "annual_sample": 121,
+ "quarterly_sample": 108,
+ "annual_AE": 33,
+ "annual_EMDE": 88,
+ "quarterly_AE": 33,
+ "quarterly_EMDE": 75,
+ "exclusion_reasons": {
+  "population < 1.0m (WEO 2014) or missing": 50,
+  "annual gross flows for n/11 years": 40,
+  "no WGI 2014": 10,
+  "not a World Bank-listed economy": 5
+ },
+ "elections_2015_2025_quarterly_sample_corroborated": 431,
+ "exec_relevant": 282,
+ "exec_relevant_scheduled": 195,
+ "exec_relevant_early": 71,
+ "exec_turnover_share": 0.37722419928825623,
+ "countries_with_2026_data": 95,
+ "latest_2026_quarter_counts": {
+  "2026Q2": 61,
+  "2026Q1": 34
+ }
+}

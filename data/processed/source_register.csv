@@ -1,0 +1,13 @@
+folder,source_owner,retrieval_method,data_vintage,access_restrictions,citation,files,first_retrieved,last_retrieved,total_bytes
+imf_bop,International Monetary Fund (STA),"SDMX 2.1 REST API, CSV",BOP v21.0.0; data to 2026Q2 for 61 sample economies,Open (IMF terms of use),"IMF (2026), BOP/IIP Statistics",4,2026-10-11T10:55:01+00:00,2026-10-11T12:08:44+00:00,306285323
+imf_weo,International Monetary Fund (RES),DataMapper JSON API (curl),Current WEO vintage at retrieval; 2026 values are projections,Open,IMF World Economic Outlook database,9,2026-10-11T11:24:09+00:00,2026-10-11T11:24:29+00:00,1213011
+worldbank,World Bank,API v2 JSON,"WDI updated 2026-10-08; WGI updated 2026-09-25 (2026 release, historical revisions)",CC BY 4.0,World Bank WDI; Kaufmann & Kraay WGI 2026,38,2026-10-11T11:08:58+00:00,2026-10-11T11:24:06+00:00,26800370
+vdem,V-Dem Institute,"GitHub raw file (vdemdata R package, .RData)",v16 (commit 2026-03-17); data through 2025,CC BY-SA 4.0; website download requires registration form (not used),Coppedge et al. (2026) V-Dem v16,2,2026-10-11T12:13:13+00:00,2026-10-11T12:13:13+00:00,34026888
+idea,International IDEA,Website export endpoint (xlsx),As at 2026-10-11; ~half of post-2013 rows year-only dates,Open with attribution,International IDEA Voter Turnout Database,1,2026-10-11T11:24:36+00:00,2026-10-11T11:24:36+00:00,514288
+wikipedia_calendar,Wikipedia contributors,"MediaWiki API (rate-limited, 6 s spacing)",Revision IDs stored in each JSON file,CC BY-SA 4.0,"Wikipedia, '<year> national electoral calendar'",19,2026-10-11T11:44:23+00:00,2026-10-11T11:46:30+00:00,694716
+wui,"Ahir, Bloom & Furceri",Direct xlsx download,July 2026 update (to 2026Q2),Open with citation,"Ahir, Bloom & Furceri (2022) NBER WP 29763",1,2026-10-11T11:24:38+00:00,2026-10-11T11:24:38+00:00,1491634
+gpr,Caldara & Iacoviello,Direct xls download,As at retrieval (monthly to 2026-09),Open with citation,Caldara & Iacoviello (2022) AER,1,2026-10-11T11:24:40+00:00,2026-10-11T11:24:40+00:00,2716160
+imf_rsui,IMF (WHD),"SDMX 2.1 REST API, CSV",IMF.WHD:RSUI 1.0.0; to 2026-05,Open,Barrett et al. (2022) JDE,1,2026-10-11T11:25:58+00:00,2026-10-11T11:25:58+00:00,38795632
+chinn_ito,Chinn & Ito,Direct xls download,2023 update,Open with citation,Chinn & Ito (2006) JDE,1,2026-10-11T11:24:43+00:00,2026-10-11T11:24:43+00:00,1091584
+bis,Bank for International Settlements,"BIS SDMX API v1, CSV",WS_CBPOL monthly,Open (BIS terms),BIS central bank policy rates,1,2026-10-11T11:24:37+00:00,2026-10-11T11:24:37+00:00,2691228
+fred,Federal Reserve Bank of St. Louis,fredgraph CSV endpoint (curl),As at retrieval,Public domain / source terms (VIX: CBOE; HY OAS: ICE),FRED series as listed,6,2026-10-11T11:24:29+00:00,2026-10-11T11:24:32+00:00,573843

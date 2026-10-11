@@ -173,3 +173,40 @@ If you are unsure how to get the access you need, contact
 2026-10-11 17:33:15,022 fetch INFO fetched IMF BOP (IMF.STA:BOP) -> imf_bop_official_oi_Q_raw.csv (7538506 bytes)
 2026-10-11 17:38:44,248 fetch INFO fetched IMF BOP (IMF.STA:BOP) -> imf_bop_official_oi_by_instrument_Q_raw.csv (66481472 bytes)
 2026-10-11 17:39:17,539 posthoc INFO post-hoc alignment written
+2026-10-11 17:44:11,451 wikipedia WARNING no calendar page for 2008
+2026-10-11 17:44:18,075 wikipedia WARNING no calendar page for 2009
+2026-10-11 17:44:18,733 cleaning INFO interim step meta done
+2026-10-11 17:44:19,364 cleaning INFO BOP A: 2223 rows, 198 economies
+2026-10-11 17:44:19,386 cleaning INFO interim step bop_a done
+2026-10-11 17:44:20,426 cleaning INFO BOP Q: 7386 rows, 158 economies
+2026-10-11 17:44:20,451 cleaning INFO interim step bop_q done
+2026-10-11 17:44:20,946 cleaning INFO interim step weo done
+2026-10-11 17:44:21,496 cleaning INFO interim step wdi done
+2026-10-11 17:44:22,086 cleaning INFO interim step wgi done
+2026-10-11 17:44:28,525 cleaning INFO interim step vdem done
+2026-10-11 17:44:29,381 cleaning INFO interim step idea done
+2026-10-11 17:44:30,023 cleaning INFO interim step wui done
+2026-10-11 17:44:30,606 cleaning INFO interim step gpr done
+2026-10-11 17:44:31,285 cleaning INFO interim step rsui done
+2026-10-11 17:44:31,787 cleaning INFO interim step kaopen done
+2026-10-11 17:44:32,227 cleaning INFO BIS policy rates not mapped to a single country: ['XM']
+2026-10-11 17:44:32,250 cleaning INFO interim step policy done
+2026-10-11 17:44:32,705 cleaning INFO interim step fred done
+2026-10-11 17:44:33,215 panels INFO universe: 196 candidates, annual sample 121, quarterly sample 108
+2026-10-11 17:44:33,678 panels INFO annual panel (1436, 141)
+2026-10-11 17:44:34,013 panels INFO quarterly panel (5294, 112)
+2026-10-11 17:44:34,035 panels INFO political events: {'election_parliamentary': 761, 'election_presidential': 506, 'major_social_unrest_quarter': 388, 'chief_executive_change': 364}
+2026-10-11 17:44:35,071 validation INFO data quality report: 179 rows
+2026-10-11 17:44:37,875 analysis INFO quarterly estimation sample: 4722 obs, 108 countries
+2026-10-11 17:44:41,277 analysis INFO H1 done
+2026-10-11 17:44:42,625 analysis INFO H2 done
+2026-10-11 17:44:43,800 analysis INFO H3 done
+2026-10-11 17:44:45,564 analysis INFO H5 done
+2026-10-11 17:44:46,631 analysis INFO H6 done
+2026-10-11 17:44:48,905 analysis INFO event studies done
+2026-10-11 17:44:49,378 analysis INFO annual done
+2026-10-11 17:44:49,539 analysis INFO reverse done
+2026-10-11 17:44:49,664 analysis INFO policy done
+2026-10-11 17:44:49,679 analysis INFO analysis complete: 166 estimates
+2026-10-11 17:44:53,536 robustness INFO robustness matrix: 34 rows
+2026-10-11 17:45:33,223 posthoc INFO post-hoc alignment written

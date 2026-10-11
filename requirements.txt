@@ -24,6 +24,7 @@ pyarrow==26.0.0
 Pygments==2.21.0
 pyhdfe==0.2.0
 pyparsing==3.3.3
+pypdf==6.20.0
 pyreadr==0.5.7
 pytest==9.1.1
 python-dateutil==2.9.0.post0
