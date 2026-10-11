@@ -1,5 +1,7 @@
 # Capital in Motion
 
+**Live app:** https://codex0786.github.io/capital-flows-political-economy/ (redeployed automatically when `results/prototype/index.html` changes on `main`)
+
 **Political Policies, Institutional Stability and International Capital Flows Across Advanced and Emerging Economies, 2015–2026**
 
 A pre-registered, reproducible panel study of how national elections, institutional quality and global financial conditions relate to cross-border capital flows in 121 economies (annual) and 108 economies (quarterly).
