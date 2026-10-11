@@ -1,3 +1,6 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Capital in Motion</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
@@ -131,6 +134,27 @@ details summary{cursor:pointer;color:var(--accent);font:500 13px var(--f-ui)}
 th.sortable{cursor:pointer;color:var(--accent)}
 footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);font-size:13px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* phones */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.tbl{-webkit-overflow-scrolling:touch}
+.tbl.scrollx::before{content:'Swipe sideways for more columns \2192';display:block;position:sticky;left:0;font:12px var(--f-ui);color:var(--fg-3);margin-bottom:4px}
+@media (max-width:640px){
+  .wrap{padding-inline:16px}
+  .panel{padding:14px;gap:12px}
+  h1{font-size:28px}
+  select,input{font-size:16px}
+  .controls{gap:10px}
+  .controls .ctl{flex:1 1 100%;min-width:0}
+  .controls .ctl select{width:100%}
+  .seg{display:flex;max-width:100%;overflow-x:auto;scrollbar-width:none}
+  .seg button{flex:1 0 auto;white-space:nowrap;padding:10px 12px;min-height:40px}
+  nav.tabs a{padding:13px 11px 12px}
+  table{font-size:13px}
+  th.n,td.n{white-space:nowrap}
+  th,td{padding:7px 8px}
+  td:not(.n){min-width:96px}
+  .tip{white-space:normal;max-width:220px}
+}
 </style>
 
 <header class="top wrap">
@@ -207,7 +231,7 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
     <div class="controls"><div class="ctl"><label>Flows at risk for</label><div class="seg" id="r-target"><button aria-pressed="true" data-v="net">Net capital inflows</button><button aria-pressed="false" data-v="gross_in">Gross inflows</button></div></div></div>
     <div class="grid g2">
       <div class="panel" style="background:var(--surface-2);border:0"><h3>Flows at risk</h3><div class="narr" id="r-far-text"></div></div>
-      <div class="panel" style="background:var(--surface-2);border:0"><h3>Chance a sudden stop starts, next four quarters</h3><div id="r-stop"></div></div>
+      <div class="panel" style="background:var(--surface-2);border:0"><h3>Chance a sudden stop starts, next four quarters</h3><div class="tbl" id="r-stop"></div></div>
     </div>
     <div class="legend" id="r-far-legend"></div>
     <div class="chart" id="r-far-chart"></div>
@@ -505,8 +529,11 @@ function el(tag, attrs={}, parent){ const e=document.createElementNS(NS,tag); fo
 function niceTicks(lo, hi, n=5){ const span=hi-lo||1; const step0=span/n; const mag=Math.pow(10,Math.floor(Math.log10(step0))); const step=[1,2,2.5,5,10].map(m=>m*mag).find(s=>s>=step0); const t=[]; for(let v=Math.ceil(lo/step)*step; v<=hi+1e-9; v+=step) t.push(+v.toFixed(6)); return t; }
 
 /* ---------- generic line chart with hover ---------- */
+/* charts are drawn at the container's real width so labels stay legible on phones */
+function chartW(host){ const w=Math.round(host?.clientWidth||0); return w>=200?Math.min(w,1400):1100; }
+function chartH(W,H){ return W<600?Math.max(200,Math.round(H*0.8)):H; }
 function lineChart(host, xs, series, opt={}){
-  host.innerHTML=''; const W=opt.w||1100, H=opt.h||340, m={l:48,r:16,t:12,b:34};
+  host.innerHTML=''; const W=opt.w||chartW(host), H=chartH(W,opt.h||340), m={l:48,r:16,t:12,b:34};
   const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':opt.label||'chart'},host);
   const vals=series.flatMap(s=>s.v).filter(v=>v!=null);
   let lo=Math.min(0,...vals), hi=Math.max(0,...vals); const pad=(hi-lo)*0.06; lo-=pad; hi+=pad;
@@ -535,7 +562,7 @@ function legend(host, items){ host.innerHTML=items.map(i=>`<span><i class="sw" s
 
 /* ---------- coefficient (CI) chart: horizontal ---------- */
 function ciChart(host, rows, opt={}){
-  host.innerHTML=''; const rowH=opt.rowH||40, W=1100, labW=opt.labW||300, m={t:10,b:34,r:24};
+  host.innerHTML=''; const rowH=opt.rowH||40, W=chartW(host), labW=Math.min(opt.labW||300,Math.round(W*0.45)), m={t:10,b:34,r:24};
   const H=m.t+m.b+rows.length*rowH;
   const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':opt.label||'coefficients'},host);
   const all=rows.flatMap(r=>(r.items||[r]).flatMap(i=>[i.lo,i.hi])).filter(v=>v!=null);
@@ -561,7 +588,7 @@ function ciChart(host, rows, opt={}){
 
 /* ---------- event study chart ---------- */
 function eventChart(host, pts, opt={}){
-  host.innerHTML=''; const W=1100,H=opt.h||360,m={l:52,r:16,t:14,b:44};
+  host.innerHTML=''; const W=chartW(host),H=chartH(W,opt.h||360),m={l:52,r:16,t:14,b:44};
   const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'event study coefficients'},host);
   let lo=Math.min(...pts.map(p=>p.lo)), hi=Math.max(...pts.map(p=>p.hi)); const pad=(hi-lo)*.08; lo-=pad; hi+=pad;
   const X=k=>m.l+(k+6)/12*(W-m.l-m.r), Y=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);
@@ -762,7 +789,7 @@ function renderContrast(){
   const rows=Object.entries(AN.countries).filter(([k,c])=>(yGroup==='all'||c.group===yGroup)&&c.el_contrast.n_el_years>0&&c.el_contrast.election_mean!=null&&c.el_contrast.other_mean!=null)
     .map(([k,c])=>({k,name:c.name,d:c.el_contrast.election_mean-c.el_contrast.other_mean})).sort((a,b)=>a.d-b.d);
   const host=$('#y-contrast'); host.innerHTML=''; if(!rows.length) return;
-  const W=1100,H=300,m={l:48,r:12,t:12,b:24};
+  const W=chartW(host),H=chartH(W,300),m={l:48,r:12,t:12,b:24};
   const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Election-year minus other-year gross inflows by country'},host);
   const ds=rows.map(r=>r.d).sort((a,b)=>a-b); const capL=ds[Math.floor(ds.length*0.02)], capH=ds[Math.ceil(ds.length*0.98)-1];
   const lo=Math.min(0,capL), hi=Math.max(0,capH); const Y=v=>m.t+(hi-Math.max(lo,Math.min(hi,v)))/(hi-lo)*(H-m.t-m.b);
@@ -821,7 +848,7 @@ function scenarioDelta(d){
 function renderAChart(){
   const {iso,d}=aData(); const host=$('#a-chart'); host.innerHTML='';
   const hq=d.quarters, fq=d.forecast.map(r=>r.quarter); const xs=[...hq,...fq]; const n=hq.length;
-  const W=1100,H=360,m={l:48,r:16,t:14,b:34}; const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'History and forecast'},host);
+  const W=chartW(host),H=chartH(W,360),m={l:48,r:16,t:14,b:34}; const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'History and forecast'},host);
   const sd=scenarioDelta(d);
   const vals=[...d.actual,...d.fitted,...d.forecast.flatMap(r=>[r.lo95,r.hi95]),...d.forecast.map((r,i)=>r.mean+sd[i])].filter(v=>v!=null);
   let lo=Math.min(0,...vals),hi=Math.max(0,...vals); const pad=(hi-lo)*.05; lo-=pad; hi+=pad;
@@ -861,7 +888,7 @@ function renderAChart(){
 function renderWhy(){
   const {d}=aData(); const rows=d.annual; const host=$('#a-why-chart'); host.innerHTML='';
   const groups=Object.keys(CATS5); const agg=rows.map(r=>{ const o={year:r.year,actual:r.actual-d.mean}; groups.forEach(g=>o[g]=CATS5[g].reduce((p,c)=>p+(r[c]||0),0)); return o; });
-  const W=1100,H=320,m={l:48,r:16,t:12,b:30}; const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Driver contributions by year'},host);
+  const W=chartW(host),H=chartH(W,320),m={l:48,r:16,t:12,b:30}; const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Driver contributions by year'},host);
   let lo=0,hi=0; agg.forEach(o=>{ let pos=0,neg=0; groups.forEach(g=>{ if(o[g]>0) pos+=o[g]; else neg+=o[g]; }); hi=Math.max(hi,pos,o.actual); lo=Math.min(lo,neg,o.actual); });
   const pad=(hi-lo)*.06; lo-=pad; hi+=pad; const bw=(W-m.l-m.r)/agg.length; const Y=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);
   const gg=el('g',{class:'grid'},svg); niceTicks(lo,hi).forEach(t=>{ el('line',{x1:m.l,x2:W-m.r,y1:Y(t),y2:Y(t)},gg); const tx=el('text',{x:m.l-8,y:Y(t)+4,'text-anchor':'end'},svg); tx.textContent=fmt(t,0); });
@@ -932,7 +959,7 @@ function renderRisk(){
     $('#r-far-text').innerHTML=`<p>For ${rr.horizon}, the median forecast for average ${tl} is <b>${fmt(q.q50,1)}%</b> of GDP (2015–25 average: ${fmt(r.mu,1)}%).</p>
       <p>There is a <b>1-in-20 chance</b> they average below <b>${fmt(q.q05,1)}%</b>, and a 1-in-10 chance below ${fmt(q.q10,1)}%.</p>
       ${rTarget==='net'?'<p class="small muted">Net inflows are what finance a current-account deficit, so the reserve test below uses them.</p>':'<p class="small muted">Gross inflows often fall together with residents’ outflows, so a gross shortfall is not the same as a financing gap.</p>'}`;
-    const host=$('#r-far-chart'); host.innerHTML=''; const W=1100,H=300,m={l:48,r:20,t:14,b:30};
+    const host=$('#r-far-chart'); host.innerHTML=''; const W=chartW(host),H=chartH(W,300),m={l:48,r:20,t:14,b:30};
     const hist=r.hist; const n=hist.length; const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Flows at risk'},host);
     const vals=[...hist.map(h=>h.v),q.q05,q.q95,r.mu]; let lo=Math.min(0,...vals),hi=Math.max(0,...vals); const pad=(hi-lo)*.06; lo-=pad; hi+=pad;
     const Y=v_=>m.t+(hi-v_)/(hi-lo)*(H-m.t-m.b); const plotW=W-m.l-m.r-160; const X=i=>m.l+i/(Math.max(n-1,1))*plotW;
@@ -1190,6 +1217,10 @@ function route(){ let v=location.hash.replace('#',''); if(!views.includes(v)) v=
   views.forEach(x=>{ $('#v-'+x).hidden=(x!==v); });
   document.querySelectorAll('#tabs a').forEach(a=>a.setAttribute('aria-current',a.getAttribute('href')==='#'+v?'page':'false'));
   renderers[v](); rendered[v]=true; }
+let lastW=window.innerWidth, rzT; window.addEventListener('resize',()=>{ clearTimeout(rzT); rzT=setTimeout(()=>{ if(Math.abs(window.innerWidth-lastW)<40) return; lastW=window.innerWidth; route(); },200); });
+/* flag tables wider than the screen so the swipe hint shows */
+let sxT; function markScroll(){ cancelAnimationFrame(sxT); sxT=requestAnimationFrame(()=>document.querySelectorAll('.tbl').forEach(t=>t.classList.toggle('scrollx',t.scrollWidth>t.clientWidth+4))); }
+new MutationObserver(markScroll).observe(document.body,{childList:true,subtree:true}); window.addEventListener('resize',markScroll);
 window.addEventListener('hashchange',()=>{ route(); toView(location.hash.replace('#','')||'analysis'); });
 /* clicking the tab that is already open still jumps to its top */
 $('#tabs').addEventListener('click',e=>{ const a=e.target.closest('a[href^="#"]'); if(a&&a.getAttribute('href')===location.hash){ e.preventDefault(); toView(location.hash.slice(1)); } });
