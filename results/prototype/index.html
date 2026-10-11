@@ -1181,13 +1181,21 @@ seg('#tr-mk',v=>{trMk=+v;renderTrackMk();});
 const views=['analysis','monitor','track','overview','countries','years','models','dynamics','robustness','report','data'];
 const rendered={};
 const renderers={analysis:renderAnalysis,monitor:renderMonitor,track:()=>{renderTrack();renderTrackV3();},overview:renderOverview,countries:renderCountry,years:renderYears,models:renderModels,dynamics:renderDynamics,robustness:()=>{renderRobust();renderMT($('#r-mt'),['primary','H3_components','H5_family']);},report:renderReport,data:()=>{}};
+function toView(v){ /* bring the top of the view to just below the sticky tab bar */
+  const sec=$('#v-'+v), nav=document.querySelector('nav.tabs'); if(!sec) return;
+  const top=sec.getBoundingClientRect().top+window.scrollY-(nav?nav.offsetHeight:0)-16;
+  try{ window.scrollTo({top:Math.max(0,top),behavior:'smooth'}); }catch(e){ window.scrollTo(0,Math.max(0,top)); }
+  const tab=document.querySelector(`#tabs a[href="#${v}"]`); tab?.scrollIntoView?.({block:'nearest',inline:'nearest'}); }
 function route(){ let v=location.hash.replace('#',''); if(!views.includes(v)) v='analysis';
   views.forEach(x=>{ $('#v-'+x).hidden=(x!==v); });
   document.querySelectorAll('#tabs a').forEach(a=>a.setAttribute('aria-current',a.getAttribute('href')==='#'+v?'page':'false'));
   renderers[v](); rendered[v]=true; }
-window.addEventListener('hashchange',route);
+window.addEventListener('hashchange',()=>{ route(); toView(location.hash.replace('#','')||'analysis'); });
+/* clicking the tab that is already open still jumps to its top */
+$('#tabs').addEventListener('click',e=>{ const a=e.target.closest('a[href^="#"]'); if(a&&a.getAttribute('href')===location.hash){ e.preventDefault(); toView(location.hash.slice(1)); } });
 try{ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',route); }catch(e){}
 new MutationObserver(route).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 route();
+if(views.includes(location.hash.slice(1))) requestAnimationFrame(()=>toView(location.hash.slice(1)));
 })();
 </script>
