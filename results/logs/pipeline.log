@@ -319,3 +319,77 @@ If you are unsure how to get the access you need, contact
 2026-10-11 19:13:23,273 risk INFO origin 2024Q3: 102 countries
 2026-10-11 19:13:23,649 risk INFO origin 2024Q4: 102 countries
 2026-10-11 19:13:23,868 risk INFO selected quantile method blend_calibrated, probability method blend
+2026-10-11 19:25:06,171 fetch INFO fetched IMF Commodity Terms of Trade (IMF.RES:CTOT) -> ctot_m.csv (57358077 bytes)
+2026-10-11 19:25:43,506 fetch INFO fetched IMF Effective Exchange Rates (IMF.STA:EER) -> reer_q.csv (20518371 bytes)
+2026-10-11 19:29:18,562 risk INFO origin 2019Q4 done
+2026-10-11 19:29:19,378 risk INFO origin 2020Q1 done
+2026-10-11 19:29:20,376 risk INFO origin 2020Q2 done
+2026-10-11 19:29:21,229 risk INFO origin 2020Q3 done
+2026-10-11 19:29:22,784 risk INFO origin 2020Q4 done
+2026-10-11 19:29:23,522 risk INFO origin 2021Q1 done
+2026-10-11 19:29:24,373 risk INFO origin 2021Q2 done
+2026-10-11 19:29:25,107 risk INFO origin 2021Q3 done
+2026-10-11 19:29:25,887 risk INFO origin 2021Q4 done
+2026-10-11 19:29:26,986 risk INFO origin 2022Q1 done
+2026-10-11 19:29:27,925 risk INFO origin 2022Q2 done
+2026-10-11 19:29:29,013 risk INFO origin 2022Q3 done
+2026-10-11 19:29:29,882 risk INFO origin 2022Q4 done
+2026-10-11 19:29:30,655 risk INFO origin 2023Q1 done
+2026-10-11 19:29:31,299 risk INFO origin 2023Q2 done
+2026-10-11 19:29:32,188 risk INFO origin 2023Q3 done
+2026-10-11 19:29:33,123 risk INFO origin 2023Q4 done
+2026-10-11 19:29:33,856 risk INFO origin 2024Q1 done
+2026-10-11 19:29:34,863 risk INFO origin 2024Q2 done
+2026-10-11 19:29:35,899 risk INFO origin 2024Q3 done
+2026-10-11 19:29:36,707 risk INFO origin 2024Q4 done
+2026-10-11 19:29:48,959 risk INFO selected FaR {'gross_in': 'blend', 'net': 'blend_cal'}; stop {'fw_gross': 'base', 'fw_net': 'blend'}
+2026-10-11 19:31:10,205 risk INFO origin 2019Q4 done
+2026-10-11 19:31:10,949 risk INFO origin 2020Q1 done
+2026-10-11 19:31:11,874 risk INFO origin 2020Q2 done
+2026-10-11 19:31:12,674 risk INFO origin 2020Q3 done
+2026-10-11 19:31:13,892 risk INFO origin 2020Q4 done
+2026-10-11 19:31:14,597 risk INFO origin 2021Q1 done
+2026-10-11 19:31:15,398 risk INFO origin 2021Q2 done
+2026-10-11 19:31:16,053 risk INFO origin 2021Q3 done
+2026-10-11 19:31:16,746 risk INFO origin 2021Q4 done
+2026-10-11 19:31:17,745 risk INFO origin 2022Q1 done
+2026-10-11 19:31:18,629 risk INFO origin 2022Q2 done
+2026-10-11 19:31:19,605 risk INFO origin 2022Q3 done
+2026-10-11 19:31:20,431 risk INFO origin 2022Q4 done
+2026-10-11 19:31:21,188 risk INFO origin 2023Q1 done
+2026-10-11 19:31:21,825 risk INFO origin 2023Q2 done
+2026-10-11 19:31:22,721 risk INFO origin 2023Q3 done
+2026-10-11 19:31:23,660 risk INFO origin 2023Q4 done
+2026-10-11 19:31:24,358 risk INFO origin 2024Q1 done
+2026-10-11 19:31:25,198 risk INFO origin 2024Q2 done
+2026-10-11 19:31:26,164 risk INFO origin 2024Q3 done
+2026-10-11 19:31:26,979 risk INFO origin 2024Q4 done
+2026-10-11 19:31:38,926 risk INFO live FaR {'gross_in': 'blend_cal', 'net': 'lean'} stop {'fw_gross': 'blend_contagion', 'fw_net': 'blend'}; held-out-selected FaR {'gross_in': 'blend', 'net': 'blend_cal'} stop {'fw_gross': 'base', 'fw_net': 'blend'}
+2026-10-11 19:32:50,293 risk INFO origin 2019Q4 done
+2026-10-11 19:32:50,996 risk INFO origin 2020Q1 done
+2026-10-11 19:32:52,014 risk INFO origin 2020Q2 done
+2026-10-11 19:32:53,018 risk INFO origin 2020Q3 done
+2026-10-11 19:32:54,316 risk INFO origin 2020Q4 done
+2026-10-11 19:32:55,041 risk INFO origin 2021Q1 done
+2026-10-11 19:32:56,027 risk INFO origin 2021Q2 done
+2026-10-11 19:32:56,752 risk INFO origin 2021Q3 done
+2026-10-11 19:32:57,830 risk INFO origin 2021Q4 done
+2026-10-11 19:32:59,078 risk INFO origin 2022Q1 done
+2026-10-11 19:33:00,009 risk INFO origin 2022Q2 done
+2026-10-11 19:33:01,007 risk INFO origin 2022Q3 done
+2026-10-11 19:33:01,850 risk INFO origin 2022Q4 done
+2026-10-11 19:33:02,632 risk INFO origin 2023Q1 done
+2026-10-11 19:33:03,342 risk INFO origin 2023Q2 done
+2026-10-11 19:33:04,373 risk INFO origin 2023Q3 done
+2026-10-11 19:33:05,742 risk INFO origin 2023Q4 done
+2026-10-11 19:33:06,603 risk INFO origin 2024Q1 done
+2026-10-11 19:33:07,489 risk INFO origin 2024Q2 done
+2026-10-11 19:33:08,437 risk INFO origin 2024Q3 done
+2026-10-11 19:33:09,322 risk INFO origin 2024Q4 done
+2026-10-11 19:33:22,188 risk INFO live FaR {'gross_in': 'blend_cal', 'net': 'blend_cal'} stop {'fw_gross': 'blend_contagion', 'fw_net': 'blend'}; held-out-selected FaR {'gross_in': 'blend_cal', 'net': 'blend_cal'} stop {'fw_gross': 'base', 'fw_net': 'blend'}
+2026-10-11 19:36:14,258 country_model INFO gross_in AE backtest {'countries': 33, 'quarters': '2024Q1–2025Q4', 'weights': {'model': 0.0, 'last4': 0.0, 'mean': 1.0, 'election_overlay': 0.0}, 'rmse_model': 19.33, 'rmse_mean': 15.95, 'rmse_last4': 19.73, 'rmse_comb': 15.95, 'rmse_best_without_election_overlay': 15.95, 'share_comb_beats_mean': 0.0, 'coverage80': 0.81}
+2026-10-11 19:36:15,564 country_model INFO gross_in EMDE backtest {'countries': 75, 'quarters': '2024Q1–2025Q4', 'weights': {'model': 0.0, 'last4': 0.75, 'mean': 0.25, 'election_overlay': 1.0}, 'rmse_model': 8.12, 'rmse_mean': 8.23, 'rmse_last4': 7.57, 'rmse_comb': 7.38, 'rmse_best_without_election_overlay': 7.4, 'share_comb_beats_mean': 0.61, 'coverage80': 0.84}
+2026-10-11 19:36:17,470 country_model INFO gross_out AE backtest {'countries': 33, 'quarters': '2024Q1–2025Q4', 'weights': {'model': 0.0, 'last4': 0.0, 'mean': 1.0, 'election_overlay': 0.0}, 'rmse_model': 18.96, 'rmse_mean': 16.73, 'rmse_last4': 19.36, 'rmse_comb': 16.73, 'rmse_best_without_election_overlay': 16.73, 'share_comb_beats_mean': 0.0, 'coverage80': 0.81}
+2026-10-11 19:36:18,695 country_model INFO gross_out EMDE backtest {'countries': 75, 'quarters': '2024Q1–2025Q4', 'weights': {'model': 0.0, 'last4': 1.0, 'mean': 0.0, 'election_overlay': 0.0}, 'rmse_model': 8.96, 'rmse_mean': 9.33, 'rmse_last4': 6.65, 'rmse_comb': 6.65, 'rmse_best_without_election_overlay': 6.65, 'share_comb_beats_mean': 0.57, 'coverage80': 0.8}
+2026-10-11 19:36:20,550 country_model INFO net AE backtest {'countries': 33, 'quarters': '2024Q1–2025Q4', 'weights': {'model': 0.25, 'last4': 0.25, 'mean': 0.5, 'election_overlay': 0.0}, 'rmse_model': 6.74, 'rmse_mean': 6.82, 'rmse_last4': 7.15, 'rmse_comb': 6.5, 'rmse_best_without_election_overlay': 6.5, 'share_comb_beats_mean': 0.55, 'coverage80': 0.8}
+2026-10-11 19:36:21,780 country_model INFO net EMDE backtest {'countries': 75, 'quarters': '2024Q1–2025Q4', 'weights': {'model': 0.25, 'last4': 0.75, 'mean': 0.0, 'election_overlay': 1.0}, 'rmse_model': 6.53, 'rmse_mean': 7.21, 'rmse_last4': 6.11, 'rmse_comb': 6.06, 'rmse_best_without_election_overlay': 6.06, 'share_comb_beats_mean': 0.6, 'coverage80': 0.8}

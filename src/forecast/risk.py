@@ -1,23 +1,23 @@
-"""Capital flows at risk and sudden-stop probabilities, with a real-time rolling evaluation.
+"""Capital flows at risk, sudden-stop probabilities and their honest out-of-sample evaluation (v2).
 
-Target (flows at risk): the average of gross inflows over the next four quarters, t+1..t+4
-(annualised % of GDP), standardised by the country's own mean and SD in the training window:
-    z_i,t+1:t+4 = (mean(y_i,t+1..t+4) - mu_i) / sd_i
-Quantile regressions (tau = 0.05 ... 0.95) of z on conditions at t are pooled across countries,
-then mapped back to each country's units: q_i = mu_i + sd_i * q_z. This location-scale approach
-(in the spirit of IMF growth-at-risk / capital-flows-at-risk work, e.g. Gelos et al. 2019) lets
-44 quarters per country inform a shared tail model.
+Targets (next four quarters, t+1..t+4, annualised % of GDP):
+  gross_in : average gross inflows
+  net      : average net capital inflows (gross inflows - gross outflows). Reserves must cover a
+             shortfall in *net* financing, so buffer tests use this target.
 
-Predictors at t (all known at t): VIX, US policy rate, 4-quarter change in the US 10-year yield and
-in the broad dollar, the country's last-4-quarter average flow (standardised), previous-year
-growth, inflation, current account, public debt, reserves (months of imports), an EMDE indicator,
-and VIX x EMDE and VIX x reserves interactions.
+Flows at risk: pooled location-scale quantile regressions on the country-standardised target,
+blended 50/50 with each country's own history of the target (quantile averaging); tail quantiles
+(5th, 10th, 90th, 95th) can be recalibrated in real time from earlier forecast errors, pooled or
+by country group.
 
-Sudden stop: P(any sudden-stop quarter in t+1..t+4) from a pooled logit with the same predictors
-plus the current stop status.
+Sudden stops: probability that an episode STARTS in t+1..t+4, under two definitions:
+  fw_gross : Forbes-Warnock-style episodes on gross inflows
+  fw_net   : the same algorithm on net capital inflows (closer to the Calvo sudden-stop concept)
+Contagion: share of other economies in the same World Bank region in an episode at t.
 
-Real-time evaluation: for each origin quarter 2019Q4..2024Q4 the models are re-fitted using only
-targets fully observed by that origin (t+4 <= origin) and evaluated on the realised outcome.
+Honest evaluation: at each origin quarter 2019Q4..2024Q4 every model is re-fitted on outcomes known
+by then. Methods are SELECTED on origins 2019Q4-2022Q4 and REPORTED on untouched origins
+2023Q1-2024Q4, with 90% intervals from a bootstrap over origins.
 """
 from __future__ import annotations
 
@@ -30,30 +30,50 @@ import statsmodels.api as sm
 from statsmodels.regression.quantile_regression import QuantReg
 
 from src.common import INTERIM, PROCESSED, RESULTS, TABLES, get_logger
+from src.features.build_panels import sudden_stop_episodes
 
 warnings.filterwarnings("ignore")
 log = get_logger("risk")
 TAUS = [0.05, 0.10, 0.25, 0.50, 0.75, 0.90, 0.95]
-PRED = ["vix_z", "fed_z", "d4_ust_z", "d4_usd_z", "mom_z", "L_gdp_growth", "L_inflation_c", "L_ca_gdp",
+TAIL = [0.05, 0.10, 0.90, 0.95]
+CURRENT_Q = "2026Q4"
+SELECT_END, TEST_START = "2022Q4", "2023Q1"
+TARGETS = {"gross_in": "gross_inflows_gdp", "net": "net_flows_gdp"}
+STOP_TARGET = {"fw_gross": "gross_in", "fw_net": "net"}
+STOPDEFS = {"fw_gross": "Rapid fall in gross inflows (Forbes–Warnock)",
+            "fw_net": "Rapid fall in net capital inflows (Calvo-style)"}
+FULL = ["vix_z", "fed_z", "d4_ust_z", "d4_usd_z", "mom_z", "L_gdp_growth", "L_inflation_c", "L_ca_gdp",
         "L_public_debt_s", "res_months", "emde", "vix_x_emde", "vix_x_res"]
+LEAN = ["mom_z", "vix_z", "d4_usd_z", "emde", "vix_x_emde"]
+LOGIT = ["mom_z", "vix_z", "d4_usd_z", "fed_z", "res_months", "L_ca_gdp", "L_public_debt_s", "emde"]
+QMETHODS = ["full", "lean", "history", "blend", "blend_cal", "blend_cal_group"]
+PMETHODS = ["logit", "logit_contagion", "base", "blend", "blend_contagion"]
 LABELS = {"vix_z": "Global risk (VIX)", "fed_z": "US policy rate", "d4_ust_z": "US 10-year yield, 1-year change",
-          "d4_usd_z": "US dollar, 1-year change", "mom_z": "Recent inflows (last 4 quarters)", "L_gdp_growth": "GDP growth (last year)",
+          "d4_usd_z": "US dollar, 1-year change", "mom_z": "Recent flows (last 4 quarters)", "L_gdp_growth": "GDP growth (last year)",
           "L_inflation_c": "Inflation (last year)", "L_ca_gdp": "Current account (last year)", "L_public_debt_s": "Public debt (last year, /100)",
           "res_months": "Reserves, months of imports", "emde": "Emerging/developing economy", "vix_x_emde": "VIX × EMDE",
-          "vix_x_res": "VIX × reserves"}
-CURRENT_Q = "2026Q4"
+          "vix_x_res": "VIX × reserves", "in": "Currently in a sudden stop", "peer": "Regional peers in a sudden stop (contagion)"}
 
 
 def qo(s):
     return pd.PeriodIndex(s, freq="Q").map(lambda p: p.ordinal)
 
 
+def qk(t):
+    return f"q{int(t * 100):02d}"
+
+
+# ------------------------------------------------------------------------------------- data
 def build() -> pd.DataFrame:
     Q = pd.read_parquet(PROCESSED / "quarterly_country_panel.parquet").sort_values(["iso3", "quarter"]).copy()
     Q["qo"] = qo(Q.quarter)
     main = Q.year.between(2015, 2025)
-    lo, hi = np.nanpercentile(Q.loc[main, "gross_inflows_gdp"].dropna(), [1, 99])
-    Q["y"] = Q.gross_inflows_gdp.clip(lo, hi)
+    for k, col in TARGETS.items():
+        lo, hi = np.nanpercentile(Q.loc[main, col].dropna(), [1, 99])
+        Q[f"y_{k}"] = Q[col].clip(lo, hi)
+    net_ss = sudden_stop_episodes(Q[["iso3", "quarter", "net_usd"]].copy(), var="net_usd")
+    Q = Q.merge(net_ss[["iso3", "quarter", "sudden_stop"]].rename(columns={"sudden_stop": "ss_net"}),
+                on=["iso3", "quarter"], how="left").rename(columns={"sudden_stop": "ss_gross"})
     g = pd.read_parquet(INTERIM / "global_factors.parquet").sort_values("quarter").rename(
         columns={"VIXCLS": "vix", "FEDFUNDS": "fed", "DGS10": "ust", "DTWEXBGS": "usd"})
     g = g[g.quarter < CURRENT_Q]
@@ -63,77 +83,114 @@ def build() -> pd.DataFrame:
     for c, n in (("vix", "vix_z"), ("fed", "fed_z"), ("d4_ust", "d4_ust_z"), ("d4_usd", "d4_usd_z")):
         g[n] = (g[c] - ref[c].mean()) / ref[c].std()
     Q = Q.drop(columns=[c for c in ["vix", "fed_funds"] if c in Q.columns]).merge(
-        g[["quarter", "vix", "vix_z", "fed_z", "d4_ust_z", "d4_usd_z"]], on="quarter", how="left")
-    # consecutive-quarter guard and forward/backward windows
+        g[["quarter", "vix_z", "fed_z", "d4_ust_z", "d4_usd_z"]], on="quarter", how="left")
     out = []
     for iso, c in Q.groupby("iso3"):
         c = c.set_index("qo").reindex(range(c.qo.min(), c.qo.max() + 1))
         c["iso3"] = iso
         c["quarter"] = [str(pd.Period(ordinal=o, freq="Q")) for o in c.index]
-        c["fwd4"] = sum(c.y.shift(-k) for k in range(1, 5)) / 4
-        c["back4"] = c.y.rolling(4, min_periods=4).mean()
-        c["stop_fwd"] = pd.concat([c.sudden_stop.shift(-k) for k in range(1, 5)], axis=1).max(axis=1, skipna=False)
+        for k in TARGETS:
+            c[f"fwd4_{k}"] = sum(c[f"y_{k}"].shift(-j) for j in range(1, 5)) / 4
+            c[f"back4_{k}"] = c[f"y_{k}"].rolling(4, min_periods=4).mean()
+        for d, col in (("fw_gross", "ss_gross"), ("fw_net", "ss_net")):
+            prev = c[col].shift(1)
+            start = ((c[col] == 1) & (prev == 0)).astype(float).where(c[col].notna() & prev.notna())
+            c[f"fwd_{d}"] = pd.concat([start.shift(-j) for j in range(1, 5)], axis=1).max(axis=1, skipna=False)
+            c[f"in_{d}"] = c[col]
         out.append(c.reset_index().rename(columns={"index": "qo"}))
     Q = pd.concat(out, ignore_index=True)
     Q["country_group"] = Q.groupby("iso3").country_group.transform(lambda s: s.ffill().bfill())
+    meta = pd.read_csv(PROCESSED / "country_metadata.csv").set_index("iso3")
+    Q["region"] = Q.iso3.map(meta.wb_region)
     Q["emde"] = (Q.country_group == "EMDE").astype(float)
     Q["L_inflation_c"] = Q.L_inflation.clip(-5, 50)
     Q["L_public_debt_s"] = Q.L_public_debt_gdp / 100
     Q["res_months"] = Q.groupby("iso3").L_reserves_months.transform(lambda s: s.ffill()).clip(0, 24)
     Q["vix_x_emde"] = Q.vix_z * Q.emde
     Q["year"] = Q.quarter.str[:4].astype(int)
+    for d in STOPDEFS:   # contagion: share of OTHER economies in the region in an episode at t
+        col = f"in_{d}"
+        tot = Q.groupby(["region", "quarter"])[col].transform("sum")
+        cnt = Q.groupby(["region", "quarter"])[col].transform("count")
+        own = Q[col].fillna(0)
+        Q[f"peer_{d}"] = (tot - own) / (cnt - Q[col].notna().astype(int)).replace(0, np.nan)
     return Q
 
 
-def standardise(train: pd.DataFrame, df: pd.DataFrame) -> pd.DataFrame:
-    st = train.groupby("iso3").y.agg(["mean", "std"]).rename(columns={"mean": "mu", "std": "sd"})
+# ------------------------------------------------------------------------------------- models
+def standardise(train, df, k):
+    st = train.groupby("iso3")[f"y_{k}"].agg(["mean", "std"]).rename(columns={"mean": "mu", "std": "sd"})
     st["sd"] = st.sd.clip(lower=0.5)
-    d = df.merge(st, left_on="iso3", right_index=True, how="inner")
-    d["z_fwd"] = (d.fwd4 - d.mu) / d.sd
-    d["mom_z"] = (d.back4 - d.mu) / d.sd
-    rm = train.res_months.mean() if "res_months" in train else 0
-    d["vix_x_res"] = d.vix_z * (d.res_months - rm)
+    d = df.drop(columns=[c for c in ["mu", "sd"] if c in df.columns]).merge(st, left_on="iso3", right_index=True, how="inner")
+    d["z_fwd"] = (d[f"fwd4_{k}"] - d.mu) / d.sd
+    d["mom_z"] = (d[f"back4_{k}"] - d.mu) / d.sd
+    d["vix_x_res"] = d.vix_z * (d.res_months - train.res_months.mean())
     return d
 
 
-LEAN = ["mom_z", "vix_z", "d4_usd_z", "emde", "vix_x_emde"]
+def fit_q(train, k, cols):
+    d = standardise(train, train, k).dropna(subset=["z_fwd"] + cols)
+    X = sm.add_constant(d[cols], has_constant="add")
+    m = {t: QuantReg(d.z_fwd, X).fit(q=t, max_iter=5000) for t in TAUS}
+    m["_cols"] = cols
+    return m, d
 
 
-def fit_models(train: pd.DataFrame, qpred=None):
-    qpred = qpred or PRED
-    d = standardise(train, train).dropna(subset=["z_fwd"] + PRED)
-    X = sm.add_constant(d[qpred], has_constant="add")
-    qr = {t: QuantReg(d.z_fwd, X).fit(q=t, max_iter=5000) for t in TAUS}
-    dl = d.dropna(subset=["stop_fwd", "sudden_stop"])
-    lcols = [c for c in PRED + ["sudden_stop"] if dl[c].std() > 0]
-    if dl.stop_fwd.sum() < 15:          # too few training episodes: fall back to the base rate
-        lg = {"base": float(dl.stop_fwd.mean()) if len(dl) else np.nan, "cols": None}
-    else:
-        m = sm.Logit(dl.stop_fwd, sm.add_constant(dl[lcols], has_constant="add")).fit(
-            disp=0, cov_type="cluster", cov_kwds={"groups": dl.iso3.astype("category").cat.codes})
-        lg = {"model": m, "cols": lcols, "base": float(dl.stop_fwd.mean())}
-    qr["_cols"] = qpred
-    return qr, lg, d
-
-
-def predict(qr, lg, train, rows):
-    d = standardise(train, rows).dropna(subset=PRED)
-    X = sm.add_constant(d[qr["_cols"]], has_constant="add")
-    qz = np.column_stack([qr[t].predict(X) for t in TAUS])
-    qz.sort(axis=1)                                   # remove quantile crossing
+def predict_q(m, train, rows, k):
+    d = standardise(train, rows, k).dropna(subset=m["_cols"])
+    X = sm.add_constant(d[m["_cols"]], has_constant="add")
+    qz = np.sort(np.column_stack([m[t].predict(X) for t in TAUS]), axis=1)
     for j, t in enumerate(TAUS):
-        d[f"q{int(t*100):02d}"] = d.mu + d.sd * qz[:, j]
-    if lg.get("cols") is None:
-        d["p_stop"], d["p_method"] = lg["base"], "base rate"
-    else:
-        Xl = sm.add_constant(d[lg["cols"]].fillna({"sudden_stop": 0}), has_constant="add")
-        d["p_stop"], d["p_method"] = lg["model"].predict(Xl), "logit"
+        d[qk(t)] = d.mu + d.sd * qz[:, j]
     return d
 
 
+def history_q(train, k):
+    h = train.dropna(subset=[f"fwd4_{k}"])
+    return {t: h.groupby("iso3")[f"fwd4_{k}"].quantile(t) for t in TAUS}
+
+
+def sort_q(df):
+    qs = np.sort(df[[qk(t) for t in TAUS]].to_numpy(), axis=1)
+    for j, t in enumerate(TAUS):
+        df[qk(t)] = qs[:, j]
+    return df
+
+
+def blend(pr, hq):
+    out = pr.copy()
+    for t in TAUS:
+        c = out.iso3.map(hq[t])
+        out[qk(t)] = np.where(c.notna(), 0.5 * out[qk(t)] + 0.5 * c, out[qk(t)])
+    return sort_q(out)
+
+
+def logit_cols(d, with_peer):
+    return LOGIT + [f"in_{d}"] + ([f"peer_{d}"] if with_peer else [])
+
+
+def fit_logit(train_std, d, cols):
+    y = f"fwd_{d}"
+    dl = train_std.dropna(subset=[y] + cols)
+    cols = [c for c in cols if dl[c].std() > 0]
+    if dl[y].sum() < 15:
+        return {"base": float(dl[y].mean()) if len(dl) else np.nan, "cols": None}
+    m = sm.Logit(dl[y], sm.add_constant(dl[cols], has_constant="add")).fit(
+        disp=0, cov_type="cluster", cov_kwds={"groups": dl.iso3.astype("category").cat.codes})
+    return {"model": m, "cols": cols, "base": float(dl[y].mean())}
+
+
+def predict_logit(lg, rows):
+    if lg.get("cols") is None:
+        return pd.Series(lg["base"], index=rows.index)
+    X = sm.add_constant(rows[lg["cols"]].fillna(0), has_constant="add")
+    return pd.Series(np.asarray(lg["model"].predict(X)), index=rows.index)
+
+
+# ------------------------------------------------------------------------------------- evaluation
 def pinball(y, q, t):
     e = y - q
-    return np.mean(np.maximum(t * e, (t - 1) * e))
+    return float(np.mean(np.maximum(t * e, (t - 1) * e)))
 
 
 def auc(y, p):
@@ -145,190 +202,217 @@ def auc(y, p):
     return (r[:len(pos)].sum() - len(pos) * (len(pos) + 1) / 2) / (len(pos) * len(neg))
 
 
-METHODS_Q = ["full", "lean", "history", "blend", "blend_calibrated"]
-TAIL = [0.05, 0.10, 0.90, 0.95]   # only the tails are recalibrated; the centre stays as forecast
-METHODS_P = ["logit", "base", "blend"]
+def tail_shift(past, t, k):
+    return float(np.quantile((past.y - past[k]) / past.sd, t))
 
 
-def climatology(train):
-    h = standardise(train, train)
-    return {t: h.groupby("iso3").fwd4.quantile(t) for t in TAUS}
+def calibrate(E, by_group: bool):
+    """Real-time tail recalibration from earlier forecasts whose outcomes were known at the origin."""
+    E = E.copy()
+    E["oo"] = qo(E.origin)
+    out = []
+    for o, g in E.groupby("origin"):
+        oo = pd.Period(o, freq="Q").ordinal
+        g = g.copy()
+        past_all = E[(E.oo <= oo - 4)].dropna(subset=["y"])
+        for grp, gg in (g.groupby("group") if by_group else [("all", g)]):
+            past = past_all[past_all.group == grp] if by_group else past_all
+            if len(past) >= 150:
+                for t in TAIL:
+                    g.loc[gg.index, qk(t)] = gg[qk(t)] + gg.sd * tail_shift(past, t, qk(t))
+        out.append(sort_q(g).drop(columns="oo"))
+    return pd.concat(out)
 
 
-def combine(pr_lean, cq):
-    """Quantile averaging (Vincentisation) of the lean model and each country's history."""
-    out = pr_lean.copy()
+def rolling(Q):
+    origins = [str(pd.Period("2019Q4", freq="Q") + i) for i in range(0, 21)]
+    qrows, prows = [], []
+    for o in origins:
+        oo = pd.Period(o, freq="Q").ordinal
+        train = Q[(Q.qo <= oo - 4) & (Q.quarter >= "2015Q1")]
+        test = Q[Q.qo == oo]
+        for k in TARGETS:
+            te = test.dropna(subset=[f"fwd4_{k}"])
+            mf, _ = fit_q(train, k, FULL)
+            ml, _ = fit_q(train, k, LEAN)
+            pf, pl = predict_q(mf, train, te, k), predict_q(ml, train, te, k)
+            hq = history_q(train, k)
+            ph = pl.copy()
+            for t in TAUS:
+                ph[qk(t)] = ph.iso3.map(hq[t])
+            for m, pr in (("full", pf), ("lean", pl), ("history", ph), ("blend", blend(pl, hq))):
+                for _, r in pr.iterrows():
+                    qrows.append({"target": k, "origin": o, "method": m, "iso3": r.iso3, "group": r.country_group,
+                                  "y": r[f"fwd4_{k}"], "sd": r.sd, **{qk(t): r[qk(t)] for t in TAUS}})
+        for d, k in STOP_TARGET.items():
+            tr = standardise(train, train, k)
+            te = standardise(train, test.dropna(subset=[f"fwd_{d}"]), k)
+            l0, l1 = fit_logit(tr, d, logit_cols(d, False)), fit_logit(tr, d, logit_cols(d, True))
+            p0, p1 = predict_logit(l0, te), predict_logit(l1, te)
+            for i, r in te.iterrows():
+                prows.append({"def": d, "origin": o, "iso3": r.iso3, "group": r.country_group, "y": r[f"fwd_{d}"],
+                              "p_logit": p0[i], "p_logit_contagion": p1[i], "p_base": l0["base"],
+                              "fitted": l0.get("cols") is not None and l1.get("cols") is not None})
+        log.info("origin %s done", o)
+    E = pd.DataFrame(qrows)
+    cal = []
+    for k in TARGETS:
+        b = E[(E.target == k) & (E.method == "blend")]
+        cal += [calibrate(b, False).assign(method="blend_cal"), calibrate(b, True).assign(method="blend_cal_group")]
+    E = pd.concat([E] + cal, ignore_index=True)
+    P = pd.DataFrame(prows)
+    P["p_blend"] = 0.5 * P.p_logit + 0.5 * P.p_base
+    P["p_blend_contagion"] = 0.5 * P.p_logit_contagion + 0.5 * P.p_base
+    return E, P
+
+
+def q_metrics(sub):
+    out = {"forecasts": len(sub)}
     for t in TAUS:
-        k = f"q{int(t*100):02d}"
-        c = out.iso3.map(cq[t])
-        out[k] = np.where(c.notna(), 0.5 * out[k] + 0.5 * c, out[k])
-    qs = np.sort(out[[f"q{int(t*100):02d}" for t in TAUS]].to_numpy(), axis=1)
-    for j, t in enumerate(TAUS):
-        out[f"q{int(t*100):02d}"] = qs[:, j]
+        out[f"cover_{qk(t)}"] = round(float((sub.y <= sub[qk(t)]).mean()), 3) if len(sub) else None
+        out[f"pinball_{qk(t)}"] = round(pinball(sub.y, sub[qk(t)], t), 3) if len(sub) else None
+    out["pinball_avg"] = round(float(np.mean([out[f"pinball_{qk(t)}"] for t in TAUS])), 3) if len(sub) else None
     return out
 
 
-def rolling_eval(Q: pd.DataFrame):
-    origins = [str(pd.Period("2019Q4", freq="Q") + k) for k in range(0, 21)]   # 2019Q4..2024Q4
-    rows = []
-    for o in origins:
-        oo = pd.Period(o, freq="Q").ordinal
-        train = Q[(Q.qo <= oo - 4) & (Q.quarter >= "2015Q1")]                    # targets observed by the origin
-        test = Q[(Q.qo == oo)].dropna(subset=["fwd4"])
-        qf, lg, _ = fit_models(train)
-        ql, _, _ = fit_models(train, LEAN)
-        pf, pl = predict(qf, lg, train, test), predict(ql, lg, train, test)
-        cq = climatology(train)
-        pb = combine(pl, cq)
-        for m, pr in (("full", pf), ("lean", pl), ("blend", pb), ("history", None)):
-            src = pl if pr is None else pr
-            for _, r in src.iterrows():
-                rec = {"origin": o, "method": m, "iso3": r.iso3, "group": r.country_group, "y": r.fwd4, "sd": r.sd,
-                       "stop": r.stop_fwd, "p_logit": r.p_stop, "p_base": lg["base"], "p_method": r.p_method}
-                for t in TAUS:
-                    k = f"q{int(t*100):02d}"
-                    rec[k] = cq[t].get(r.iso3, np.nan) if m == "history" else r[k]
-                rows.append(rec)
-        log.info("origin %s: %d countries", o, len(pl))
-    E = pd.DataFrame(rows)
-    E["p_blend"] = 0.5 * E.p_logit + 0.5 * E.p_base
-    # real-time calibration of the blend (split-conformal style): at each origin, shift each quantile by the
-    # tau-quantile of standardised errors from earlier forecasts whose outcomes were already known
-    Bl = E[E.method == "blend"].copy()
-    Bl["oo"] = qo(Bl.origin)
-    cal = []
-    for o, g in Bl.groupby("origin"):
-        oo = pd.Period(o, freq="Q").ordinal
-        past = Bl[(Bl.oo <= oo - 4)].dropna(subset=["y"])
-        g = g.copy()
-        g["method"] = "blend_calibrated"
-        for t in TAIL:
-            k = f"q{int(t*100):02d}"
-            if len(past) >= 200:
-                g[k] = g[k] + g.sd * np.quantile((past.y - past[k]) / past.sd, t)
-        qs = np.sort(g[[f"q{int(t*100):02d}" for t in TAUS]].to_numpy(), axis=1)
-        for j, t in enumerate(TAUS):
-            g[f"q{int(t*100):02d}"] = qs[:, j]
-        g["calibrated"] = len(past) >= 200
-        cal.append(g.drop(columns="oo"))
-    E = pd.concat([E, pd.concat(cal)], ignore_index=True)
-    windows = [("All origins 2019Q4–2024Q4", lambda e: e), ("Origins before 2020 shock (2019Q4–2020Q3)", lambda e: e[e.origin.between("2019Q4", "2020Q3")]),
-               ("Origins before 2022 tightening (2021Q4–2022Q3)", lambda e: e[e.origin.between("2021Q4", "2022Q3")]),
-               ("Advanced economies", lambda e: e[e.group == "AE"]), ("Emerging & developing", lambda e: e[e.group == "EMDE"])]
-    summ = []
-    for name, f in windows:
-        for m in METHODS_Q:
-            sub = f(E[E.method == m]).dropna(subset=["y", "q05"])
-            s_ = {"window": name, "method": m, "forecasts": len(sub)}
-            for t in TAUS:
-                k = f"q{int(t*100):02d}"
-                s_[f"cover_{k}"] = round(float((sub.y <= sub[k]).mean()), 3)
-                s_[f"pinball_{k}"] = round(pinball(sub.y, sub[k], t), 3)
-            s_["pinball_avg"] = round(float(np.mean([s_[f"pinball_q{int(t*100):02d}"] for t in TAUS])), 3)
-            summ.append(s_)
-    S = pd.DataFrame(summ)
-    psum = []
-    L0 = E[(E.method == "lean") & E.stop.notna() & (E.p_method == "logit")]
-    for name, f in windows:
-        L = f(L0)
-        for m in METHODS_P:
-            psum.append({"window": name, "method": m, "forecasts": len(L), "events": int(L.stop.sum()),
-                         "auc": round(float(auc(L.stop, L[f"p_{m}"])), 3) if m != "base" else 0.5,
-                         "brier": round(float(((L[f"p_{m}"] - L.stop) ** 2).mean()), 4)})
-    return E, S, pd.DataFrame(psum)
-
-
-def bootstrap_coefs(d, reps=200, seed=20261011):
-    """Country-cluster bootstrap for q05 and q50 coefficients (targets overlap, so iid SEs are wrong)."""
+def boot_cover(sub, k, reps=500, seed=20261011):
+    """90% interval for coverage, resampling whole origins (forecasts made at one origin are correlated)."""
     rng = np.random.default_rng(seed)
-    isos = d.iso3.unique()
-    out = {0.05: [], 0.50: []}
+    origins = sub.origin.unique()
+    groups = {o: sub[sub.origin == o] for o in origins}
+    vals = []
     for _ in range(reps):
-        pick = rng.choice(isos, size=len(isos), replace=True)
-        b = pd.concat([d[d.iso3 == i] for i in pick])
-        X = sm.add_constant(b[PRED])
-        for t in out:
-            try:
-                out[t].append(QuantReg(b.z_fwd, X).fit(q=t, max_iter=3000).params)
-            except Exception:  # rare non-convergence in a resample
-                pass
-    return {t: pd.DataFrame(v) for t, v in out.items()}
+        b = pd.concat([groups[o] for o in rng.choice(origins, size=len(origins), replace=True)])
+        vals.append((b.y <= b[k]).mean())
+    return [round(float(np.quantile(vals, 0.05)), 3), round(float(np.quantile(vals, 0.95)), 3)]
 
 
+def evaluate(E, P):
+    E = E.dropna(subset=["y", "q05"])
+    windows = (("selection", E[E.origin <= SELECT_END]), ("test", E[E.origin >= TEST_START]), ("all", E))
+    rows, choice = [], {}
+    for k in TARGETS:
+        for wname, W in windows:
+            for m in QMETHODS:
+                sub = W[(W.target == k) & (W.method == m)]
+                for grp, gs in (("all", sub), ("AE", sub[sub.group == "AE"]), ("EMDE", sub[sub.group == "EMDE"])):
+                    r = {"target": k, "window": wname, "method": m, "group": grp, **q_metrics(gs)}
+                    if wname == "test":
+                        r["cover_q05_ci90"], r["cover_q95_ci90"] = boot_cover(gs, "q05"), boot_cover(gs, "q95")
+                    rows.append(r)
+        for wsel in ("selection", "all"):
+            S = pd.DataFrame([r for r in rows if r["target"] == k and r["window"] == wsel])
+            # rule v2 (changed 2026-10-11 after the first held-out run; see protocol_changelog.md):
+            # among methods whose pooled 5th-percentile coverage is within 2 points of 5%, lowest 5th-pct loss;
+            # if none qualifies, the method whose 5th-percentile coverage is closest to 5%
+            allrow = S[S.group == "all"].set_index("method")
+            ok = allrow[(allrow.cover_q05 - 0.05).abs() <= 0.02]
+            choice[(k, wsel)] = ok.pinball_q05.idxmin() if len(ok) else (allrow.cover_q05 - 0.05).abs().idxmin()
+    prow, pchoice = [], {}
+    for d in STOPDEFS:
+        Pd = P[(P["def"] == d) & P.fitted].dropna(subset=["y"])
+        for wname, W in (("selection", Pd[Pd.origin <= SELECT_END]), ("test", Pd[Pd.origin >= TEST_START]), ("all", Pd)):
+            for m in PMETHODS:
+                prow.append({"def": d, "window": wname, "method": m, "forecasts": len(W), "events": int(W.y.sum()),
+                             "auc": 0.5 if m == "base" else round(float(auc(W.y, W[f"p_{m}"])), 3),
+                             "brier": round(float(((W[f"p_{m}"] - W.y) ** 2).mean()), 4)})
+        for wsel in ("selection", "all"):
+            sel = pd.DataFrame([r for r in prow if r["def"] == d and r["window"] == wsel]).set_index("method")
+            pchoice[(d, wsel)] = sel.brier.idxmin()
+    return pd.DataFrame(rows), pd.DataFrame(prow), choice, pchoice
+
+
+# ------------------------------------------------------------------------------------- final outputs
 def run():
     Q = build()
-    E, S, P = rolling_eval(Q)
+    E, P = rolling(Q)
     E.to_csv(TABLES / "far_rolling_forecasts.csv", index=False)
-    S.to_csv(TABLES / "far_rolling_summary.csv", index=False)
-    P.to_csv(TABLES / "stop_rolling_summary.csv", index=False)
-    allw = S[S.window.str.startswith("All")].set_index("method")
-    # selection rule for a flows-at-risk tool: among methods whose 5th-percentile coverage is within
-    # 2 points of 5%, take the lowest 5th-percentile pinball loss; if none qualifies, lowest average loss
-    ok = allw[(allw.cover_q05 - 0.05).abs() <= 0.02]
-    best_q = ok.pinball_q05.idxmin() if len(ok) else allw.pinball_avg.idxmin()
-    # calibration shifts for the live forecast use every forecast whose outcome is known
-    Bl = E[(E.method == "blend")].dropna(subset=["y"])
-    shift = {t: (float(np.quantile((Bl.y - Bl[f"q{int(t*100):02d}"]) / Bl.sd, t)) if t in TAIL else 0.0) for t in TAUS}
-    pw = P[P.window.str.startswith("All")].set_index("method")
-    best_p = pw.brier.idxmin()
-    log.info("selected quantile method %s, probability method %s", best_q, best_p)
-    # final models on all observed targets (2015Q1 .. 2025Q4 outcomes)
-    train = Q[(Q.quarter >= "2015Q1") & (Q.qo <= pd.Period("2025Q4", freq="Q").ordinal - 4)]
-    qr, lg, d = fit_models(train)
-    ql, _, _ = fit_models(train, LEAN)
-    bs = bootstrap_coefs(d)
-    coefs = []
-    for v in PRED:
-        row = {"variable": v, "label": LABELS[v]}
-        for t in (0.05, 0.50):
-            row[f"q{int(t*100):02d}"] = round(float(qr[t].params[v]), 3)
-            row[f"q{int(t*100):02d}_lo"] = round(float(bs[t][v].quantile(0.025)), 3)
-            row[f"q{int(t*100):02d}_hi"] = round(float(bs[t][v].quantile(0.975)), 3)
-        row["logit"] = round(float(lg["model"].params.get(v, np.nan)), 3)
-        row["logit_p"] = round(float(lg["model"].pvalues.get(v, np.nan)), 3)
-        coefs.append(row)
-    C = pd.DataFrame(coefs)
-    C.to_csv(TABLES / "far_coefficients.csv", index=False)
-    # current outlook: latest quarter with the needed inputs per country
-    last = Q.dropna(subset=["back4", "vix_z"]).sort_values("qo").groupby("iso3").tail(1)
-    cur_full, cur_lean = predict(qr, lg, train, last), predict(ql, lg, train, last)
-    cq = climatology(train)
-    cur_bl = combine(cur_lean, cq)
-    cur_cal = cur_bl.copy()
-    for t in TAUS:
-        cur_cal[f"q{int(t*100):02d}"] = cur_cal[f"q{int(t*100):02d}"] + cur_cal.sd * shift[t]
-    qs_ = np.sort(cur_cal[[f"q{int(t*100):02d}" for t in TAUS]].to_numpy(), axis=1)
-    for j, t in enumerate(TAUS):
-        cur_cal[f"q{int(t*100):02d}"] = qs_[:, j]
-    cur = {"full": cur_full, "lean": cur_lean, "blend": cur_bl, "blend_calibrated": cur_cal}.get(best_q)
-    if cur is None:  # history only
-        cur = cur_lean.copy()
-        for t in TAUS:
-            cur[f"q{int(t*100):02d}"] = cur.iso3.map(cq[t])
-    cur["p_stop"] = {"logit": cur_lean.p_stop, "base": lg["base"], "blend": 0.5 * cur_lean.p_stop + 0.5 * lg["base"]}[best_p]
-    out = {}
-    hist_fwd = Q[(Q.quarter >= "2015Q1")].dropna(subset=["fwd4"])
-    for _, r in cur.iterrows():
-        h = hist_fwd[hist_fwd.iso3 == r.iso3]
-        out[r.iso3] = {
-            "origin": r.quarter, "horizon": f"{pd.Period(r.quarter, freq='Q') + 1}–{pd.Period(r.quarter, freq='Q') + 4}",
-            "quantiles": {f"q{int(t*100):02d}": round(float(r[f"q{int(t*100):02d}"]), 2) for t in TAUS},
-            "p_stop": round(float(r.p_stop), 3), "mu": round(float(r.mu), 2), "sd": round(float(r.sd), 2),
-            "hist": [{"quarter": q, "fwd4": round(float(v), 2)} for q, v in zip(h.quarter, h.fwd4)],
-            "hist_q05": round(float(h.fwd4.quantile(0.05)), 2) if len(h) > 10 else None,
-            "drivers": {v: round(float(r[v]), 2) for v in ["vix_z", "mom_z", "res_months"]},
-        }
-    res = {"countries": out, "coefficients": coefs, "rolling": json.loads(S.to_json(orient="records")),
-           "rolling_stop": json.loads(P.to_json(orient="records")), "method_q": best_q, "method_p": best_p,
-           "calibration_shift": {f"q{int(t*100):02d}": round(v, 3) for t, v in shift.items()},
-           "base_rate_stop": round(lg["base"], 3),
-           "n_train": int(len(d)), "taus": TAUS}
+    P.to_csv(TABLES / "stop_rolling_forecasts.csv", index=False)
+    QS, PS, ch, pch = evaluate(E, P)
+    QS.to_csv(TABLES / "far_rolling_summary.csv", index=False)
+    PS.to_csv(TABLES / "stop_rolling_summary.csv", index=False)
+    # the reported test performance belongs to the rule applied on 2019Q4-2022Q4 ("selection");
+    # the live forecast re-applies the same rule to the full 2019Q4-2024Q4 record ("all")
+    choice = {k: ch[(k, "all")] for k in TARGETS}
+    pchoice = {d: pch[(d, "all")] for d in STOPDEFS}
+    choice_sel = {k: ch[(k, "selection")] for k in TARGETS}
+    pchoice_sel = {d: pch[(d, "selection")] for d in STOPDEFS}
+    log.info("live FaR %s stop %s; held-out-selected FaR %s stop %s", choice, pchoice, choice_sel, pchoice_sel)
+
+    end = pd.Period("2025Q4", freq="Q").ordinal
+    train = Q[(Q.quarter >= "2015Q1") & (Q.qo <= end - 4)]
+    out, coefs = {}, {}
+    for k in TARGETS:
+        ml, _ = fit_q(train, k, LEAN)
+        mf, d_f = fit_q(train, k, FULL)
+        hq = history_q(train, k)
+        lt = Q.dropna(subset=[f"back4_{k}", "vix_z"]).sort_values("qo").groupby("iso3").tail(1)
+        cur = blend(predict_q(ml, train, lt, k), hq)
+        if choice[k].startswith("blend_cal"):
+            Eb = E[(E.target == k) & (E.method == "blend")].dropna(subset=["y"])
+            for t in TAIL:
+                if choice[k] == "blend_cal_group":
+                    for grp in ("AE", "EMDE"):
+                        idx = cur.country_group == grp
+                        cur.loc[idx, qk(t)] += cur.loc[idx, "sd"] * tail_shift(Eb[Eb.group == grp], t, qk(t))
+                else:
+                    cur[qk(t)] += cur.sd * tail_shift(Eb, t, qk(t))
+            cur = sort_q(cur)
+        hist = Q[Q.quarter >= "2015Q1"].dropna(subset=[f"fwd4_{k}"])
+        for _, r in cur.iterrows():
+            h = hist[hist.iso3 == r.iso3]
+            o = out.setdefault(r.iso3, {"origin": r.quarter,
+                                        "horizon": f"{pd.Period(r.quarter, freq='Q') + 1}–{pd.Period(r.quarter, freq='Q') + 4}"})
+            o[k] = {"quantiles": {qk(t): round(float(r[qk(t)]), 2) for t in TAUS}, "mu": round(float(r.mu), 2),
+                    "sd": round(float(r.sd), 2), "hist": [{"quarter": q, "v": round(float(v), 2)} for q, v in zip(h.quarter, h[f"fwd4_{k}"])]}
+        rng = np.random.default_rng(20261011)
+        isos = d_f.iso3.unique()
+        bs = {0.05: [], 0.50: []}
+        for _ in range(150):
+            b = pd.concat([d_f[d_f.iso3 == i] for i in rng.choice(isos, size=len(isos), replace=True)])
+            X = sm.add_constant(b[FULL], has_constant="add")
+            for t in bs:
+                try:
+                    bs[t].append(QuantReg(b.z_fwd, X).fit(q=t, max_iter=3000).params)
+                except Exception:
+                    pass
+        B5, B50 = pd.DataFrame(bs[0.05]), pd.DataFrame(bs[0.50])
+        coefs[k] = [{"variable": v, "label": LABELS[v], "q05": round(float(mf[0.05].params[v]), 3), "q50": round(float(mf[0.50].params[v]), 3),
+                     "q05_lo": round(float(B5[v].quantile(0.025)), 3), "q05_hi": round(float(B5[v].quantile(0.975)), 3),
+                     "q50_lo": round(float(B50[v].quantile(0.025)), 3), "q50_hi": round(float(B50[v].quantile(0.975)), 3)}
+                    for v in FULL if v not in ("emde", "vix_x_emde")]
+    stop_coefs, base_rates = {}, {}
+    for d, k in STOP_TARGET.items():
+        tr = standardise(train, train, k)
+        lg = fit_logit(tr, d, logit_cols(d, pchoice[d].endswith("contagion")))
+        base_rates[d] = round(lg["base"], 3)
+        lt = standardise(train, Q.dropna(subset=[f"back4_{k}", "vix_z"]).sort_values("qo").groupby("iso3").tail(1), k)
+        p = predict_logit(lg, lt)
+        if pchoice[d].startswith("blend"):
+            p = 0.5 * p + 0.5 * lg["base"]
+        elif pchoice[d] == "base":
+            p = pd.Series(lg["base"], index=lt.index)
+        for iso, v in zip(lt.iso3, p):
+            out.setdefault(iso, {}).setdefault("p_stop", {})[d] = round(float(v), 3)
+        if lg.get("cols"):
+            lab = lambda c: LABELS["in"] if c.startswith("in_") else LABELS["peer"] if c.startswith("peer_") else LABELS[c]
+            stop_coefs[d] = [{"variable": c, "label": lab(c), "coef": round(float(lg["model"].params[c]), 3),
+                              "p": round(float(lg["model"].pvalues[c]), 3)} for c in lg["cols"]]
+    res = {"countries": out, "coefficients": coefs, "stop_coefficients": stop_coefs, "base_rates": base_rates,
+           "selection": {"far_live": choice, "stop_live": pchoice, "far_heldout": choice_sel, "stop_heldout": pchoice_sel,
+                         "select_window": "origins 2019Q4–2022Q4", "test_window": "origins 2023Q1–2024Q4", "live_window": "origins 2019Q4–2024Q4"},
+           "summary": json.loads(QS.to_json(orient="records")), "stop_summary": json.loads(PS.to_json(orient="records")),
+           "stopdefs": STOPDEFS, "taus": TAUS}
     (RESULTS / "prototype" / "risk.json").write_text(json.dumps(res, separators=(",", ":")))
-    print(S[["window", "method", "forecasts", "cover_q05", "cover_q10", "cover_q50", "cover_q90", "cover_q95", "pinball_q05", "pinball_q50", "pinball_avg"]].to_string(index=False))
-    print(P.to_string(index=False)); print("selected", best_q, best_p)
-    print(C[["label", "q05", "q05_lo", "q05_hi", "q50", "logit", "logit_p"]].to_string(index=False))
-    return res
+    return QS, PS, {"live": choice, "heldout": choice_sel}, {"live": pchoice, "heldout": pchoice_sel}
 
 
 if __name__ == "__main__":
-    run()
+    QS, PS, c, pc = run()
+    pd.set_option("display.width", 250)
+    t = QS[(QS.group == "all") & (QS.window.isin(["test", "all"]))]
+    print(t[["target", "window", "method", "forecasts", "cover_q05", "cover_q10", "cover_q50", "cover_q90", "cover_q95", "pinball_q05", "pinball_avg", "cover_q05_ci90"]].to_string(index=False))
+    t2 = QS[QS.method.isin(["blend_cal", "blend_cal_group"]) & (QS.window == "test")]
+    print(t2[["target", "method", "group", "cover_q05", "cover_q95", "pinball_q05"]].to_string(index=False))
+    print(PS.to_string(index=False))
+    print("selected", c, pc)

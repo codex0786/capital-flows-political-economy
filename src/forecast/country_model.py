@@ -36,17 +36,23 @@ log = get_logger("country_model")
 OUT = RESULTS / "prototype"
 
 GLOBAL = ["vix", "fed_funds", "d_ust10y", "usd_chg", "brent_chg"]
-DOMESTIC = ["L_gdp_growth", "L_inflation_c", "L_ca_gdp", "L_fiscal_balance_gdp", "L_public_debt_gdp"]
+DOMESTIC = ["L_gdp_growth", "L_inflation_c", "L_ca_gdp", "L_fiscal_balance_gdp", "L_public_debt_gdp",
+            "L_ctot_chg", "L_reer_chg", "L_rate_gap"]
+# Added in v2 (2026-10-11): commodity terms of trade, real exchange rate and real interest-rate gap.
+# Where a country lacks these series the value is set to its own mean (zero contribution) and recorded.
+IMPUTED = ["L_ctot_chg", "L_reer_chg", "L_rate_gap"]
 POLITICAL = ["eq_k0", "eq_post12"]
 CATEGORY = {
     "vix": "Global risk appetite", "fed_funds": "US interest rates", "d_ust10y": "US interest rates",
     "usd_chg": "US dollar", "brent_chg": "Oil prices", "L_gdp_growth": "Domestic growth",
     "L_inflation_c": "Domestic inflation", "L_ca_gdp": "External balance",
     "L_fiscal_balance_gdp": "Public finances", "L_public_debt_gdp": "Public finances",
+    "L_ctot_chg": "Terms of trade", "L_reer_chg": "Exchange rate", "L_rate_gap": "Interest-rate gap",
     "eq_k0": "Elections", "eq_post12": "Elections", "lag": "Momentum",
 }
 CATS = ["Global risk appetite", "US interest rates", "US dollar", "Oil prices", "Domestic growth",
-        "Domestic inflation", "External balance", "Public finances", "Elections", "Momentum", "Unexplained"]
+        "Domestic inflation", "External balance", "Public finances", "Terms of trade", "Exchange rate",
+        "Interest-rate gap", "Elections", "Momentum", "Unexplained"]
 OUTCOMES = {"gross_in": ("gross_inflows_gdp", "gross inflows"), "gross_out": ("gross_outflows_gdp", "gross outflows"),
             "net": ("net_flows_gdp", "net flows")}
 EST_END, BT_END = "2025Q4", "2023Q4"
@@ -102,10 +108,41 @@ def build_data() -> tuple[pd.DataFrame, dict]:
     for c in GLOBAL:
         Q[c] = (Q[c] - zstats[c][0]) / zstats[c][1]
     Q["L_inflation_c"] = Q.L_inflation.clip(-5, 50)
+    Q = add_new_drivers(Q)
     # election dummies from the corroborated event-time variable
     Q["eq_k0"] = (Q.event_time_exec == 0).astype(float)
     Q["eq_post12"] = Q.event_time_exec.isin([1, 2]).astype(float)
     return Q, {"zstats": zstats, "clip": clip, "global_latest": g}
+
+
+def add_new_drivers(Q: pd.DataFrame) -> pd.DataFrame:
+    """Lagged (one quarter) 4-quarter % changes in commodity terms of trade and the real effective
+    exchange rate; previous-year real interest-rate gap versus the US (World Bank real lending rates)."""
+    from src.common import RAW
+    c = pd.read_csv(RAW / "imf_ctot" / "ctot_m.csv", usecols=["COUNTRY", "TIME_PERIOD", "OBS_VALUE"])
+    c["quarter"] = pd.PeriodIndex(c.TIME_PERIOD.str.replace("-M", "-"), freq="M").asfreq("Q").astype(str)
+    c = c.groupby(["COUNTRY", "quarter"]).OBS_VALUE.mean().rename("ctot").reset_index().rename(columns={"COUNTRY": "iso3"})
+    e = pd.read_csv(RAW / "imf_eer" / "reer_q.csv", usecols=["COUNTRY", "TIME_PERIOD", "OBS_VALUE"])
+    e["quarter"] = e.TIME_PERIOD.str.replace("-", "")
+    e = e.rename(columns={"COUNTRY": "iso3", "OBS_VALUE": "reer"})[["iso3", "quarter", "reer"]]
+    x = c.merge(e, on=["iso3", "quarter"], how="outer").sort_values(["iso3", "quarter"])
+    for v in ["ctot", "reer"]:
+        x[f"{v}_chg"] = x.groupby("iso3")[v].transform(lambda s_: 100 * (s_ / s_.shift(4) - 1))
+        x[f"L_{v}_chg"] = x.groupby("iso3")[f"{v}_chg"].shift(1)       # known by the start of the quarter
+    Q = Q.merge(x[["iso3", "quarter", "L_ctot_chg", "L_reer_chg"]], on=["iso3", "quarter"], how="left")
+    w = pd.read_parquet(INTERIM / "wdi.parquet")[["iso3", "year", "FR.INR.RINR"]].rename(columns={"FR.INR.RINR": "rr"})
+    us = w[w.iso3 == "USA"].set_index("year").rr
+    w["gap"] = w.rr - w.year.map(us)
+    w["year"] += 1
+    Q = Q.merge(w[["iso3", "year", "gap"]].rename(columns={"gap": "L_rate_gap"}), on=["iso3", "year"], how="left")
+    Q["L_rate_gap"] = Q.L_rate_gap.clip(-30, 30)
+    Q["L_ctot_chg"] = Q.L_ctot_chg.clip(-50, 50)
+    Q["L_reer_chg"] = Q.L_reer_chg.clip(-50, 50)
+    for v in IMPUTED:
+        Q[f"{v}_observed"] = Q[v].notna()
+        m = Q[(Q.year >= 2015) & (Q.year <= 2025)].groupby("iso3")[v].mean()
+        Q[v] = Q[v].fillna(Q.iso3.map(m)).fillna(0.0)
+    return Q
 
 
 # ------------------------------------------------------------------------------------- estimation
@@ -229,6 +266,9 @@ def path_drivers(Q, iso, start_q: int, H: int, weo: pd.DataFrame, fut_el: pd.Dat
         row["L_fiscal_balance_gdp"] = prev["GGXCNL_NGDP"] if prev is not None else np.nan
         row["L_public_debt_gdp"] = prev["GGXWDG_NGDP"] if prev is not None else np.nan
         row["weo_year"] = yr - 1
+        lastrow = Q[(Q.iso3 == iso)].sort_values("qo").iloc[-1]
+        for v in IMPUTED:
+            row[v] = lastrow[v]                     # held at the latest value
         rel = [qo - e for e in evq_all]
         row["eq_k0"] = float(0 in rel)
         row["eq_post12"] = float(any(r in (1, 2) for r in rel))

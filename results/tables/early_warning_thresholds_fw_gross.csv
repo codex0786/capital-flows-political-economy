@@ -1,0 +1,9 @@
+indicator,label,unit,direction,threshold,nsr,hit_rate,false_alarm_rate,test_hit_rate,test_false_alarm_rate,rule_of_thumb,definition
+res_months,"Reserves, months of imports",months,low,2.219,0.948,0.209,0.198,0.192,0.234,3.0,fw_gross
+st_debt_res,Short-term external debt / reserves,%,high,50.18,0.834,0.378,0.315,0.244,0.318,100.0,fw_gross
+ext_debt,External debt,% of GDP,high,58.83,0.842,0.52,0.438,0.305,0.374,60.0,fw_gross
+ca,Current-account balance,% of GDP,low,-5.2,0.576,0.237,0.137,0.212,0.202,-4.0,fw_gross
+pub_debt,Public debt,% of GDP,high,63.6,0.842,0.432,0.364,0.333,0.408,70.0,fw_gross
+infl,Inflation,%,high,1.1,0.926,0.784,0.726,0.968,0.969,10.0,fw_gross
+surge,Recent inflow surge (last 4 quarters vs country norm),SD,high,0.795,0.275,0.216,0.059,0.314,0.043,,fw_gross
+usd,"US dollar, 1-year appreciation",SD,high,-0.189,0.889,0.511,0.454,0.814,0.646,,fw_gross

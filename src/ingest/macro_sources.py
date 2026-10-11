@@ -158,6 +158,23 @@ def vdem():
 
 ALL["vdem"] = vdem
 
+
+# --- IMF commodity terms of trade and real effective exchange rates (driver-model additions) ---
+SDMX = "https://api.imf.org/external/sdmx/2.1/data"
+CSV_ACCEPT = {"Accept": "application/vnd.sdmx.data+csv;version=1.0.0"}
+
+
+def ctot_eer():
+    fetch_raw(f"{SDMX}/IMF.RES,CTOT/.CEMPI_CTOTXM_GDP.R_RW_IX.M", RAW / "imf_ctot" / "ctot_m.csv",
+              "IMF Commodity Terms of Trade (IMF.RES:CTOT)", params={"startPeriod": "2012"}, headers=CSV_ACCEPT,
+              timeout=1200, note="Commodity export-minus-import price index, rolling weights, weighted by net commodity trade/GDP; monthly")
+    fetch_raw(f"{SDMX}/IMF.STA,EER/.REER_IX_RY2010_ACW_RCPI.Q", RAW / "imf_eer" / "reer_q.csv",
+              "IMF Effective Exchange Rates (IMF.STA:EER)", params={"startPeriod": "2012"}, headers=CSV_ACCEPT,
+              timeout=1200, note="CPI-based real effective exchange rate index (2010=100), quarterly")
+
+
+ALL["ctot_eer"] = ctot_eer
+
 if __name__ == "__main__":
     for name in (sys.argv[1:] or ALL):
         try:

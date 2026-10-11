@@ -14,7 +14,9 @@ def main():
     vul = json.loads((P / "vulnerability.json").read_text())
     rp = pd.read_csv(RESULTS / "tables" / "rolling_point_summary.csv")
     spec = json.loads((ROOT / "report" / "preregistration_2026_spec.json").read_text())
-    rb = {"risk": risk, "vul": vul, "rolling_point": json.loads(rp.to_json(orient="records")), "prereg": spec}
+    eh = pd.read_csv(RESULTS / "tables" / "election_heterogeneity.csv")
+    rb = {"risk": risk, "vul": vul, "rolling_point": json.loads(rp.to_json(orient="records")), "prereg": spec,
+          "election_het": json.loads(eh.to_json(orient="records"))}
     rbs = json.dumps(rb, separators=(",", ":")).replace("</", "<\\/")
     out.write_text(tpl.replace("__BUNDLE__", bundle).replace("__CABUNDLE__", ca).replace("__RISKBUNDLE__", rbs))
     print(out, round(out.stat().st_size / 1024), "KB")

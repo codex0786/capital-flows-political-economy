@@ -1,0 +1,13 @@
+split,term,coef,se,p,n_events,status
+turnover,eq_pre12,-0.19,0.537,0.7242,,EXPLORATORY / POST-HOC
+turnover,k0_turn,-1.303,0.972,0.1842,60.0,EXPLORATORY / POST-HOC
+turnover,k0_stay,-2.588,0.715,0.0005,126.0,EXPLORATORY / POST-HOC
+turnover,post_turn,0.442,0.57,0.4411,107.0,EXPLORATORY / POST-HOC
+turnover,post_stay,-1.886,1.158,0.1074,235.0,EXPLORATORY / POST-HOC
+turnover,difference k0_turn - k0_stay,1.284,1.025,0.2139,,EXPLORATORY / POST-HOC
+early,eq_pre12,-0.175,0.534,0.7443,,EXPLORATORY / POST-HOC
+early,k0_early,-2.018,0.853,0.0206,46.0,EXPLORATORY / POST-HOC
+early,k0_sched,-2.183,0.731,0.0038,140.0,EXPLORATORY / POST-HOC
+early,post_early,1.039,0.787,0.1908,76.0,EXPLORATORY / POST-HOC
+early,post_sched,-1.764,0.949,0.0669,266.0,EXPLORATORY / POST-HOC
+early,difference k0_early - k0_sched,0.165,0.927,0.8593,,EXPLORATORY / POST-HOC

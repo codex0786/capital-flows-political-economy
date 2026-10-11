@@ -8,7 +8,7 @@ PY=.venv/bin/python
 echo "== 1. Ingest (skips existing raw files)"
 $PY -m src.ingest.imf_bop A Q
 $PY -c "from src.ingest.imf_bop import download_official_oi; download_official_oi('Q')"
-$PY -m src.ingest.macro_sources weo wb fred unc bis idea vdem
+$PY -m src.ingest.macro_sources weo wb fred unc bis idea vdem ctot_eer
 $PY -m src.ingest.wikipedia_calendar
 
 echo "== 2. Parse raw -> interim (one process per step; V-Dem needs ~2 GB RAM)"
@@ -42,8 +42,11 @@ echo "== 8. Interactive prototype"
 $PY -m src.forecast.country_model
 $PY -c "from src.forecast.country_model import rolling_point_backtest; rolling_point_backtest()"
 $PY -m src.forecast.risk
+$PY -m src.forecast.early_warning
 $PY -m src.forecast.vulnerability
+$PY -c "from src.econometrics.posthoc_alignment import election_heterogeneity; election_heterogeneity()"
 # report/preregistration_2026_* is frozen (git tag prereg-2026-elections); do not regenerate
 $PY -m src.prototype.export_bundle
 $PY -m src.prototype.build_app
+$PY -m src.forecast.ledger   # appends a new vintage only when code or data changed (keyed by commit)
 echo "done"

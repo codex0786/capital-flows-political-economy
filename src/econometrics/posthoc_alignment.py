@@ -183,3 +183,66 @@ def seasonality_check():
     out = pd.DataFrame(rows)
     out.to_csv(TABLES / "posthoc_seasonality_check.csv", index=False)
     print(out.round(3).to_string(index=False))
+
+
+def election_heterogeneity():
+    """EXPLORATORY: does the EMDE election-quarter decline depend on incumbent defeat or early elections?
+
+    Arakelyan & Evdokimova (2025) report larger effects when the incumbent loses and for off-cycle elections.
+    Turnover (V-Dem: chief executive replaced at the election) is known only after the vote; within the election
+    quarter it is part of the event, so the split describes heterogeneity, not a pre-determined moderator.
+    Specified after the confirmatory results; does not count toward the pre-registered 2026-27 test.
+    """
+    from scipy import stats
+
+    from src.econometrics.models import _cluster_t, twfe_demean
+    Q = quarterly().merge(official_oi(), on=["iso3", "quarter"], how="left")
+    Q = event_windows(Q)
+    pe = pd.read_csv(TABLES.parents[1] / "data" / "processed" / "political_events.csv")
+    ev = pe[pe.event_type.str.startswith("election") & (pe.exec_relevant == 1)
+            & pe.verification_status.isin(["wikipedia+idea+vdem", "two_sources"])].copy()
+    ev["quarter"] = pd.PeriodIndex(pd.to_datetime(ev.event_date), freq="Q").astype(str)
+    ev = ev.groupby(["iso3", "quarter"]).agg(turnover=("exec_turnover_at_election", "max"),
+                                            early=("scheduled_or_unexpected", lambda s: float((s == "early_rule_based").any()))).reset_index()
+    Q = Q.merge(ev, on=["iso3", "quarter"], how="left")
+    # carry the election's attributes to its post-election quarters
+    Q = Q.sort_values(["iso3", "quarter"])
+    for c in ["turnover", "early"]:
+        Q[c] = Q.groupby("iso3")[c].transform(lambda s: s.ffill(limit=2))
+    meta = pd.read_csv(TABLES.parents[1] / "data" / "processed" / "country_metadata.csv").set_index("iso3")
+    E = Q[Q.iso3.map(meta.country_group_alt_pre_euro) == "EMDE"].copy()
+    E["k0_turn"], E["k0_stay"] = E.eq_k0 * (E.turnover == 1), E.eq_k0 * (E.turnover == 0)
+    E["post_turn"], E["post_stay"] = E.eq_post12 * (E.turnover == 1), E.eq_post12 * (E.turnover == 0)
+    E["k0_early"], E["k0_sched"] = E.eq_k0 * (E.early == 1), E.eq_k0 * (E.early == 0)
+    E["post_early"], E["post_sched"] = E.eq_post12 * (E.early == 1), E.eq_post12 * (E.early == 0)
+    specs = {"turnover": ["eq_pre12", "k0_turn", "k0_stay", "post_turn", "post_stay"],
+             "early": ["eq_pre12", "k0_early", "k0_sched", "post_early", "post_sched"]}
+    rows = []
+    for name, terms in specs.items():
+        d = E.dropna(subset=["gross_inflows_gdp_w"] + CTRL).copy()
+        d[terms] = d[terms].astype(float).fillna(0.0)
+        d["_tid"] = d.quarter
+        D = twfe_demean(d, ["gross_inflows_gdp_w"] + terms + CTRL)
+        g = d.iso3.astype("category").cat.codes.to_numpy()
+        X, y = D[terms + CTRL].to_numpy(), D["gross_inflows_gdp_w"].to_numpy()
+        G = g.max() + 1
+        res = {}
+        for j, t in enumerate(terms):
+            b, se = _cluster_t(X, y, g, j)
+            res[t] = (b, se)
+            rows.append({"split": name, "term": t, "coef": round(b, 3), "se": round(se, 3),
+                         "p": round(2 * stats.t.sf(abs(b / se), G - 1), 4), "n_events": int(d[t].sum()) if t != "eq_pre12" else None,
+                         "status": "EXPLORATORY / POST-HOC"})
+        # difference test between the two k0 terms (cluster-robust, via contrast)
+        a, b_ = terms[1], terms[2]
+        Xc = X.copy()
+        ia, ib = terms.index(a), terms.index(b_)
+        # reparametrise: k0_a = k0_b + delta  -> regress on (a, a+b) to get delta directly
+        Xc[:, ib] = X[:, ia] + X[:, ib]
+        bd, sed = _cluster_t(Xc, y, g, ia)
+        rows.append({"split": name, "term": f"difference {a} - {b_}", "coef": round(bd, 3), "se": round(sed, 3),
+                     "p": round(2 * stats.t.sf(abs(bd / sed), G - 1), 4), "n_events": None, "status": "EXPLORATORY / POST-HOC"})
+    out = pd.DataFrame(rows)
+    out.to_csv(TABLES / "election_heterogeneity.csv", index=False)
+    print(out.to_string(index=False))
+    return out

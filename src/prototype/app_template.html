@@ -167,7 +167,7 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
     <div class="narr" id="a-why"></div>
     <div class="legend" id="a-why-legend"></div>
     <div class="chart" id="a-why-chart"></div>
-    <p class="small muted">Each bar splits the year's average deviation from the country's own 2015–25 average into driver contributions (pp of GDP). The dot is the actual deviation. Global = risk appetite, US rates, dollar and oil. Domestic = growth, inflation, external balance and public finances. These are statistical attributions from a fixed-effects model, not causal effects.</p>
+    <p class="small muted">Each bar splits the year's average deviation from the country's own 2015–25 average into driver contributions (pp of GDP). The dot is the actual deviation. Global = risk appetite, US rates, dollar and oil. Domestic = growth, inflation, external balance, public finances, commodity terms of trade, real exchange rate and interest-rate gap. These are statistical attributions from a fixed-effects model, not causal effects.</p>
     <div class="yearlist" id="a-years"></div>
     <details><summary>Show all eleven driver categories by year</summary><div class="tbl" id="a-why-table" style="margin-top:10px"></div></details>
   </div>
@@ -185,29 +185,46 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
         <div class="slider"><label for="s-usd"><span>Dollar move (one quarter)</span><span class="mono" id="s-usd-v">0%</span></label><input type="range" id="s-usd" min="-10" max="10" step="1" value="0"></div>
         <div class="slider"><label for="s-oil"><span>Oil price move (one quarter)</span><span class="mono" id="s-oil-v">0%</span></label><input type="range" id="s-oil" min="-40" max="40" step="5" value="0"></div>
       </div>
-      <div class="controls"><button class="btn" id="s-riskoff">Risk-off shock</button><button class="btn" id="s-easing">US easing</button><button class="btn" id="s-reset">Reset</button></div>
+      <div class="controls"><button class="btn" id="s-riskoff">Risk-off shock</button><button class="btn" id="s-easing">US easing</button><button class="btn" id="s-dollar">Strong dollar</button><button class="btn" id="s-commod">Oil slump</button><button class="btn" id="s-reset">Reset</button></div>
       <p class="interp" id="s-result"></p>
     </div>
   </div>
 
   <div class="panel">
     <div><span class="eyebrow">4 · Risk and buffers</span><h2 style="margin-top:4px">How bad could it get, and can the country absorb it?</h2></div>
+    <div class="controls"><div class="ctl"><label>Flows at risk for</label><div class="seg" id="r-target"><button aria-pressed="true" data-v="net">Net capital inflows</button><button aria-pressed="false" data-v="gross_in">Gross inflows</button></div></div></div>
     <div class="grid g2">
       <div class="panel" style="background:var(--surface-2);border:0"><h3>Flows at risk</h3><div class="narr" id="r-far-text"></div></div>
-      <div class="panel" style="background:var(--surface-2);border:0"><h3>Sudden-stop probability, next four quarters</h3><div id="r-stop"></div></div>
+      <div class="panel" style="background:var(--surface-2);border:0"><h3>Chance a sudden stop starts, next four quarters</h3><div id="r-stop"></div></div>
     </div>
     <div class="legend" id="r-far-legend"></div>
     <div class="chart" id="r-far-chart"></div>
-    <p class="small muted">Left: the realised average of gross inflows over each following four quarters (annualised % of GDP). Right: the forecast distribution for the next four quarters, with the 5th–95th, 10th–90th and 25th–75th percentile ranges and the median. Tails are calibrated in real time. In the 2019–24 rolling test, 5.2% of outcomes fell below the 5th percentile.</p>
+    <p class="small muted" id="r-far-note"></p>
+    <h3 style="margin-top:6px">Can reserves cover a bad year?</h3>
+    <div class="tbl" id="r-buf"></div>
     <h3 style="margin-top:6px">Vulnerability indicators</h3>
     <div class="tbl" id="r-vul"></div>
-    <h3 style="margin-top:6px">Buffer stress tests</h3>
-    <div class="tbl" id="r-buf"></div>
+    <div class="panel" style="background:var(--surface-2);border:0"><h3>Early-warning score</h3><div id="r-ew"></div></div>
     <p class="small muted" id="r-vul-note"></p>
   </div>
 
   <div class="panel">
-    <div><span class="eyebrow">5 · How reliable is the forecast?</span><h2 style="margin-top:4px">2024–25 backtest</h2></div>
+    <div><span class="eyebrow">5 · Peers</span><h2 style="margin-top:4px">How does it compare?</h2></div>
+    <div class="controls"><div class="ctl" style="flex:1 1 320px"><label for="p-peers">Peers (default: nearest economies by GDP in the same region and group)</label><select id="p-peers" multiple size="4"></select></div><button class="btn" id="p-reset">Default peers</button></div>
+    <div class="legend" id="p-legend"></div>
+    <div class="chart" id="p-chart"></div>
+    <div class="tbl" id="p-table"></div>
+  </div>
+
+  <div class="panel">
+    <div><span class="eyebrow">6 · Country brief</span><h2 style="margin-top:4px">One-page summary</h2></div>
+    <p class="small muted">A plain-text brief built from the numbers above, ready to paste into a note or email.</p>
+    <div class="controls"><button class="btn" id="b-copy">Copy brief</button><span class="small muted" id="b-status"></span></div>
+    <pre id="b-text" style="white-space:pre-wrap;font:13.5px/1.6 var(--f-mono);background:var(--surface-2);padding:14px;border-radius:8px;margin:0;max-height:520px;overflow:auto"></pre>
+  </div>
+
+  <div class="panel">
+    <div><span class="eyebrow">7 · How reliable is the forecast?</span><h2 style="margin-top:4px">2024–25 backtest</h2></div>
     <p class="small muted">The model was re-estimated with data to 2023Q4 and asked to forecast 2024Q1–2025Q4, then compared with what happened.</p>
     <div class="legend" id="a-bt-legend"></div>
     <div class="chart" id="a-bt-chart"></div>
@@ -229,8 +246,9 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
 
 <!-- TRACK RECORD -->
 <section class="view" id="v-track" hidden>
+  <div class="panel callout blue" style="border-radius:var(--r)"><p><b>How to read this tab.</b> Every model was re-fitted at each forecast date using only data available then. Flows-at-risk and sudden-stop methods were <b>chosen on forecasts made in 2019Q4–2022Q4</b> and are <b>scored here on untouched forecasts made in 2023Q1–2024Q4</b>. The live tool then re-applies the same choice rule to all years. Full details: <code>report/model_card.md</code>.</p></div>
   <div class="panel">
-    <div><h3>Point forecasts: real-time rolling test, 2020–2025</h3><p class="small muted">Forecasts made at the end of each year from 2019 to 2024 for the next four quarters. Global factors are frozen at the forecast date. Blend weights are chosen using only earlier years. Lower is better (RMSE, pp of GDP annualised).</p></div>
+    <div><h3>Point forecasts: real-time rolling test, 2020–2025</h3><p class="small muted">Forecasts made at the end of each year from 2019 to 2024 for the next four quarters. Global factors are frozen at the forecast date, and blend weights are chosen using only earlier years. Lower is better (RMSE, pp of GDP annualised).</p></div>
     <div class="controls">
       <div class="ctl"><label>Flow</label><div class="seg" id="tr-out"><button aria-pressed="true" data-v="gross_in">Gross inflows</button><button aria-pressed="false" data-v="gross_out">Gross outflows</button><button aria-pressed="false" data-v="net">Net flows</button></div></div>
       <div class="ctl"><label>Group</label><div class="seg" id="tr-grp"><button aria-pressed="true" data-v="EMDE">EMDE</button><button aria-pressed="false" data-v="AE">AE</button></div></div>
@@ -239,12 +257,15 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
     <div class="chart" id="tr-chart"></div>
     <div class="tbl" id="tr-table"></div>
   </div>
-  <div class="grid g2">
-    <div class="panel"><h3>Flows-at-risk calibration</h3><p class="small muted">Share of outcomes below each predicted percentile, 2,250 country forecasts made 2019Q4–2024Q4. A well-calibrated forecast matches the nominal share.</p><div class="tbl" id="tr-cal"></div></div>
-    <div class="panel"><h3>Sudden-stop probabilities</h3><p class="small muted">AUC: how well probabilities rank countries that did and did not have a sudden stop (0.5 = chance, 1 = perfect). Brier: overall probability error (lower is better).</p><div class="tbl" id="tr-stop"></div></div>
-  </div>
-  <div class="panel"><h3>What moves the downside tail?</h3><p class="small muted">Quantile-regression coefficients for the 5th percentile (downside tail) and the median of next-year inflows, standardised by country volatility. 95% intervals from a country-cluster bootstrap. A factor that matters more at the 5th percentile than at the median mainly raises tail risk.</p>
+  <div class="panel">
+    <div class="controls" style="justify-content:space-between"><div><h3>Flows at risk: held-out calibration, 2023–24</h3><p class="small muted">Share of outcomes below each predicted percentile; a well-calibrated forecast matches the nominal share. Brackets: 90% bootstrap interval.</p></div>
+    <div class="seg" id="tr-ft"><button aria-pressed="true" data-v="net">Net inflows</button><button aria-pressed="false" data-v="gross_in">Gross inflows</button></div></div>
+    <div class="tbl" id="tr-cal"></div><p class="small" id="tr-cal-note"></p></div>
+  <div class="panel"><h3>Sudden-stop starts: held-out test, 2023–24</h3><p class="small muted">AUC: how well probabilities rank economies that did and did not see a sudden stop start (0.5 = chance). Brier: overall probability error, lower is better. "Contagion" adds the share of regional peers already in a sudden stop.</p><div class="tbl" id="tr-stop"></div></div>
+  <div class="panel"><h3>Early-warning thresholds: data-driven vs rule of thumb</h3><p class="small muted">Thresholds chosen on 2017–21 to minimise the noise-to-signal ratio (false alarms per episode caught), then tested on 2022–24. Net-flow sudden-stop definition.</p><div class="tbl" id="tr-ew"></div><p class="small" id="tr-ew-note"></p></div>
+  <div class="panel"><h3>What moves the downside tail?</h3><p class="small muted">Quantile-regression coefficients for the 5th percentile and the median of next-year flows (standardised by each country's volatility), with 95% country-cluster bootstrap intervals.</p>
     <div class="legend" id="tr-coef-legend"></div><div class="chart" id="tr-coef"></div></div>
+  <div class="panel"><div><span class="chip post">Exploratory</span><h3 style="margin-top:8px">Which elections hit inflows hardest? (EMDE)</h3></div><p class="small muted">Election-quarter and post-election effects on gross inflows, split by whether the incumbent lost (V-Dem) and whether the election was early. Specified after the main results; does not count toward the pre-registered test.</p><div class="tbl" id="tr-eh"></div><p class="small" id="tr-eh-note"></p></div>
   <div class="panel" id="tr-prereg"></div>
 </section>
 
@@ -423,11 +444,13 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
 
 <!-- DATA -->
 <section class="view" id="v-data" hidden>
+  <div class="panel" id="glossary"><h3>Glossary</h3><div class="grid g2" id="gl-list"></div></div>
   <div class="panel"><h3>How the country analysis works</h3>
-    <p><b>Driver model.</b> For each country group (advanced; emerging and developing), quarterly flows in 2015Q1–2025Q4 are regressed on last quarter's flow (momentum), global push factors (VIX, US policy rate, change in the US 10-year yield, dollar and oil price changes), last year's domestic fundamentals from the IMF WEO (growth, inflation, current account, fiscal balance, public debt) and the election-quarter and post-election windows, with country fixed effects. Each country gets its own sensitivity to the global factors, shrunk toward the group estimate (empirical Bayes) because 44 quarters is too few to estimate them alone.</p>
+    <p><b>Driver model.</b> For each country group (advanced; emerging and developing), quarterly flows in 2015Q1–2025Q4 are regressed on last quarter's flow (momentum), global push factors (VIX, US policy rate, change in the US 10-year yield, dollar and oil price changes), last year's domestic fundamentals from the IMF WEO (growth, inflation, current account, fiscal balance, public debt), the change in commodity terms of trade (IMF CTOT) and the real exchange rate (IMF EER), the real interest-rate gap with the US (World Bank; 49% coverage, gaps set to the country average) and the election-quarter and post-election windows, with country fixed effects. Each country gets its own sensitivity to the global factors, shrunk toward the group estimate (empirical Bayes) because 44 quarters is too few to estimate them alone.</p>
     <p><b>Why.</b> With country fixed effects, each quarter's deviation from the country's own average splits exactly into driver contributions plus an unexplained remainder. These are statistical attributions, not causal effects. The model explains only a small share of quarterly movement, which is typical for gross capital flows.</p>
     <p><b>Outlook.</b> The central forecast blends the driver model, the average of the last four reported quarters and the 2015–25 average. Weights are chosen per group and flow by minimising error in a 2024–25 backtest (estimated to 2023Q4). For gross flows the backtest gave the driver model no weight, so the central path rests on the recent level and the long-run average, plus the election effect where that improved accuracy. Ranges come from backtest errors at each horizon, scaled by the country's volatility; 80% ranges contained 79–84% of 2024–25 outcomes. Scenario sliders apply the model's country sensitivities on top of the central path.</p>
-    <p class="small muted">Code: <code>src/forecast/country_model.py</code>. Backtest summary: <code>results/tables/country_model_backtest.csv</code>.</p></div>
+    <p><b>Risk.</b> Flows at risk (gross and net) come from quantile regressions blended with each country's history, with tails recalibrated from past errors. Sudden-stop probabilities give the chance that a new episode starts, under a gross and a net definition. The early-warning score uses thresholds chosen by the signals method. Methods were chosen on forecasts made in 2019–22 and scored on 2023–24 (Track record tab). Every live forecast is stored in a ledger so it can be scored later.</p>
+    <p class="small muted">Code: <code>src/forecast/</code>. Model card: <code>report/model_card.md</code>. Ledger: <code>results/forecast_ledger/ledger.csv</code>.</p></div>
   <div class="panel"><h3>Sources</h3><div class="tbl" id="dt-sources"></div></div>
   <div class="grid g2">
     <div class="panel"><h3>Definitions</h3>
@@ -742,7 +765,7 @@ seg('#y-group',v=>{yGroup=v;renderYears();});
 
 /* ---------- COUNTRY ANALYSIS ---------- */
 const CA=JSON.parse(document.getElementById('cabundle').textContent);
-const CATS5={Global:['Global risk appetite','US interest rates','US dollar','Oil prices'],Domestic:['Domestic growth','Domestic inflation','External balance','Public finances'],Elections:['Elections'],Momentum:['Momentum'],Unexplained:['Unexplained']};
+const CATS5={Global:['Global risk appetite','US interest rates','US dollar','Oil prices'],Domestic:['Domestic growth','Domestic inflation','External balance','Public finances','Terms of trade','Exchange rate','Interest-rate gap'],Elections:['Elections'],Momentum:['Momentum'],Unexplained:['Unexplained']};
 const CAT_COL={Global:'--accent',Domestic:'--aqua',Elections:'--warm',Momentum:'--violet',Unexplained:'--unx'};
 const OUTL={gross_in:'gross inflows',gross_out:'gross outflows',net:'net flows'};
 const caList=Object.entries(CA.countries).sort((a,b)=>a[1].name.localeCompare(b[1].name));
@@ -857,6 +880,8 @@ function setScen(v){ Object.assign(scen,v); $('#s-vix').value=scen.vix; $('#s-fe
 $('#s-riskoff').addEventListener('click',()=>setScen({vix:15,fed:0,usd:5,oil:-20}));
 $('#s-easing').addEventListener('click',()=>setScen({vix:-3,fed:-1,usd:-3,oil:0}));
 $('#s-reset').addEventListener('click',()=>setScen({vix:0,fed:0,usd:0,oil:0}));
+$('#s-dollar').addEventListener('click',()=>setScen({vix:4,fed:0.5,usd:8,oil:-5}));
+$('#s-commod').addEventListener('click',()=>setScen({vix:5,fed:0,usd:2,oil:-35}));
 function renderBacktest(){
   const {c,d}=aData(); const bt=d.backtest, grp=CA.backtest[`${aOut}_${c.group}`];
   if(bt){ lineChart($('#a-bt-chart'),bt.path.map(p=>p.quarter),[{name:'Actual',v:bt.path.map(p=>p.actual),color:css('--accent')},{name:'Forecast made at end-2023',v:bt.path.map(p=>p.forecast),color:css('--warm'),dash:'6 4'}],{h:240,xlab:()=>true});
@@ -875,90 +900,207 @@ $('#a-country').addEventListener('change',renderAnalysis); seg('#a-outcome',v=>{
 /* ---------- RISK (country section, monitor, track record) ---------- */
 const RB=JSON.parse(document.getElementById('riskbundle').textContent);
 const R=RB.risk, V=RB.vul;
+let rTarget='net';
+const DEF_LABEL={fw_gross:'Gross inflows fall sharply',fw_net:'Net inflows fall sharply'};
 function renderRisk(){
-  const {iso,c}=aData(); const r=R.countries[iso], v=V.countries[iso];
+  const {iso,c}=aData(); const rr=R.countries[iso], v=V.countries[iso]; const r=rr&&rr[rTarget];
+  const tl=rTarget==='net'?'net capital inflows':'gross inflows';
   if(!r){ $('#r-far-text').innerHTML='<p class="muted">Not enough recent data for a flows-at-risk estimate.</p>'; $('#r-far-chart').innerHTML=''; }
   else {
-    const q=r.quantiles; const gdpNote=v&&v.buffers.far_shortfall_usd_bn!=null?` That is a shortfall of about <b>US$${fmt(v.buffers.far_shortfall_usd_bn,1)} bn</b> a year against the country's average.`:'';
-    $('#r-far-text').innerHTML=`<p>For ${r.horizon}, the median forecast for average gross inflows is <b>${fmt(q.q50,1)}%</b> of GDP (2015–25 average: ${fmt(r.mu,1)}%).</p>
-      <p>There is a <b>1-in-20 chance</b> they average below <b>${fmt(q.q05,1)}%</b>, and a 1-in-10 chance below ${fmt(q.q10,1)}%.${gdpNote}</p>`;
+    const q=r.quantiles;
+    $('#r-far-text').innerHTML=`<p>For ${rr.horizon}, the median forecast for average ${tl} is <b>${fmt(q.q50,1)}%</b> of GDP (2015–25 average: ${fmt(r.mu,1)}%).</p>
+      <p>There is a <b>1-in-20 chance</b> they average below <b>${fmt(q.q05,1)}%</b>, and a 1-in-10 chance below ${fmt(q.q10,1)}%.</p>
+      ${rTarget==='net'?'<p class="small muted">Net inflows are what finance a current-account deficit, so the reserve test below uses them.</p>':'<p class="small muted">Gross inflows often fall together with residents’ outflows, so a gross shortfall is not the same as a financing gap.</p>'}`;
     const host=$('#r-far-chart'); host.innerHTML=''; const W=1100,H=300,m={l:48,r:20,t:14,b:30};
     const hist=r.hist; const n=hist.length; const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Flows at risk'},host);
-    const vals=[...hist.map(h=>h.fwd4),q.q05,q.q95,r.mu]; let lo=Math.min(0,...vals),hi=Math.max(0,...vals); const pad=(hi-lo)*.06; lo-=pad; hi+=pad;
+    const vals=[...hist.map(h=>h.v),q.q05,q.q95,r.mu]; let lo=Math.min(0,...vals),hi=Math.max(0,...vals); const pad=(hi-lo)*.06; lo-=pad; hi+=pad;
     const Y=v_=>m.t+(hi-v_)/(hi-lo)*(H-m.t-m.b); const plotW=W-m.l-m.r-160; const X=i=>m.l+i/(Math.max(n-1,1))*plotW;
     const g=el('g',{class:'grid'},svg); niceTicks(lo,hi).forEach(t=>{el('line',{x1:m.l,x2:W-m.r,y1:Y(t),y2:Y(t)},g); const tx=el('text',{x:m.l-8,y:Y(t)+4,'text-anchor':'end'},svg); tx.textContent=fmt(t,0);});
     el('line',{class:'zero',x1:m.l,x2:W-m.r,y1:Y(0),y2:Y(0)},svg);
     el('line',{x1:m.l,x2:W-m.r,y1:Y(r.mu),y2:Y(r.mu),stroke:css('--ref'),'stroke-dasharray':'4 4'},svg);
-    let p=''; hist.forEach((h,i)=>{p+=(i?'L':'M')+X(i)+','+Y(h.fwd4);}); el('path',{d:p,fill:'none',stroke:css('--accent'),'stroke-width':2},svg);
+    let p=''; hist.forEach((h,i)=>{p+=(i?'L':'M')+X(i)+','+Y(h.v);}); el('path',{d:p,fill:'none',stroke:css('--accent'),'stroke-width':2},svg);
     hist.forEach((h,i)=>{ if(h.quarter.endsWith('Q1')&&(+h.quarter.slice(0,4))%2===1){ const t=el('text',{x:X(i),y:H-10,'text-anchor':'middle'},svg); t.textContent=h.quarter.slice(0,4);} });
     const bx=m.l+plotW+80, bw=56;
-    [[q.q05,q.q95,0.18],[q.q10,q.q90,0.3],[q.q25,q.q75,0.5]].forEach(([a,b,op])=>el('rect',{x:bx-bw/2,y:Y(b),width:bw,height:Math.max(1,Y(a)-Y(b)),fill:css('--accent'),opacity:op,rx:3},svg));
+    [[q.q05,q.q95,0.18],[q.q10,q.q90,0.3],[q.q25,q.q75,0.5]].forEach(([a_,b_,op])=>el('rect',{x:bx-bw/2,y:Y(b_),width:bw,height:Math.max(1,Y(a_)-Y(b_)),fill:css('--accent'),opacity:op,rx:3},svg));
     el('line',{x1:bx-bw/2-4,x2:bx+bw/2+4,y1:Y(q.q50),y2:Y(q.q50),stroke:css('--ink'),'stroke-width':2.5},svg);
     el('line',{x1:bx-bw/2-8,x2:bx+bw/2+8,y1:Y(q.q05),y2:Y(q.q05),stroke:css('--warm'),'stroke-width':2.5},svg);
     const t1=el('text',{x:bx,y:H-10,'text-anchor':'middle'},svg); t1.textContent='Next 4 quarters';
     const t2=el('text',{x:bx+bw/2+12,y:Y(q.q05)+4},svg); t2.textContent='5th pct'; t2.setAttribute('style',`fill:${css('--warm')}`);
     legend($('#r-far-legend'),[{name:'Realised next-4-quarter average',color:css('--accent')},{name:'2015–25 average',color:css('--ref'),dash:1},{name:'5th percentile (1-in-20 downside)',color:css('--warm')}]);
-    const all=Object.values(R.countries).map(x=>x.p_stop).sort((a,b)=>a-b); const rank=all.filter(x=>x<=r.p_stop).length/all.length;
-    $('#r-stop').innerHTML=`<span class="bignum">${Math.round(r.p_stop*100)}%</span><p>chance of at least one sudden-stop quarter in ${r.horizon}. The average across economies is ${Math.round(R.base_rate_stop*100)}%; this economy ranks higher than ${Math.round(rank*100)}% of the ${all.length} economies covered.</p><p class="small muted">Sudden stop: gross inflows fall more than two standard deviations below their recent norm (Forbes–Warnock style). The probability blends a logit model with the base rate, which was best calibrated in the 2019–24 rolling test (AUC 0.74).</p>`;
+    const T=R.summary.find(x=>x.target===rTarget&&x.window==='test'&&x.method===R.selection.far_heldout[rTarget]&&x.group==='all');
+    $('#r-far-note').innerHTML=`Left: the realised average of ${tl} over each following four quarters. Right: the forecast distribution (5th–95th, 10th–90th, 25th–75th percentiles; median). Method: country history blended with a quantile model, tails recalibrated from past errors. ${T?`In the held-out 2023–24 test, ${(T.cover_q05*100).toFixed(1)}% of outcomes fell below the 5th percentile (nominal 5%)${T.cover_q05<0.04?', so expect these ranges to be on the cautious side in calm periods':''}.`:''}`;
   }
+  const ps=rr&&rr.p_stop;
+  if(ps){
+    const rows=Object.entries(ps).map(([d,pv])=>{ const all=Object.values(R.countries).map(x=>(x.p_stop||{})[d]).filter(x=>x!=null).sort((a,b)=>a-b); const rank=all.filter(x=>x<=pv).length/all.length;
+      return `<tr><td>${DEF_LABEL[d]}</td><td class="n"><b>${Math.round(pv*100)}%</b></td><td class="n">${Math.round(R.base_rates[d]*100)}%</td><td class="n">${Math.round(rank*100)}th</td></tr>`; }).join('');
+    $('#r-stop').innerHTML=`<table><thead><tr><th>Definition</th><th class="n">This economy</th><th class="n">Typical</th><th class="n">Percentile</th></tr></thead><tbody>${rows}</tbody></table>
+      <p class="small muted" style="margin-top:8px">Probability that a new sudden-stop episode <b>starts</b> in ${rr.horizon}. In the held-out test these probabilities ranked economies reasonably (AUC 0.81 gross, 0.68 net) but are only slightly better than the typical rate as absolute probabilities.</p>`;
+  } else $('#r-stop').innerHTML='<p class="muted">No estimate.</p>';
   if(v){
+    const b=v.buffers;
+    const cov=x=>x==null?'–':`${fmt(x,1)}×`;
+    const ok=(x,app)=>!app?'<span class="status na">n/a</span>':x==null?'<span class="status na">no data</span>':x>=1?'<span class="status ok">Covered</span>':'<span class="status watch">Not covered</span>';
+    const app=b.reserve_tests_apply;
+    const gapTxt=b.gap_pp==null?'–':(b.gap_pp===0?'no gap':`${fmt(b.gap_pp,1)}% of GDP (US$${fmt(b.gap_usd_bn,1)} bn)`);
+    $('#r-buf').innerHTML=`<table><thead><tr><th>Test</th><th class="n">Need</th><th class="n">Reserves cover</th><th>Result</th><th>What it means</th></tr></thead><tbody>
+      <tr class="hl"><td><b>Financing gap in a 1-in-20 year</b></td><td class="n">${gapTxt}</td><td class="n">${b.gap_pp===0?'—':cov(b.gap_cover)}</td><td>${b.gap_pp===0&&app?'<span class="status ok">No gap</span>':ok(b.gap_cover,app)}</td><td class="small">Current-account deficit projected for ${b.ca_next_year||'next year'} (${fmt(b.ca_next,1)}% of GDP) not financed if net inflows fall to their 5th percentile (${fmt(b.net_q05,1)}%).</td></tr>
+      <tr><td>Short-term debt + current-account deficit</td><td class="n">–</td><td class="n">${cov(b.greenspan_guidotti_cover)}</td><td>${ok(b.greenspan_guidotti_cover,app)}</td><td class="small">Could reserves repay a year of short-term external debt and fund the deficit with no new borrowing? (Greenspan–Guidotti)</td></tr>
+      <tr><td>Gross-inflow stress (upper bound)</td><td class="n">${b.far_shortfall_usd_bn!=null?`US$${fmt(b.far_shortfall_usd_bn,1)} bn`:'–'}</td><td class="n">${cov(b.far_cover)}</td><td>${ok(b.far_cover,app)}</td><td class="small">Gross inflows at their 5th percentile instead of their average, ignoring offsetting moves by residents.</td></tr>
+      <tr><td>Repeat of worst year since 2015</td><td class="n">${b.worst_shortfall_usd_bn!=null?`US$${fmt(b.worst_shortfall_usd_bn,1)} bn`:'–'}</td><td class="n">${cov(b.worst_cover)}</td><td>${ok(b.worst_cover,app)}</td><td class="small">This economy's largest 4-quarter shortfall of gross inflows against its average.</td></tr></tbody></table>`;
     const order=['reserves_months','st_debt_reserves','ext_debt_gdp','ca_gdp','public_debt_gdp','inflation'];
-    $('#r-vul').innerHTML='<table><thead><tr><th>Indicator</th><th class="n">Value</th><th class="n">Year</th><th class="n">Threshold</th><th>Status</th><th>Rule of thumb</th></tr></thead><tbody>'+
-      order.map(k=>{ const d=v.indicators[k], rl=V.rules[k]; const st=d.status; return `<tr><td>${esc(rl.label)} <span class="muted small">${esc(rl.unit)}</span></td><td class="n">${d.value==null?'–':fmt(d.value,1)}</td><td class="n">${d.year||'–'}</td><td class="n">${rl.dir==='below'?'&lt; ':'&gt; '}${fmt(d.threshold,0)}</td><td>${st==null?'<span class="status na">no data</span>':st==='watch'?'<span class="status watch">Watch</span>':st==='n/a'?'<span class="status na">n/a</span>':'<span class="status ok">OK</span>'}</td><td class="small muted">${esc(rl.rule)}</td></tr>`; }).join('')+'</tbody></table>';
-    const b=v.buffers; const cov=(x,lab)=>x==null?'–':`${fmt(x,1)}×`;
-    const ok=x=>x==null?'<span class="status na">no data</span>':x>=1?'<span class="status ok">Covered</span>':'<span class="status watch">Not covered</span>';
-    $('#r-buf').innerHTML=`<table><thead><tr><th>Test</th><th class="n">Reserves cover</th><th>Result</th><th>What it means</th></tr></thead><tbody>
-      <tr><td>Short-term debt + current-account deficit</td><td class="n">${cov(b.greenspan_guidotti_cover)}</td><td>${ok(b.greenspan_guidotti_cover)}</td><td class="small">Can reserves pay a year of maturing short-term external debt plus the current-account gap without new financing?</td></tr>
-      <tr><td>1-in-20 flows-at-risk shortfall${b.far_shortfall_usd_bn!=null?` (US$${fmt(b.far_shortfall_usd_bn,1)} bn)`:''}</td><td class="n">${cov(b.far_cover)}</td><td>${ok(b.far_cover)}</td><td class="small">Can reserves offset a year of inflows at the 5th-percentile forecast instead of the average?</td></tr>
-      <tr><td>Worst year since 2015${b.worst_shortfall_usd_bn!=null?` (US$${fmt(b.worst_shortfall_usd_bn,1)} bn)`:''}</td><td class="n">${cov(b.worst_cover)}</td><td>${ok(b.worst_cover)}</td><td class="small">Could reserves absorb a repeat of this economy's worst 4-quarter inflow shortfall?</td></tr></tbody></table>`;
-    $('#r-vul-note').innerHTML=(v.reserve_note?`<b>${esc(v.reserve_note)}</b> `:'')+`Reserves US$${fmt(b.reserves_usd_bn,1)} bn (${b.reserves_year||'–'}). Thresholds are conventional rules of thumb, not IMF assessments; the IMF reserve-adequacy (ARA) metric is not computed here. External-debt indicators come from the World Bank's debtor reporting and are blank for most advanced economies.`;
+    const chip=st=>st==null?'<span class="status na">–</span>':st==='watch'?'<span class="status watch">Watch</span>':st==='n/a'?'<span class="status na">n/a</span>':'<span class="status ok">OK</span>';
+    $('#r-vul').innerHTML='<table><thead><tr><th>Indicator</th><th class="n">Value</th><th class="n">Year</th><th class="n">Rule of thumb</th><th>Status</th><th class="n">Data-driven threshold</th><th>Status</th></tr></thead><tbody>'+
+      order.map(k=>{ const d=v.indicators[k], rl=V.rules[k]; const sym=rl.dir==='below'?'&lt; ':'&gt; ';
+        return `<tr><td>${esc(rl.label)} <span class="muted small">${esc(rl.unit)}</span></td><td class="n">${d.value==null?'–':fmt(d.value,1)}</td><td class="n">${d.year||'–'}</td><td class="n">${sym}${fmt(d.threshold,0)}</td><td>${chip(d.status)}</td><td class="n">${d.data_threshold==null?'–':sym+fmt(d.data_threshold,1)}</td><td>${chip(d.data_status)}</td></tr>`; }).join('')+'</tbody></table>';
+    const ew=v.early_warning; const EWM=V.early_warning.fw_net;
+    if(ew&&ew.score!=null){
+      const on=Object.entries(ew.signals).filter(([k,x])=>x).map(([k])=>EWM.indicators.find(i=>i.indicator===k).label);
+      $('#r-ew').innerHTML=`<p><span class="bignum">${Math.round(ew.score*100)}</span> <span class="muted">/ 100 · higher than ${Math.round(ew.pctile*100)}% of economies (as of ${ew.as_of})</span></p>
+        <p>${on.length?'Signals on: '+on.map(esc).join('; ')+'.':'No warning signals are on.'}</p>
+        <p class="small muted">Weighted share of indicators past their data-driven thresholds, weights favouring indicators with fewer false alarms. Out of sample (2022–24) it ranked sudden-stop starts better than chance (AUC ${EWM.evaluation.auc_score}), and better than a count of rule-of-thumb flags (AUC ${EWM.evaluation.auc_rule_of_thumb_count}). The most reliable single signal was a recent surge in inflows.</p>`;
+    } else $('#r-ew').innerHTML='<p class="muted">Not enough data.</p>';
+    $('#r-vul-note').innerHTML=(v.reserve_note?`<b>${esc(v.reserve_note)}</b> `:'')+`Reserves US$${fmt(b.reserves_usd_bn,1)} bn (${b.reserves_year||'–'}). Rules of thumb are conventional benchmarks, not IMF assessments, and the IMF reserve-adequacy (ARA) metric is not computed. In this sample the rule-of-thumb flags did not predict sudden stops, so read the data-driven column alongside them.`;
   }
+  renderPeers(); renderBrief();
 }
-let moGroup='all', moSort={k:'p_stop',dir:-1};
+seg('#r-target',v=>{rTarget=v;renderRisk();});
+
+/* ---------- peers ---------- */
+let peerSel=null, peerFor=null;
+function defaultPeers(iso){ const me=B.countries[iso], vm=V.countries[iso]; if(!me||!vm) return [];
+  const g=vm.buffers.gdp_usd_bn||0;
+  return Object.keys(R.countries).filter(k=>k!==iso&&B.countries[k]&&V.countries[k]&&B.countries[k].region===me.region&&B.countries[k].group===me.group)
+    .sort((a,b)=>Math.abs(Math.log((V.countries[a].buffers.gdp_usd_bn||1)/(g||1)))-Math.abs(Math.log((V.countries[b].buffers.gdp_usd_bn||1)/(g||1)))).slice(0,3); }
+function renderPeers(){
+  const {iso,c}=aData(); if(peerFor!==iso){ peerSel=defaultPeers(iso); peerFor=iso; }
+  const sel=$('#p-peers'); sel.innerHTML=caList.filter(([k])=>k!==iso&&R.countries[k]).map(([k,cc])=>`<option value="${k}"${peerSel.includes(k)?' selected':''}>${esc(cc.name)}</option>`).join('');
+  const list=[iso,...peerSel]; const cols=['--accent','--warm','--aqua','--violet','--ref'];
+  const r0=R.countries[iso]; if(!r0||!r0.gross_in){ $('#p-chart').innerHTML=''; return; }
+  const qs=r0.gross_in.hist.map(h=>h.quarter);
+  const ser=list.map((k,i)=>{ const h=(R.countries[k]&&R.countries[k].gross_in)?Object.fromEntries(R.countries[k].gross_in.hist.map(x=>[x.quarter,x.v])):{}; return {name:CA.countries[k]?CA.countries[k].name:k,v:qs.map(q=>h[q]??null),color:css(cols[i%cols.length])}; });
+  legend($('#p-legend'),ser); lineChart($('#p-chart'),qs,ser,{h:260,xlab:(x)=>x.endsWith('Q1')&&(+x.slice(0,4))%2===1,xfmt:x=>x});
+  const row=k=>{ const r=R.countries[k]||{}, v=V.countries[k]||{buffers:{},indicators:{}}; const ew=v.early_warning;
+    return `<tr${k===iso?' class="hl"':''}><td>${esc(CA.countries[k]?CA.countries[k].name:k)}</td><td class="n">${r.gross_in?fmt(r.gross_in.quantiles.q50,1):'–'}</td><td class="n">${r.net?fmt(r.net.quantiles.q05,1):'–'}</td><td class="n">${r.p_stop&&r.p_stop.fw_net!=null?Math.round(r.p_stop.fw_net*100)+'%':'–'}</td><td class="n">${ew&&ew.score!=null?Math.round(ew.score*100):'–'}</td><td class="n">${v.buffers.reserve_tests_apply===false?'n/a':v.buffers.gap_pp===0?'no gap':v.buffers.gap_cover!=null?fmt(v.buffers.gap_cover,1)+'×':'–'}</td><td class="n">${v.indicators.reserves_months&&v.indicators.reserves_months.value!=null?fmt(v.indicators.reserves_months.value,1):'–'}</td><td class="n">${v.flags??'–'}</td></tr>`; };
+  $('#p-table').innerHTML='<table><thead><tr><th>Economy</th><th class="n">Gross inflows, median</th><th class="n">Net inflows, 5th pct</th><th class="n">Sudden-stop start (net)</th><th class="n">Early-warning score</th><th class="n">Financing-gap cover</th><th class="n">Reserves, months</th><th class="n">Rule-of-thumb flags</th></tr></thead><tbody>'+list.map(row).join('')+'</tbody></table><p class="small muted" style="margin-top:6px">Forecasts for the next four quarters, % of GDP annualised. Hold Ctrl/Cmd to choose several peers.</p>';
+}
+$('#p-peers').addEventListener('change',()=>{ peerSel=[...$('#p-peers').selectedOptions].map(o=>o.value).slice(0,4); renderPeers(); });
+$('#p-reset').addEventListener('click',()=>{ peerFor=null; renderPeers(); });
+
+/* ---------- brief ---------- */
+function renderBrief(){
+  const {iso,c,d}=aData(); const g=CA.countries[iso].gross_in, nt=CA.countries[iso].net; const r=R.countries[iso]||{}, v=V.countries[iso];
+  const L=[];
+  L.push(`CAPITAL FLOWS BRIEF: ${c.name.toUpperCase()} (${c.group==='AE'?'advanced economy':'emerging/developing economy'})`);
+  L.push(`Data through ${(r.origin)||'latest quarter'}; outlook ${r.horizon||''}. Figures are annualised % of GDP unless stated.`);
+  L.push('');
+  L.push('WHAT HAPPENED'); g.narrative.happened.forEach(t=>L.push('- '+t));
+  L.push(''); L.push('WHY'); g.narrative.why.forEach(t=>L.push('- '+t));
+  const yrs=g.narrative.years.slice(-3); yrs.forEach(y=>L.push(`- ${y.year}: ${y.text}`));
+  L.push(''); L.push('OUTLOOK (central path)');
+  if(g.forecast.length) L.push(`- Gross inflows: ${g.forecast.map(f=>f.quarter+' '+fmt(f.mean,1)).join(', ')} (80% range for ${g.forecast[0].quarter}: ${fmt(g.forecast[0].lo80,1)} to ${fmt(g.forecast[0].hi80,1)}).`);
+  if(nt&&nt.forecast.length) L.push(`- Net inflows: ${nt.forecast.map(f=>f.quarter+' '+fmt(f.mean,1)).join(', ')}.`);
+  L.push(''); L.push('RISK');
+  if(r.net) L.push(`- 1-in-20 downside for net inflows over the next year: ${fmt(r.net.quantiles.q05,1)}% of GDP (median ${fmt(r.net.quantiles.q50,1)}%).`);
+  if(r.gross_in) L.push(`- 1-in-20 downside for gross inflows: ${fmt(r.gross_in.quantiles.q05,1)}% (median ${fmt(r.gross_in.quantiles.q50,1)}%).`);
+  if(r.p_stop) L.push(`- Chance a sudden stop starts: ${r.p_stop.fw_net!=null?Math.round(r.p_stop.fw_net*100)+'% (net definition)':''}${r.p_stop.fw_gross!=null?', '+Math.round(r.p_stop.fw_gross*100)+'% (gross definition)':''}.`);
+  if(v){ const b=v.buffers; const ew=v.early_warning;
+    if(ew&&ew.score!=null) L.push(`- Early-warning score ${Math.round(ew.score*100)}/100 (higher than ${Math.round(ew.pctile*100)}% of economies).`);
+    L.push(''); L.push('BUFFERS');
+    if(!b.reserve_tests_apply) L.push('- '+(v.reserve_note||'Reserve tests not applicable.'));
+    else { L.push(`- Reserves: US$${fmt(b.reserves_usd_bn,1)} bn (${b.reserves_year}); ${v.indicators.reserves_months.value!=null?fmt(v.indicators.reserves_months.value,1)+' months of imports':''}.`);
+      L.push(`- Financing gap in a 1-in-20 year: ${b.gap_pp===0?'none':fmt(b.gap_pp,1)+'% of GDP (US$'+fmt(b.gap_usd_bn,1)+' bn), reserves cover '+fmt(b.gap_cover,1)+'x'}.`); }
+    const w=Object.entries(v.indicators).filter(([k,x])=>x.status==='watch').map(([k])=>V.rules[k].label);
+    L.push(`- Rule-of-thumb watch flags: ${w.length?w.join('; '):'none'}.`); }
+  L.push(''); L.push('CAVEATS');
+  L.push('- Statistical attributions and forecasts, not causal findings or policy advice. Quarterly capital flows are very noisy.');
+  L.push('- Outlook accuracy (2020–25 real-time test) and calibration are reported in the Track record tab and report/model_card.md.');
+  L.push('- Prepared from IMF, World Bank, BIS, FRED and other public sources retrieved 11 Oct 2026.');
+  $('#b-text').textContent=L.join('\n'); $('#b-status').textContent='';
+}
+$('#b-copy').addEventListener('click',()=>{ const t=$('#b-text').textContent;
+  try{ navigator.clipboard.writeText(t).then(()=>{$('#b-status').textContent='Copied.';},()=>{selectBrief();}); }catch(e){ selectBrief(); } });
+function selectBrief(){ const r=document.createRange(); r.selectNodeContents($('#b-text')); const s_=window.getSelection(); s_.removeAllRanges(); s_.addRange(r); $('#b-status').textContent='Copy is blocked here: the text is selected, press Ctrl/Cmd+C.'; }
+
+/* ---------- monitor ---------- */
+let moGroup='all', moSort={k:'p_net',dir:-1};
 function renderMonitor(){
   const f=$('#mo-find').value.trim().toLowerCase();
-  let rows=Object.entries(R.countries).map(([iso,r])=>{ const v=V.countries[iso]||{}; const c=CA.countries[iso]||{name:iso,group:v.group};
-    return {iso,name:c.name,group:c.group||v.group,p_stop:r.p_stop,q05:r.quantiles.q05,q50:r.quantiles.q50,mu:r.mu,short:r.mu-r.quantiles.q05,flags:v.flags??null,far_cover:v.buffers?v.buffers.far_cover:null,gg:v.buffers?v.buffers.greenspan_guidotti_cover:null,res:v.indicators?v.indicators.reserves_months.value:null}; })
+  let rows=Object.entries(R.countries).map(([iso,r])=>{ const v=V.countries[iso]||{buffers:{},indicators:{}}; const c=CA.countries[iso]||{name:iso,group:v.group}; const ew=v.early_warning||{};
+    return {iso,name:c.name,group:c.group||v.group,p_net:(r.p_stop||{}).fw_net??null,p_gross:(r.p_stop||{}).fw_gross??null,
+      net05:r.net?r.net.quantiles.q05:null,gross50:r.gross_in?r.gross_in.quantiles.q50:null,ews:ew.score??null,
+      gap:v.buffers.reserve_tests_apply===false?null:(v.buffers.gap_pp===0?99:v.buffers.gap_cover),flags:v.flags??null}; })
     .filter(x=>(moGroup==='all'||x.group===moGroup)&&(!f||x.name.toLowerCase().includes(f)));
   rows.sort((a,b)=>{ const x=a[moSort.k],y=b[moSort.k]; if(x==null) return 1; if(y==null) return -1; return typeof x==='string'? moSort.dir*x.localeCompare(y) : moSort.dir*(x-y); });
-  const cols=[['name','Economy'],['group','Group'],['p_stop','Sudden-stop prob.'],['q50','Median forecast'],['q05','5th percentile'],['short','Downside vs average'],['flags','Vulnerability flags'],['gg','ST debt+CA cover'],['far_cover','FaR cover']];
-  const fm={p_stop:x=>Math.round(x*100)+'%',q50:x=>fmt(x,1),q05:x=>fmt(x,1),short:x=>fmt(-x,1),gg:x=>fmt(x,1)+'×',far_cover:x=>fmt(x,1)+'×'};
+  const cols=[['name','Economy'],['group','Group'],['p_net','Sudden-stop start (net)'],['p_gross','Sudden-stop start (gross)'],['net05','Net inflows, 5th pct'],['gross50','Gross inflows, median'],['ews','Early-warning score'],['gap','Financing-gap cover'],['flags','Rule-of-thumb flags']];
+  const fm={p_net:x=>Math.round(x*100)+'%',p_gross:x=>Math.round(x*100)+'%',net05:x=>fmt(x,1),gross50:x=>fmt(x,1),ews:x=>Math.round(x*100),gap:x=>x>=99?'no gap':fmt(x,1)+'×'};
   $('#mo-table').innerHTML='<thead><tr>'+cols.map(([k,l])=>`<th class="sortable${['name','group'].includes(k)?'':' n'}" data-k="${k}">${l}${moSort.k===k?(moSort.dir<0?' ↓':' ↑'):''}</th>`).join('')+'</tr></thead><tbody>'+
     rows.map(x=>`<tr data-iso="${x.iso}">`+cols.map(([k])=>{ const v_=x[k]; if(k==='name'||k==='group') return `<td>${esc(v_)}</td>`;
-      let cls='n'; if(k==='flags'&&v_>=3) cls+=' ' ; const txt=v_==null?'–':(fm[k]?fm[k](v_):v_);
-      const warn=(k==='flags'&&v_>=3)||(k==='gg'&&v_!=null&&v_<1)||(k==='far_cover'&&v_!=null&&v_<1);
-      return `<td class="${cls}"${warn?' style="color:var(--warm);font-weight:600"':''}>${txt}</td>`; }).join('')+'</tr>').join('')+'</tbody>';
+      const txt=v_==null?'–':(fm[k]?fm[k](v_):v_); const warn=(k==='flags'&&v_>=3)||(k==='gap'&&v_!=null&&v_<1)||(k==='ews'&&v_!=null&&v_>=0.6);
+      return `<td class="n"${warn?' style="color:var(--warm);font-weight:600"':''}>${txt}</td>`; }).join('')+'</tr>').join('')+'</tbody>';
 }
-$('#mo-table').addEventListener('click',e=>{ const th=e.target.closest('th[data-k]'); if(th){ const k=th.dataset.k; moSort={k,dir:moSort.k===k?-moSort.dir:(k==='name'||k==='group'?1:-1)}; renderMonitor(); return; }
+$('#mo-table').addEventListener('click',e=>{ const th=e.target.closest('th[data-k]'); if(th){ const k=th.dataset.k; moSort={k,dir:moSort.k===k?-moSort.dir:(k==='name'||k==='group'||k==='gap'||k==='net05'?1:-1)}; renderMonitor(); return; }
   const tr=e.target.closest('tr[data-iso]'); if(tr&&CA.countries[tr.dataset.iso]){ $('#a-country').value=tr.dataset.iso; location.hash='analysis'; } });
 $('#mo-find').addEventListener('input',renderMonitor); seg('#mo-group',v=>{moGroup=v;renderMonitor();});
-let trOut='gross_in', trGrp='EMDE';
+
+/* ---------- track record ---------- */
+let trOut='gross_in', trGrp='EMDE', trFt='net';
 function renderTrack(){
   const rp=RB.rolling_point.filter(r=>r.outcome===trOut&&r.group===trGrp&&r.origin!=='all').sort((a,b)=>a.target_year-b.target_year);
-  const s=[{name:'Blend (real time)',v:rp.map(r=>r.rmse_blend_rt),color:css('--accent')},{name:'Driver model',v:rp.map(r=>r.rmse_model),color:css('--violet')},{name:'Long-run average',v:rp.map(r=>r.rmse_mean),color:css('--ref')},{name:'Last four quarters',v:rp.map(r=>r.rmse_last4),color:css('--warm'),dash:'5 4'}];
-  legend($('#tr-legend'),s); lineChart($('#tr-chart'),rp.map(r=>r.target_year),s,{h:260,xlab:()=>true,xfmt:x=>'Forecast for '+x});
+  const s_=[{name:'Blend (real time)',v:rp.map(r=>r.rmse_blend_rt),color:css('--accent')},{name:'Driver model',v:rp.map(r=>r.rmse_model),color:css('--violet')},{name:'Long-run average',v:rp.map(r=>r.rmse_mean),color:css('--ref')},{name:'Last four quarters',v:rp.map(r=>r.rmse_last4),color:css('--warm'),dash:'5 4'}];
+  legend($('#tr-legend'),s_); lineChart($('#tr-chart'),rp.map(r=>r.target_year),s_,{h:260,xlab:()=>true,xfmt:x=>'Forecast for '+x});
   const all=RB.rolling_point.find(r=>r.outcome===trOut&&r.group===trGrp&&r.origin==='all');
-  const best=['rmse_blend_rt','rmse_model','rmse_mean','rmse_last4'].reduce((a,b)=>all[b]<all[a]?b:a);
   const lab={rmse_blend_rt:'Blend (real time)',rmse_model:'Driver model',rmse_mean:'Long-run average',rmse_last4:'Last four quarters'};
+  const best=Object.keys(lab).reduce((a,b)=>all[b]<all[a]?b:a);
   $('#tr-table').innerHTML='<table><thead><tr><th>Method</th><th class="n">RMSE 2020–2025</th><th class="n">vs long-run average</th></tr></thead><tbody>'+Object.keys(lab).map(k=>`<tr${k===best?' class="hl"':''}><td>${lab[k]}</td><td class="n">${fmt(all[k],2)}</td><td class="n">${k==='rmse_mean'?'–':((all[k]/all.rmse_mean-1)*100).toFixed(1)+'%'}</td></tr>`).join('')+`</tbody></table><p class="small muted" style="margin-top:6px">${all.forecasts.toLocaleString()} country-quarter forecasts. Highlighted: lowest error.</p>`;
-  const cal=R.rolling.filter(r=>r.window.startsWith('All'));
-  const ml={full:'Full model',lean:'Lean model',history:'Country history only',blend:'Blend',blend_calibrated:'Blend, calibrated tails (used)'};
+  const ml={full:'Full quantile model',lean:'Lean quantile model',history:'Country history only',blend:'Blend',blend_cal:'Blend, calibrated tails',blend_cal_group:'Blend, tails calibrated by group'};
+  const cal=R.summary.filter(r=>r.target===trFt&&r.window==='test'&&r.group==='all');
   $('#tr-cal').innerHTML='<table><thead><tr><th>Method</th><th class="n">5th</th><th class="n">10th</th><th class="n">50th</th><th class="n">90th</th><th class="n">95th</th><th class="n">Tail loss (5th)</th></tr></thead><tbody><tr><td class="muted">Nominal</td><td class="n muted">5%</td><td class="n muted">10%</td><td class="n muted">50%</td><td class="n muted">90%</td><td class="n muted">95%</td><td></td></tr>'+
-    cal.map(r=>`<tr${r.method===R.method_q?' class="hl"':''}><td>${ml[r.method]||r.method}</td>${['q05','q10','q50','q90','q95'].map(k=>`<td class="n">${(r['cover_'+k]*100).toFixed(1)}%</td>`).join('')}<td class="n">${fmt(r.pinball_q05,3)}</td></tr>`).join('')+'</tbody></table>';
-  const st=R.rolling_stop.filter(r=>!r.window.startsWith('Advanced')&&!r.window.startsWith('Emerging'));
-  const pl={logit:'Logit model',base:'Base rate',blend:'Blend (used)'};
-  $('#tr-stop').innerHTML='<table><thead><tr><th>Window</th><th>Method</th><th class="n">AUC</th><th class="n">Brier</th></tr></thead><tbody>'+st.map(r=>`<tr${r.method===R.method_p&&r.window.startsWith('All')?' class="hl"':''}><td class="small">${esc(r.window)}</td><td>${pl[r.method]}</td><td class="n">${r.method==='base'?'0.50':fmt(r.auc,3)}</td><td class="n">${fmt(r.brier,4)}</td></tr>`).join('')+'</tbody></table>';
-  const co=R.coefficients.filter(x=>!['emde','vix_x_emde'].includes(x.variable));
-  ciChart($('#tr-coef'),co.map(x=>({label:x.label,items:[{name:'5th percentile',coef:x.q05,lo:x.q05_lo,hi:x.q05_hi,color:css('--warm')},{name:'median',coef:x.q50,lo:x.q50,hi:x.q50,color:css('--accent')}]})),{rowH:34,labW:320,labSize:13,xlabel:'Effect on standardised next-year inflows'});
-  legend($('#tr-coef-legend'),[{name:'5th percentile (with 95% bootstrap interval)',color:css('--warm')},{name:'Median (point estimate)',color:css('--accent')}]);
+    cal.map(r=>`<tr${r.method===R.selection.far_heldout[trFt]?' class="hl"':''}><td>${ml[r.method]||r.method}</td><td class="n">${(r.cover_q05*100).toFixed(1)}%<br><span class="small muted">[${(r.cover_q05_ci90[0]*100).toFixed(1)}–${(r.cover_q05_ci90[1]*100).toFixed(1)}]</span></td>${['q10','q50','q90','q95'].map(k=>`<td class="n">${(r['cover_'+k]*100).toFixed(1)}%</td>`).join('')}<td class="n">${fmt(r.pinball_q05,3)}</td></tr>`).join('')+'</tbody></table>';
+  $('#tr-cal-note').innerHTML=`Highlighted: the method the rule picked on 2019–22 data. In calm 2023–24 its tails were <b>wider than needed</b>: fewer outcomes fell below the 5th percentile than the nominal 5%. Calibration learned from the turbulent 2020–22 period. The live tool uses ${ml[R.selection.far_live[trFt]]}.`;
+  const st=R.stop_summary.filter(r=>r.window==='test');
+  const pl={logit:'Logit model',logit_contagion:'Logit + contagion',base:'Typical rate (base)',blend:'Blend of logit and base',blend_contagion:'Blend + contagion'};
+  $('#tr-stop').innerHTML='<table><thead><tr><th>Definition</th><th>Method</th><th class="n">AUC</th><th class="n">Brier</th><th class="n">Episodes</th></tr></thead><tbody>'+st.map(r=>`<tr${r.method===R.selection.stop_heldout[r.def]?' class="hl"':''}><td>${DEF_LABEL[r.def]}</td><td>${pl[r.method]}</td><td class="n">${r.method==='base'?'0.50':fmt(r.auc,3)}</td><td class="n">${fmt(r.brier,4)}</td><td class="n">${r.events}</td></tr>`).join('')+'</tbody></table><p class="small muted" style="margin-top:6px">Highlighted: the method chosen on 2019–22. Adding regional contagion did not improve the held-out results.</p>';
+  const E=V.early_warning.fw_net;
+  $('#tr-ew').innerHTML='<table><thead><tr><th>Indicator</th><th class="n">Rule of thumb</th><th class="n">Data-driven threshold</th><th class="n">Noise-to-signal (train)</th><th class="n">Episodes caught (test)</th><th class="n">False alarms (test)</th></tr></thead><tbody>'+
+    E.indicators.map(i=>`<tr><td>${esc(i.label)} <span class="muted small">${esc(i.unit)}</span></td><td class="n">${i.rule_of_thumb==null?'–':(i.direction==='low'?'&lt; ':'&gt; ')+fmt(i.rule_of_thumb,0)}</td><td class="n">${i.threshold==null?'–':(i.direction==='low'?'&lt; ':'&gt; ')+fmt(i.threshold,1)}</td><td class="n">${fmt(i.nsr,2)}</td><td class="n">${i.test_hit_rate==null?'–':Math.round(i.test_hit_rate*100)+'%'}</td><td class="n">${i.test_false_alarm_rate==null?'–':Math.round(i.test_false_alarm_rate*100)+'%'}</td></tr>`).join('')+'</tbody></table>';
+  const G=V.early_warning.fw_gross;
+  $('#tr-ew-note').innerHTML=`Combined score, out of sample: AUC ${E.evaluation.auc_score} (net definition) and ${G.evaluation.auc_score} (gross), against ${E.evaluation.auc_rule_of_thumb_count} and ${G.evaluation.auc_rule_of_thumb_count} for a count of rule-of-thumb flags. <b>Conventional thresholds did not predict sudden stops in this sample.</b> The strongest single warning was a recent surge in inflows.`;
+  const co=R.coefficients[trFt];
+  ciChart($('#tr-coef'),co.map(x=>({label:x.label,items:[{name:'5th percentile',coef:x.q05,lo:x.q05_lo,hi:x.q05_hi,color:css('--warm')},{name:'median',coef:x.q50,lo:x.q50_lo,hi:x.q50_hi,color:css('--accent')}]})),{rowH:34,labW:320,labSize:13,xlabel:`Effect on standardised next-year ${trFt==='net'?'net':'gross'} inflows`});
+  legend($('#tr-coef-legend'),[{name:'5th percentile',color:css('--warm')},{name:'Median',color:css('--accent')}]);
+  const EH=RB.election_het; const tl={eq_pre12:'1–2 quarters before',k0_turn:'Election quarter, incumbent lost',k0_stay:'Election quarter, incumbent stayed',post_turn:'1–2 quarters after, incumbent lost',post_stay:'1–2 quarters after, incumbent stayed',
+    k0_early:'Election quarter, early election',k0_sched:'Election quarter, scheduled',post_early:'1–2 quarters after, early',post_sched:'1–2 quarters after, scheduled'};
+  $('#tr-eh').innerHTML='<table><thead><tr><th>Window</th><th class="n">Coef. (pp of GDP)</th><th class="n">SE</th><th class="n">p</th></tr></thead><tbody>'+EH.filter(r=>r.term!=='eq_pre12'||r.split==='turnover').map(r=>`<tr><td>${r.term.startsWith('difference')?'<b>Difference: '+(r.split==='turnover'?'lost − stayed':'early − scheduled')+'</b>':tl[r.term]}</td><td class="n">${fmt(r.coef,2)}</td><td class="n">${fmt(r.se,2)}</td><td class="n">${fmtP(r.p)}</td></tr>`).join('')+'</tbody></table>';
+  $('#tr-eh-note').innerHTML='The drop is not larger when the incumbent loses; if anything it is larger when the incumbent stays (difference not significant). Afterwards, inflows recover when government changes but keep falling when it does not. Early and scheduled elections look alike. This does not support the "incumbent defeat amplifies the effect" finding of the prior IMF study.';
   const P=RB.prereg; const pw=P.power;
   $('#tr-prereg').innerHTML=`<div><span class="chip conf">Pre-registered · frozen ${P.freeze_date}</span><h3 style="margin-top:8px">Next test: does the EMDE election-quarter drop hold in new elections?</h3></div>
-   <p>${esc(P.hypothesis)} The post-hoc estimate to beat is ${fmt(P.prior_estimate.coef)} pp (SE ${fmt(P.prior_estimate.se)}). <b>Decision rule:</b> ${esc(P.decision_rule)}</p>
+   <p>${esc(P.hypothesis)} Estimate to confirm: ${fmt(P.prior_estimate.coef)} pp (SE ${fmt(P.prior_estimate.se)}). <b>Decision rule:</b> ${esc(P.decision_rule)}</p>
    <div class="tbl"><table><thead><tr><th>Economy</th><th>Contest</th><th>Date</th><th>Quarter</th></tr></thead><tbody>${P.qualifying_elections_primary.map(e=>`<tr><td>${esc(e.country)}</td><td>${e.type}</td><td class="mono">${e.date}</td><td class="mono">${e.quarter}</td></tr>`).join('')}</tbody></table></div>
-   <p class="small">Power is low: ${Math.round(pw.power_one_sided_5pct['-2.0']*100)}% for a true −2 pp effect with ${pw.n_elections_primary} elections (${Math.round(pw.power_pooled_one_sided_5pct['-2.0']*100)}% if the ${pw.n_elections_pooled - pw.n_elections_primary} early-2026 elections are pooled). About ${pw.elections_needed_for_80pct_power_at_minus2} elections would be needed for 80% power. A non-confirmed result will therefore be reported as inconclusive. ${esc(P.timing)}</p>
-   <p class="small muted">Full registration: <code>report/preregistration_2026_elections.md</code> · spec hash in the document · git tag <code>prereg-2026-elections</code>.</p>`;
+   <p class="small">Power is low: ${Math.round(pw.power_one_sided_5pct['-2.0']*100)}% for a true −2 pp effect with ${pw.n_elections_primary} elections (${Math.round(pw.power_pooled_one_sided_5pct['-2.0']*100)}% with the ${pw.n_elections_pooled - pw.n_elections_primary} early-2026 elections pooled). About ${pw.elections_needed_for_80pct_power_at_minus2} elections would be needed for 80% power, so a non-confirmed result will be reported as inconclusive. ${esc(P.timing)}</p>
+   <p class="small muted">Registration: <code>report/preregistration_2026_elections.md</code> · git tag <code>prereg-2026-elections</code>.</p>`;
 }
+seg('#tr-ft',v=>{trFt=v;renderTrack();});
 seg('#tr-out',v=>{trOut=v;renderTrack();}); seg('#tr-grp',v=>{trGrp=v;renderTrack();});
+
+/* ---------- glossary ---------- */
+const GLOSS=[['Gross inflows','New investment and lending into the economy by non-residents (net incurrence of liabilities, BPM6). Can be negative when non-residents withdraw.'],
+ ['Gross outflows','New investment abroad by residents (net acquisition of foreign assets), excluding central-bank reserves.'],
+ ['Net capital inflows','Gross inflows minus gross outflows. Positive net inflows finance a current-account deficit.'],
+ ['Annualised % of GDP','A quarter’s flow multiplied by four and divided by annual GDP, so quarters and years are comparable.'],
+ ['Flows at risk','The range of plausible flows over the next four quarters. The 5th percentile is a 1-in-20 downside.'],
+ ['Financing gap','The part of a projected current-account deficit that net inflows would not cover if they fell to their 5th percentile. This is what reserves would have to fund.'],
+ ['Sudden stop','A fall in inflows more than two standard deviations below their recent norm, lasting until they recover to within one (Forbes–Warnock method). The tool forecasts the chance that a new episode starts.'],
+ ['Early-warning score','Weighted share of indicators past thresholds that, historically, preceded sudden stops with the fewest false alarms.'],
+ ['Noise-to-signal ratio','False-alarm rate divided by the share of episodes caught. Lower is better; above 1 is no better than random.'],
+ ['Greenspan–Guidotti rule','Reserves should cover external debt falling due within a year; here extended to include the current-account deficit.'],
+ ['RMSE','Root-mean-square error of forecasts, in pp of GDP. Lower is better.'],
+ ['AUC','How well a probability ranks cases that happened above those that did not: 0.5 is chance, 1 is perfect.'],
+ ['Brier score','Average squared error of probability forecasts. Lower is better.'],
+ ['Held-out test','Forecasts scored on a period not used to choose or tune the method.'],
+ ['Pre-registration','A test written down and frozen before the data that will be used to run it exist.'],
+ ['Driver attribution','A split of a country’s deviation from its own average into contributions of modelled factors. Statistical, not causal.']];
+$('#gl-list').innerHTML=GLOSS.map(([t,d])=>`<p><b>${t}.</b> ${d}</p>`).join('');
 
 /* ---------- routing ---------- */
 const views=['analysis','monitor','track','overview','countries','years','models','dynamics','robustness','report','data'];
