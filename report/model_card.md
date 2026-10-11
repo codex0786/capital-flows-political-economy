@@ -1,6 +1,6 @@
 # Model card — Capital in Motion country tool
 
-*Generated 2026-10-11 from the evaluation outputs. Commit `cedd3c3`.*
+*Generated 2026-10-11 from the evaluation outputs. Commit `115f5b1`.*
 
 ## Intended use
 Analytical support for economists monitoring capital-flow conditions in 108 economies: explaining past flows, giving a
