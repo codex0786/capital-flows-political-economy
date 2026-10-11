@@ -1,0 +1,2 @@
+test,stat,df,p,nobs,note
+"H3 equality of pre-election coefficient across FDI, PE, PD, OI inflows",2.7691688731736868,3,0.4286004491978367,18512,"component-specific country FE, component-by-quarter FE and controls; clustered by country"

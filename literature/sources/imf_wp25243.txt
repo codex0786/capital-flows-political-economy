@@ -1,0 +1,1235 @@
+Elections Matter: Capital 
+Flows and Political Cycles 
+Maria Arakelyan and Tatiana Evdokimova 
+WP/25/243 
+IMF Working Papers describe research in 
+progress by the author(s) and are published to 
+elicit comments and to encourage debate. 
+The views expressed in IMF Working Papers are 
+those of the author(s) and do not necessarily 
+represent the views of the IMF, its Executive Board, 
+or IMF management. 
+2025 
+NOV 
+© 2025 International Monetary Fund WP/25/243
+IMF Working Paper 
+Institute for Capacity Development 
+Elections Matter: Capital Flows and Political Cycles 
+Prepared by Maria Arakelyan and Tatiana Evdokimova*  
+Authorized for distribution by Natan Epstein 
+November 2025 
+IMF Working Papers describe research in progress by the author(s) and are published to elicit 
+comments and to encourage debate. The views expressed in IMF Working Papers are those of the 
+author(s) and do not necessarily represent the views of the IMF, its Executive Board, or IMF management. 
+ABSTRACT: This paper contributes to the relatively limited literature on the impact of political uncertainty on 
+international capital flows to emerging market economies. We incorporate elections as a proxy for political 
+uncertainty into a standard push-pull framework for analyzing capital flows. Using quarterly data for a panel of 
+38 emerging market economies from 1990 to 2020, we show that periods surrounding elections are associated 
+with a decline in gross private capital inflows. This adverse impact is larger and more persistent when 
+uncertainty extends beyond the election period, for example in the context of uncertain policy priorities following 
+incumbent’s loss. By contrast, higher levels of overall political stability appear to mitigate these adverse effects. 
+We also find evidence that stronger institutions, as reflected in indicators such as regulatory quality and rule of 
+law, help to mitigate the adverse effects of political uncertainty on capital flows. The results remain robust 
+across a range of alternative specifications, including controls for standard economic drivers of capital flows, 
+election characteristics, and model assumptions. 
+RECOMMENDED CITATION: Maria Arakelyan and Tatiana Evdokimova (2025). Capital Flows and Political 
+Cycles. IMF Working Paper 25/243. 
+JEL Classification Numbers: F41, F21, F32, F50, D72, C33 
+Keywords:  Capital flows; political cycles; uncertainty; emerging markets; push and pull factors  
+Author’s E-Mail Address: arakelyan.maria@outlook.com; tevdokimova@imf.org 
+*The authors thank Patrick A. Imam (IMF), Povilas Lastauskas (IMF), Yan Carriere-Swallow (IMF), José Federico Geli
+Manzano (IMF), Bertrand Candelon and paticipants of the ICD research seminar for their valuable comments.
+WORKING PAPERS 
+Elections Matter: Capital Flows 
+and Political Cycles 
+Prepared by Maria Arakelyan and Tatiana Evdokimova 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+INTERNATIONAL MONETARY FUND 2 
+Contents 
+1. Introduction ..................................................................................................................................................... 3
+2. Literature Review ............................................................................................................................................ 6
+2.1. Drivers of Capital Flows .............................................................................................................................. 6
+2.2. Political Uncertainty and Capital Flows ...................................................................................................... 7
+3. Data Sources ................................................................................................................................................... 8
+3.1. Capital Flows .............................................................................................................................................. 9
+3.2. Elections and Related Variables ............................................................................................................... 10
+3.3. Other Control Variables ............................................................................................................................ 12
+4. Stylized Facts ................................................................................................................................................ 13
+4.1. Evolution of Capital Flows ........................................................................................................................ 13
+4.2. Election Cycles ......................................................................................................................................... 15
+5. Empirical Analysis and Main Findings ........................................................................................................ 16
+5.1. Empirical Framework ................................................................................................................................ 16
+5.2. Empirical Findings .................................................................................................................................... 18
+5.2.1. Push–Pull Drivers and Election-Induced Political Uncertainty ........................................................... 18
+5.2.2. Pre- and Post-Election Political Landscape and Gross Capital Inflows ............................................. 24
+5.2.3. Quantifying the Impact of Political Uncertainty .................................................................................. 28
+5.2.4. The Role of Institutional Capacity ...................................................................................................... 29
+5.3. Robustness Checks .................................................................................................................................. 33
+6. Conclusions ................................................................................................................................................... 38
+Appendix ............................................................................................................................................................ 40
+References ......................................................................................................................................................... 42
+FIGURES 
+Figure 1: Dynamics of private capital inflows and outflows ......................................................................... 14
+Figure 2: Structure of private capital inflows ................................................................................................. 15
+Figure 3: Private capital inflows (% of trend GDP) and election cycles ...................................................... 16
+TABLES 
+Table 1: Election characteristics ..................................................................................................................... 15
+Table 2: Gross capital inflows and elections ................................................................................................. 19
+Table 3: Various types of capital flows and elections ................................................................................... 22
+Table 4: Gross capital inflows vs. pre-election political landscape ............................................................. 25
+Table 5: Gross capital inflows: the persistence of high-uncertainty election effects ................................ 27
+Table 6: Change in capital flows during the election quarter: countries in the lowest ICRG political 
+stability quartile ................................................................................................................................................. 29
+Table 7: Gross capital inflows and institutional characteristics (ICRG) ...................................................... 30
+Table 8: Gross capital inflows and institutional characteristics (WB Governance) ................................... 32
+Table 9: Gross capital inflows and alternative uncertainty measures ......................................................... 34
+Table 10: Gross capital inflows and indicators of democracy ..................................................................... 35
+Table 11: Gross capital inflows: Alternative model specifications .............................................................. 37
+Appendix A: Countries and data sources ....................................................................................................... 40
+Appendix B: Descriptive statistics .................................................................................................................. 41
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 3 
+ 
+1.Introduction 
+This paper investigates the relationship between international capital flows and political uncertainty in emerging 
+market economies. It is an aspect that has thus far received limited attention in the otherwise rich literature on 
+capital flows. Elections are prime examples of periods when heightened uncertainty may cloud the outlook, 
+making them a useful proxy for our analysis. Even absent any crises or major political overhauls, elections 
+periodically open the possibility of ex-ante unknown changes in the economic, institutional, and regulatory 
+environment.  
+Capital flows are likely to be affected in several ways by the uncertainty that the political cycles entail. Elections 
+are typically associated with uncertainty about potential policy changes, such as shifts in tax or regulatory 
+policy.1 It is not only the eventual policy changes that matter, but also the uncertainty surrounding possible 
+changes, regardless of whether they ultimately materialize, that can influence investor behavior (see, e.g., Ahir 
+et al. (2022)). This uncertainty could lead the investors to, at least temporarily, retreat from or reduce their 
+exposure to the local markets before, during as well as immediately after the votes are cast (see for example 
+Julio and Yook (2016)). Thus, as foreign investors react to the ebb and flow of political news, this could lead to 
+excessive volatility of capital flows to emerging markets and potentially exacerbate their underlying economic 
+vulnerabilities. 
+It is important to note, however, that our choice of elections as a proxy for political uncertainty can raise 
+endogeneity concerns, especially when elections occur outside constitutionally fixed schedules. We address 
+these concerns in several ways, such as focusing on exogenously timed elections subsample to show that the 
+results persist, employing instrumental variable techniques to test for exogeneity, performing Granger causality 
+tests between election timing and capital flows, as well as demonstrating robustness to alternative variable 
+definitions, model specifications, and institutional regimes and characteristics. 
+Using a standard fixed-effects model, we provide new empirical evidence on the relationship between political 
+uncertainty and international capital flows for 38 emerging market economies across all regions,2 extending the 
+classic push-pull framework to explicitly account for political uncertainty. Our analysis primarily concentrates on 
+gross private capital inflows, given that net flows can obscure high volatility in residents’ and nonresidents’ 
+operations.3 The perceived political uncertainty is also likely larger for foreign investors relative to domestic 
+ones, implying stronger effect on inflows. However, we also test our hypothesis for capital outflows and net 
+flows, and further investigate the impact of political uncertainty on various types of gross capital inflows, as 
+these are likely to exhibit different sensitivities to uncertainty given their varying degrees of irreversibility. Our 
+    
+1 We use the terms “political cycle” and “election cycle” interchangeably. While elections are our proxy for political uncertainty, the 
+latter can vary across election episodes depending on political context and institutions.  
+2 The full list of countries included in the analysis can be found in Appendix A. 
+3 See Forbes and Warnock (2012). 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+INTERNATIONAL MONETARY FUND 4 
+quarterly dataset spans the period from 1990 to 2020, with more recent years excluded due to significant lags 
+in the updating of political variable databases. 
+The results of our analysis indicate that gross private capital inflows into emerging markets subside during 
+election cycles, with the most pronounced effects occurring in the election quarter and extending through the 
+two post-election quarters. Our findings can be summarized as follows. First, the evidence on push and pull 
+factors, such as global risk aversion, global liquidity conditions, growth and interest rate differentials, and 
+domestic financial market development, aligns well with the existing empirical literature. Second, elections and 
+the uncertainty they generate have a dampening effect on capital flows. Third, this negative impact of political 
+uncertainty is also broadly confirmed across different types of capital flows, although the impact is not uniform. 
+Foreign direct investments and cross-border lending, appear to be more affected by political uncertainty 
+compared to portfolio flows.  
+Fourth, the degree of uncertainty around elections differs both within country over time and across countries. 
+We explore various factors that may amplify or mitigate the uncertainty surrounding elections, such as 
+government’s legislative strength, robustness of checks and balances, levels of polarization or availability of 
+reliable polls that favor the incumbent. We find only tentative evidence that higher uncertainty, proxied by these 
+indicators, is associated with larger declines in capital inflows.  
+Fifth, our findings indicate that the most persistent adverse effects of elections, extending through the two post-
+election quarters, arise when political uncertainty lingers beyond the elections. In particular, these would be the 
+cases when the election was marred by violence, when the incumbent lost and the new policy direction remains 
+unclear, or when elections were held outside of the regular schedule, which in our sample often coincided with 
+political instability or crises.  
+Sixth, the impact of election-related uncertainty depends on overall political stability: higher stability mitigates 
+adverse effects. The magnitude of election-related negative impact for countries in the lowest quartile of 
+political stability, as measured by the International Country Risk Guide (ICRG) political stability index, averages 
+-1.25% of trend GDP in the election quarter. This corresponds to a substantial 28% decline in gross capital
+inflows relative to their level in the pre-election quarter. In contrast, countries with an ICRG score above the 
+sample average do not experience statistically significant decline in capital inflows around the time of elections. 
+Finally, having established the significant role of political stability in shaping investor behavior across various 
+specifications, we turn to a more granular exploration of its underlying factors and their capacity to mitigate 
+election-related uncertainty. In sum, our findings imply that many institutional country characteristics, such as 
+control of corruption, rule of law, government effectiveness and regulatory quality, matter for investment, and 
+their importance is amplified during periods of political uncertainty, such as elections. This reinforces the idea 
+that institutional quality not only shapes long-term investment prospects but can also serve as an anchor of 
+stability amid election-triggered volatility. 
+We confirm the robustness of our findings by testing alternative fixed effects specifications, controlling for 
+countries’ level of democratic development, accounting for the timing of U.S. elections as a source of external 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 5 
+ 
+political uncertainty, and addressing periods of extreme market stress during the global financial crisis and the 
+COVID-19 pandemic. We also use alternative indicators of political uncertainty, namely World Uncertainty 
+Index and Economic Policy Uncertainty constructed based on EIU country reports and newspaper articles 
+respectively. Significance of election-related uncertainty is robust to these various specifications.  
+We proceed as follows to analyze the relationship between political uncertainty proxied by election cycles and 
+capital flows. First, we provide a short literature review on the common drivers of capital flows as well as the 
+impact of political uncertainty on macrofinancial outcomes. Second, we present the data used in the analysis 
+and highlight some key stylized facts to further motivate our approach. Third, we outline the empirical 
+methodology, discuss the main findings and present robustness checks to validate our analysis. Finally, we 
+summarize the main conclusions.  
+  
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 6 
+ 
+2.Literature Review  
+Despite the large body of literature on international capital flows, relatively little research has been conducted to 
+assess the impact of domestic political uncertainty on international capital flows. To frame our analysis, we 
+begin by reviewing the literature on the drivers of capital flows, before turning to the role of political uncertainty. 
+2.1. Drivers of Capital Flows 
+A vast body of literature examines the driving forces behind the movement of international capital, given their 
+potential to affect a broad range of macrofinancial issues at both national and global levels. Koepke (2019) and 
+Guichard (2017) provide an extensive survey of the literature on the drivers of capital flows.  
+Starting with the seminal works by Calvo et al. (1993, 1996) drivers of capital flows are most commonly 
+analyzed within the so-called push-pull framework. 
+• Pull factors: These refer to domestic factors, over which policymakers typically exercise a large 
+amount of discretion. These factors can be further categorized into macroeconomic and financial 
+drivers. Pull factors include real economic activity, domestic interest rates and inflation. They also 
+capture more structural factors such as: a) the overall level of development, often proxied by per capita 
+GDP; b) financial development, typically measured by the depth of the domestic financial market; and 
+c) the regulatory environment. Overall, pull factors can inform potential investors about 
+macroeconomic conditions in an economy and can shape their assessment of risk-reward trade-off. 
+Consequently, faster-growing economies with liquid financial markets and developed institutions tend 
+to be more attractive for potential investors.  
+• Push factors: These can also be referred to as global or external factors which, as opposed to pull 
+factors, are exogenous and cannot be controlled by individual countries. Such factors primarily refer to 
+global risk aversion, the monetary policy stance in the large, advanced economies (particularly in the 
+United States) as well as global growth conditions (Sahay et al. (2014)). 
+There have been further refinements to this baseline framework. Often, instead of examining domestic growth 
+or interest rate levels in isolation, studies control for the differentials in growth and interest rates between the 
+domestic economy and a global benchmark (Ahmed and Zlate (2014)). Furthermore, while separating the 
+effects of push and pull factors has long become mainstream in the capital flows literature, papers often also 
+separate the structural pull factors from the cyclical ones and put them into a separate third group. Others also 
+emphasize the importance of contagion effects, which originate from developments in a group of 
+interconnected countries– whether through financial, trade or geographic ties, or due to similar macroeconomic 
+vulnerabilities – and are typically beyond the control of any single economy.  
+The empirical literature concludes that both push and pull factors are important drivers of capital flows, but their 
+relative significance varies across different types of capital flows (Cerutti et al. (2019); Hannan (2017)). Push 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 7 
+ 
+factors appear to play a role across all types of flows (foreign direct investments, portfolio or other flows) but 
+are particularly important for portfolio flows, followed by banking flows (Bruno and Shin (2015)). At the same 
+time, pull factors tend to influence all types of capital flows, while having the greatest impact on banking flows. 
+For instance, studying high-frequency portfolio flows, Fratzscher (2012) concludes that common shocks have a 
+significant impact on capital flows, while the cross-country heterogeneity in response to these shocks is driven 
+by country-specific factors. Finally, countries with more sound fundamentals and a strong institutional 
+environment appear to be more resilient to adverse global conditions (IRC Task Force on IMF Issues 2016). 
+2.2. Political Uncertainty and Capital Flows 
+There is relatively limited literature examining the impact of political uncertainty on international capital flows. 
+Measuring uncertainty is inherently challenging, particularly in a consistent manner across countries and over 
+time. Uncertainty is a broad and abstract concept, capturing the expectations and perceptions of consumers, 
+investors, and policymakers about future events that may or may not occur (Ahir et al. (2022)). It can arise from 
+a variety of sources, including political developments, economic shocks, geopolitical tensions, or environmental 
+disruptions. Given this diversity, it is not surprising that the literature has employed a range of approaches to 
+measure uncertainty, including measures derived from the volatility of key economic and financial variables, 
+text-based methods, and business surveys. 
+In this paper, we focus specifically on political uncertainty and use elections as a proxy for measuring it. This 
+approach builds on well-established literature that leverages the timing of elections as a source of variation in 
+political uncertainty (Canes-Wrone and Park (2012); Julio and Yook (2016)). National elections are highly 
+relevant for investors in general, and international investors in particular, as they often signal potential shifts in 
+regulatory frameworks, economic policy (such as taxation or trade), and, in more extreme cases, the risk of 
+expropriation or nationalization (Julio and Yook (2012)). Baker et al. (2020) show that uncertainty rises in the 
+months before elections and more so when races are too close to call or are highly polarized. Bialkowski, 
+Gottschalk, and Wisniewski (2008) and Boutchkova et al. (2011) find that stock market volatility is significantly 
+higher than normal during the election period. 
+In addition to empirical literature, theoretical work also supports the use of elections as a proxy for political 
+uncertainty. Bernanke (1983), in the context of firms’ capital investment under uncertainty, a framework equally 
+applicable to investors’ capital allocation, argues that uncertainty about the long-term implications of events can 
+lead to delayed investment decisions, as economic agents place value on waiting for additional information. 
+Thus, elections offer a quasi-natural experimental setting to study the effects of political uncertainty, helping to 
+isolate its impact from broader macroeconomic dynamics. Because the timing of elections is typically 
+predetermined by constitutional rules and not influenced by specific investors or the prevailing economic 
+environment, they serve as plausibly exogenous events that recur in regular political cycles across countries 
+and over time (Çolak et al. (2017); Durnev (2010)). We discuss potential endogeneity concerns surrounding 
+elections, and how we address them, in the empirical analysis section. 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 8 
+ 
+In recent years there have been a few empirical studies with similar thematic approaches to this paper. 
+However, their focus is limited to specific types of capital flows, selected countries, or constrained time periods. 
+Julio and Yook (2012) show that foreign direct investments by US firms in their foreign affiliates drop 
+significantly just before an election but recover afterwards as the uncertainty dissipates. This effect is more 
+pronounced when the election is competitive, while a higher institutional quality in the FDI destination country 
+helps to dampen the adverse impact of the elections.  
+Similarly, Frot and Santiso (2010) assess the impact of elections in emerging markets on monthly portfolio 
+flows of investment funds over the period of 2004-2009. Their results indicate that equity flows are negatively 
+affected after the election, but only when the incumbent loses. For bond flows, they find a negative effect when 
+there is a shift in the ideological orientation of the government. The time period used for the analysis, however, 
+is rather short and may not even cover two political cycles per country. 
+Building on this work, Julio and Yook (2016), Chen et al. (2019) and Honig (2020) confirm similar findings at a 
+global scale. Analyzing data from 126 countries between 1996 and 2015, Chen et al. (2019) finds that the 
+negative impact of elections on FDI is particularly pronounced in less democratic countries, highlighting the role 
+of policy environment and institution in economic development. Honig (2020) distinguishes between advanced 
+and emerging economies. The paper finds that while elections have little impact on capital flows in advanced 
+economies, they significantly reduce pre-election FDI inflows in emerging and developing countries. It finds no 
+evidence that elections affect other types of capital flows in these economies. 
+The contribution of this paper to the literature is as follows. First, we provide some recent evidence on the 
+classic push and pull factors driving capital inflows. Second, we contribute to the relatively limited literature on 
+political uncertainty proxied by elections and its impact on different types of international capital flows, offering 
+a more comprehensive approach within the classic push-pull framework. Third, we examine how various 
+election characteristics shape political uncertainty and its effects on capital flows both in terms of size and 
+persistence of impact. Finally, we analyze the role of institutions and political stability as mitigating factors that 
+can cushion the adverse effects of political uncertainty on capital flows. 
+3.Data Sources 
+In this section we discuss the data used in the analysis. We start by describing the variables on capital flows, 
+followed by an overview of the dataset on elections. The last subsection summarizes other control variables 
+used in the analysis.  
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 9 
+ 
+3.1. Capital Flows 
+We compile a quarterly dataset on international capital flows for 38 emerging market economies across various 
+regions, covering the period from 1990 to 2020.4 We primarily draw on the IMF’s Balance of Payments 
+Statistics database (BOPS) for the data.5 Nevertheless, the starting dates and availability of the data on capital 
+flows across countries and types of flows differ, resulting in an unbalanced panel. The data are all in US dollar 
+terms. All the flows are standardized using annual trend GDP (see, e.g., Eichengreen et al. (2018)).6  
+Capital flows, by definition, represent the exchange of financial assets and liabilities between residents and 
+non-residents of an economy. A positive change implies an increase in a country’s assets or a decrease in 
+liabilities (both capital outflows). Correspondingly, a negative change indicates a decline in residents’ foreign 
+assets or an increase in liabilities to nonresidents – both capital inflows (see (IMF 2009)). We define net flows 
+as the difference between capital inflows and outflows, where a positive net flow is a sign of more money 
+flowing into the country than leaving it.7  
+Our analysis covers overall flows that are comprised of foreign direct investment, portfolio investment, and 
+other investment flows. We also distinguish between two types of financial instruments used – debt flows vs. 
+non-debt flows – as they are likely to differ in terms of their economic drivers and dynamics. This distinction is 
+also important for the receiving country from a financial stability point of view. Debt flows include portfolio debt 
+instruments and other investments and are more susceptible to bouts of volatility given the higher liquidity of 
+the relevant financial markets. Flows into portfolio equity investments and FDI are included in the non-debt 
+flows category.  
+The final data adjustment involves separating official flows, those from or to monetary authorities and general 
+government, from non-official, or private, capital flows (see, e.g., Bluedorn et al. (2013)). This is facilitated by 
+the granular data reported in the other investment flows category that distinguishes between the two sectors. 
+On the inflows side, we separate the liabilities of the central banks and general governments to non-residents 
+as well as the special-drawing rights allocations from gross other investment inflows (liabilities).8 On the 
+outflows side, we similarly isolate financial assets acquired by the central banks and general governments. 9 
+    
+4 The choice of countries and the end point of the analysis are constrained by data availability. China, an important recipient of 
+capital flows among emerging market economies, is not part of the sample used in the analysis due to the lack of data on elections 
+dates in DPI and NELDA databases used for constructing election dummies across countries.  
+5 The data is compiled in accordance with the sixth edition of the Balance of Payments and International Investment Position 
+Manual. 
+6 We apply HP filter to quarterly GDP estimates obtained based on the IMF’s annual GDP numbers from the World Economic 
+Outlook database. This approach provides the broadest possible country coverage. To alleviate the negative impact of the end-point 
+bias we include GDP data for another two years after the endpoint of our analysis. We also use actual quarterly GDP in USD 
+obtained from Haver to conduct some of the robustness checks. 
+7 Please note that this differs from the BPM6 manual definition of net flows, where it is defined as the difference between assets and 
+liabilities instead. 
+8 The subtracted categories are respectively identified by the following codes in accordance with the BPM6 Manual:  
+BFOLOCBFR_BP6_USD, BFOLOGFR_BP6_USD, BFOLSDRFR_BP6_USD.  
+9 These are coded as follows: BFOADCB_BP6_USD BFOADG_BP6_USD. 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 10 
+ 
+Thus, subtracting the official other inflows (outflows) from gross inflows (outflows) results in our definition of 
+gross private capital inflows (outflows).   
+This distinction between official and non-official flows is an important step for the analysis, as the underlying 
+motivations and drivers behind these two types of flows can differ significantly and, at times, may even exhibit 
+opposing dynamics. For instance, official lenders may be called upon to avert a financial crisis by offsetting 
+private capital outflows. However, that would potentially negate the adverse impact of uncertainty that we try to 
+evaluate in our analysis. Hence, we primarily concentrate on gross private capital inflows. 
+3.2. Elections and Related Variables 
+To obtain the data on election cycles, we primarily rely on the Database of Political Institutions (DPI2020), 
+which provides historical data on the exact timing of elections, including both the year and month they were 
+held (see Cruz et al. (2016)). Based on this information we construct our quarterly election dummy. The dummy 
+takes on a value of 1 whenever an election was held any time during a given quarter and 0 otherwise. For 
+countries with parliamentary systems, we use information on legislative elections, while for countries with 
+presidential systems, we use executive body elections. The type of election used is determined by the country’s 
+political system in each specific quarter. Thus, for countries that transition between systems, the election 
+dummy reflects the election type—legislative or presidential—that is relevant in that quarter. We complement 
+this data with information from the National Elections Across Democracy and Autocracy Dataset Codebook 
+(NELDA, version 6.0)10 compiled by Hyde and Marinov (2012). To analyze the dynamics around election dates, 
+we construct dummy variables for the one to two quarters and three to four quarters before and after an 
+election. These dummy variables take the value of one if the quarter falls within the specified window relative to 
+the election date, and zero otherwise. 
+In addition to data on election timing, we collect a number of other indicators from these databases that 
+characterize the political environment and the level of uncertainty during the political cycle. We use the 
+following indicators to assess whether capital flows behave differently around the time of elections when 
+uncertainty is higher. 
+• “Margin of majority” from the DPI database (MAJ) measures the government’s seat share, 
+calculated as the total number of seats held by all government parties divided by the total number of 
+seats in the legislature. We interpret this indicator as a proxy for political stability, as a larger majority 
+could reduce the likelihood of coalition breakdown. Moreover, stronger parliamentary support could 
+increase the likelihood of smooth policy implementation, with less resistance at the legislative stage.   
+    
+10 Both DPI and NELDA are widely used in political economy research and offer a broad coverage of over 160 countries. While their 
+focus differs slightly, they are complementary in scope. DPI specializes in electoral systems and rules, along with detailed 
+information on legislative and executive institutions. In contrast, NELDA covers election characteristics, outcomes and 
+competitiveness. While DPI data is reported at annual frequency, NELDA is an event-based dataset providing detailed information 
+on specific elections.  
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 11 
+ 
+• Stability indicator from the DPI database (STABS) reflects the percent of veto players who drop 
+from the government in any given year. In presidential systems, veto players include the president and 
+legislative chambers; in parliamentary systems, they comprise the prime minister, governing coalition 
+members, and major opposition parties. This indicator, that varies from 0 to 1, reflects the degree of 
+political turnover, with higher values indicating greater turnover and, consequently, higher political 
+uncertainty. 
+• Polarization indicator from the DPI database (POLARIZ) quantifies the difference in political 
+orientation between the largest government parties and the opposition party, with higher values 
+corresponding to larger ideological differences. Party orientation varies from 1 for right-wing parties to 
+3 for left-wing, with POLARIZ therefore fluctuating between 0 and 2. Countries with higher polarization 
+can face less predictable policy trajectory. 
+• Favorable polls indicator based on NELDA database reflects the availability of reliable polls that 
+indicated the popularity of the ruling political party or of the candidates for office before elections. We 
+construct a binary indicator that equals to 1 if reliable pre-election polls were available (nelda25=1) and 
+they favored the incumbent (nelda26=1). It equals to 0 if reliable polls were unfavorable or sufficiently 
+mixed to leave the incumbent’s popularity uncertain. The variable is coded as missing when reliable 
+polling data are unavailable.  
+• Violence variable is based on the NELDA database. We use a dummy that equals to 1 if there was 
+significant violence involving civilian deaths immediately before, during, or after the election (nelda33) 
+and equals to 0 otherwise. Such violence, occurring in close proximity to elections, is likely to generate 
+heightened uncertainty and political instability. 
+• Elections timing dummy variables flag whether elections were held according to their predetermined 
+legislative schedule or were rescheduled (either advanced or delayed) – due to other factors (nelda6). 
+Changes to election timing can generate concerns about the validity of using elections as an 
+exogenous source of political uncertainty.  
+• Dummy variable on elections results takes a value of 1 when the incumbent lost and 0 otherwise. It 
+is defined utilizing indicators in the DPI database that show the number of years that the chief 
+executive or the party of the chief executive has been in office (coded as YRSOFFC and PRTYIN in 
+DPI2020). A change in political leadership often introduces greater uncertainty regarding post-election 
+policies and their potential economic impact. 
+As part of the robustness checks, we also incorporate proxies of countries’ democratic development as another 
+control variable. To this end we use the Polity V database maintained by the Center for Systemic Peace along 
+with measures of electoral competition from the DPI dataset.   
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 12 
+ 
+3.3. Other Control Variables 
+Following the literature on the drivers of capital flows, we used the following push and pull factors as control 
+variables in our analysis. 
+Push factors: 
+• As a proxy for global risk aversion, we use the log of the quarterly average of the S&P 500 market 
+volatility index (VIX) calculated by the Chicago Board Options Exchange. This variable is intended to 
+capture the adverse impact of higher risk aversion on capital inflows to emerging market economies. 
+• Global liquidity conditions are proxied by a composite measure of money supply in major economies. 
+We calculated it as the quarterly growth of the aggregate money supply (expressed in USD) in the 
+United States, the euro area, and Japan as well as the United Kingdom (similar to Forbes and 
+Warnock (2012)). We expect higher liquidity levels to be supportive of capital flows, reflecting search 
+for yield. 
+The data on all the push factors is taken from Haver. 
+Push-pull factors: 
+We include countries’ interest rates and GDP growth rates differentials that capture the relative attractiveness 
+of a country for international investors.  
+• Interest rate differentials are measured as a deviation of domestic interest rate from a proxy for risk-
+free interest rate. Domestic interest rates come from the IMF’s International Financial Statistics (IFS) 
+database and are enhanced using data from Haver, Bank for International Settlements (BIS) and 
+CEIC. We focus on monetary policy rates since it is harder to ensure comparability of money market 
+rates collected from different data sources. We use US Fed funds rate as a proxy for the monetary 
+policy stance in advanced economies as the Fed’s policy often functions as an important driver of 
+international capital flows and global financial cycles. We use the shadow federal funds rate estimated 
+by Wu and Xia (2016), in order to take into account the unconventional monetary policy measures 
+undertaken by the Federal Reserve in the aftermath of the Global Financial Crisis and in response to 
+Covid-19. We focus on interest rate differentials in real terms since they represent a better measure of 
+the actual return on investment that drives capital flows. The data on quarterly year-over-year CPI 
+used to transform nominal interest rates into real comes from the IMF’s IFS and CEIC.  
+• Growth rate differentials show the difference between quarterly year-over-year real GDP growth in the 
+analyzed economies and growth in the advanced world. The latter is proxied as average real GDP 
+growth in the United States, the Euro Area, Japan and the United Kingdom. This data is also obtained 
+from Haver. 
+Pull factors: 
+• The International Country Risk Guide (ICRG, the PRS Group) political risk indicator is used to capture 
+political stability of the countries in the dataset. It is calculated as the weighted average of 12 variables 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 13 
+ 
+covering both political and social attributes, such as government stability, internal and external conflict, 
+law and order etc. The index ranges between 0 and 100 with higher values indicating a lower level of 
+political risk. Ceteris-paribus, this should entice investors, as it signals a safer and more stable 
+environment for investment.  
+• Capital account openness is measured by the Chinn-Ito index (Chinn and Ito (2006)) with higher 
+values of the index implying a more open capital account. The index is based on the IMF's Annual 
+Report on Exchange Arrangements and Exchange Restrictions. It can be expected that a more open 
+capital account is associated with higher average capital flows. 
+• The Financial Market Development Index published by the IMF is used to capture the financial 
+development of the countries analyzed. The index summarizes how developed financial markets of a 
+country are in terms of their depth, access, and efficiency. It is a subcomponent of a broader Financial 
+Development Index that also measures the development of financial institutions. Financial 
+development should be a structurally supportive factor of capital inflows as it improves investors’ ability 
+to access financial services, reduces transaction costs and increases investment opportunities. 
+• The World Uncertainty Index (WUI) and Economic Policy Uncertainty Index (EPU), used in the 
+robustness section, serve as alternative measures of uncertainty. The WUI is country-specific and 
+captures the frequency of the word "uncertainty" (and its variants) in Economist Intelligence Unit (EIU) 
+country reports, offering a broader perspective than market-based global uncertainty indices such as 
+the VIX. The EPU index captures the share of newspaper articles that simultaneously reference terms 
+related to the economy, policy, and uncertainty. Higher index values indicate greater uncertainty. 
+Capital inflows are expected to be lower in countries exhibiting higher levels of uncertainty. 
+4.Stylized Facts 
+This section begins by describing the dynamics of capital flows over the period covered by our analysis. It then 
+presents key stylized facts related to the election variables. The section concludes with some preliminary 
+observations on how capital flows evolve over the course of election cycles. 
+4.1. Evolution of Capital Flows  
+Capital inflows into the 38 emerging market economies covered in the analysis have reached their peak right 
+before the global financial crisis at a level of over 10% of their trend quarterly GDP (Appendix B provides some 
+basic descriptive statistics). Figure 1 also illustrates the well-documented pattern that capital inflows into 
+emerging market economies materially exceed capital outflows. This implies that, on aggregate, emerging 
+countries depend on sustained and large capital inflows from foreign investors. However, the gap between 
+inflows and outflows has gradually narrowed, as inflows have not returned to their pre-GFC levels during the 
+analyzed period, while outflows have increased on average from below 1% of trend quarterly GDP in the 1990s 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 14 
+ 
+Figure 1: Dynamics of private capital inflows and outflows 
+(Median private flows in % of trend GDP)
+ 
+Sources: IMF BOPS and WEO, authors’ calculations 
+to over 3% in the most recent decade. This largely reflects the rise of institutional investors in emerging 
+markets and a gradual capital account liberalization. Since the economic importance of the inflows is still much 
+higher than that of the outflows, we make them the focus of this empirical analysis. 
+Figure 2 depicts the structure of private capital inflows by different types of investment instruments. On 
+average, foreign direct investments (FDI) constitute the largest share of capital inflows to emerging market 
+economies, standing at a stable 2 percent of the group’s aggregate GDP over the last 25 years, even during 
+Covid-19. These are followed by portfolio flows and other types of flows which largely consist of banking sector 
+flows and cross-border lending to the private sector. Importantly, the figure illustrates the massive buildup of 
+the banking sector flows in the run-up to the global financial crisis. In 2007, these flows accounted for close to 
+half of the total flows but subsequently collapsed as global liquidity conditions tightened. This has been 
+primarily driven by the reversal of short-term oriented bank lending inflows. Portfolio flows in the last 5 years 
+observed on the graph were relatively modest, likely reacting to monetary policy normalization in advanced 
+economies, trade wars and fragmentation of the global economy. This highlights how different types of capital 
+flows can exhibit materially different dynamics given their different legal or economic background as well as the 
+different types of investors that stand behind them. 
+ 
+ 
+ 
+ 
+
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 15 
+ 
+Figure 2: Structure of private capital inflows 
+(% of trend GDP) 
+ 
+Note: Private capital inflows relative to total annual GDP for all countries in the analysis. 
+Sources: IMF BOPS and WEO, authors’ calculations 
+ 
+4.2. Election Cycles 
+Overall, there were 261 elections held in the 38 countries included in the analysis over the observed period of 
+1990Q1 to 2020Q4. In more than half of these elections (152), the incumbent lost in the elections. The average 
+duration of the election cycle, the distance between two consecutive elections was close to 4 years (see Table 
+1 below).  
+Table 1: Election characteristics 
+ 
+    Sources: DPI, NELDA, authors’ calculations 
+ 
+
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 16 
+ 
+Figure 3 plots the average inflows across all countries in our dataset in the 8 quarters immediately before and 
+after the elections. What clearly stands out is that the average inflows decline strongly in the quarter 
+immediately after the election and that the inflows do not immediately fully recover to their pre-election 
+averages. This suggests that capital flow dynamics are more likely to be affected in the post-election period, 
+especially when outcomes are unexpected or do not reduce uncertainty. We look closer at such cases, which 
+can temporarily dampen investor activity, in Section 5.2.2.  
+Figure 3: Private capital inflows (% of trend GDP) and election cycles 
+(Average, 8 quarters pre- and post-elections) 
+ 
+Sources: IMF BOPS and WEO, DPI, authors’ calculations 
+5.Empirical Analysis and Main Findings 
+This section begins by outlining the empirical framework of the analysis, followed by a presentation of the main 
+findings and a summary of robustness checks conducted to assess the validity of the results.  
+5.1. Empirical Framework 
+As discussed in the previous sections, we adopt the standard push-pull framework to analyze the determinants 
+of capital flows into emerging market economies. Building on this, we study the relationship between political 
+uncertainty, proxied by election cycles and their various characteristics, and the dynamics of capital flows. We 
+allow for different intercepts for countries as well as differing time trends across countries (see, e.g., Araujo et 
+al. (2017)).11 We normalize capital flow measures by trend GDP for each country to prevent any single country 
+    
+11 We conducted a Hausman test to compare fixed and random effects specifications, and the results support the use of a fixed 
+effects model as the more appropriate framework for our analysis.  
+
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 17 
+ 
+from disproportionally influencing the results. The reduced-form panel-data regression can be described as 
+follows:  
+𝐹𝑙𝑜𝑤𝑖𝑡 = 𝛼𝑖 + 𝛽1 𝐸𝑥𝑡𝑡+𝛽2𝐷𝑖𝑓𝑓𝑖𝑡−1 + 𝛽3𝐷𝑜𝑚𝑖𝑡−1 + 𝛽4 𝐸𝑙𝑒𝑐𝑖𝑡 + 𝜙𝑖𝑡 + 𝜀𝑖𝑡  
+where 𝑖 indicates a country at time 𝑡 
+𝐹𝑙𝑜𝑤𝑖𝑡 - is the measure of capital flows (e.g., total or by a specific type) relative to trend GDP 
+𝛼𝑖  - contains country fixed effects 
+𝐸𝑥𝑡𝑡 - includes global push variables: log of VIX and money supply growth 
+𝐷𝑖𝑓𝑓𝑖𝑡−1- includes lags of growth and real interest rates differentials 
+𝐷𝑜𝑚𝑖𝑡−1- includes lagged12 domestic factors: financial market development index, Chinn-Ito capital account 
+openness index.  
+𝐸𝑙𝑒𝑐𝑖𝑡 - contains variables related to election cycles and political risk (including interaction terms). The specific 
+controls may vary depending on the model specification.  
+𝜙𝑖𝑡 - controls for the country specific time trends.  
+𝜀𝑖𝑡  - contains the error terms for country 𝑖 at time 𝑡  
+We estimate the model using a standard panel regression with country fixed effects and correct the standard 
+errors for potential serial correlation and cross-sectional dependence. Given the nature of the factors 
+influencing capital flows, contagion effects and common unobserved factors are likely to play a role, increasing 
+the risk of spatial correlation in the standard errors ((cov(𝜀𝑖𝑡 , 𝜀𝑗𝑡 ) ≠ 0). This would violate the conventional 
+assumption of cross-sectional independence and lead to inappropriate inference. To test this hypothesis, we 
+first estimate a standard fixed effects model and use the estimated errors to conduct a cross-sectional 
+dependence test proposed by Pesaran (Pesaran (2021)). The results confirm the initial guess of cross-
+sectional dependence of standard errors. Thus, we rely on Driscoll-Kraay correction of standard errors13 to 
+address this issue (Driscoll and Kraay (1998)). 
+ 
+ 
+    
+12 The variables are lagged by one year if they are available only at annual frequency and by one quarter otherwise. 
+13 The procedure was implemented using a module developed in Hoechle (2007). 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 18 
+ 
+5.2. Empirical Findings  
+ 
+In this subsection we proceed as follows. First, we present empirical results on the drivers of gross capital 
+inflows, with a focus on the role of political uncertainty. In this context we also disaggregate the capital inflows 
+by type and examine the drivers of capital outflows and net capital flows. Second, we examine additional 
+election characteristics that may influence the level of uncertainty surrounding elections. Finally, we analyze the 
+various dimensions of political stability and the institutional environment to assess their role in shaping election-
+related uncertainty.  
+5.2.1. Push–Pull Drivers and Election-Induced Political Uncertainty  
+ 
+We begin by analyzing the relationship between election cycles and gross private capital inflows standardized 
+by trend GDP (see Table 2).14 We focus on gross inflows, as net capital inflows can often mask the high 
+volatility of transactions by residents and nonresidents. Moreover, domestic political uncertainty is likely to have 
+distinct effects on capital inflows and outflows. The focus on private capital flows stems from the fact that 
+official flows are likely driven by different underlying motivations. Column (1) presents a specification that 
+follows the standard push-pull approach in the literature. We then introduce election dummy variables and 
+subsequently include an interaction term between elections and the level of political stability (ICRG) in columns 
+(2) through (5).  
+In line with findings in the literature, our results suggest that both push and pull factors matter in driving gross 
+capital inflows into emerging market economies. Regarding global push factors (𝐸𝑥𝑡𝑡), our findings confirm that 
+increased global risk aversion, proxied by a rise in the VIX index, can significantly hinder private gross capital 
+inflows to emerging market economies (see, e.g., Ahmed and Zlate (2014)). To the contrary, loosening of 
+global liquidity conditions is associated with pushing capital to emerging countries. 
+Higher interest rate differentials (real domestic rate – real risk-free rate) should, in principle, lead to more 
+capital inflows into emerging market economies, as the latter offer more attractive rates of return, all else being 
+equal. We find no evidence of a statistically significant impact of real interest rate differentials on gross private 
+capital inflows. The empirical findings in the literature are also rather inconclusive regarding the role of this 
+factor in driving capital flows (IMF (2016)). In contrast, stronger domestic growth relative to advanced 
+economies appears to be a robust driver of capital inflows into the countries included in the analysis. This result 
+is also in line with the empirical findings in the literature. 
+Regarding the structural characteristics of the countries (𝐷𝑜𝑚𝑖𝑡), our results support the view that economies 
+with more developed financial markets, proxied by the IMF’s Financial Market Development Index, tend to 
+    
+14 Despite the statistical significance of the explanatory variables and inclusion of fixed effects the largest part of the variation in 
+capital flows remains unexplained as indicated by the low R2. This feature, however, is typical for all research done on capital flows 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 19 
+ 
+attract more capital inflows. However, the degree of the capital account openness, proxied by Chinn-Ito index, 
+does not seem to be a statistically significant driver of gross capital inflows into emerging markets. Lastly, the 
+highly positive and significant coefficient on the political stability indicator (ICRG) implies that countries with 
+lower political risk attract more capital.15 The results from the first regression specification, presented in column 
+(1) of Table 2, align well with economic theory and empirical findings in the literature. 
+ 
+Table 2: Gross capital inflows and elections 
+ 
+Note: Driscoll-Kraay standard errors in parentheses. *** p<0.01, ** p<0.05, * p<0.1. 
+Differentials and domestic (except for political) variables enter the regressions with a lag. 
+Source: Authors’ estimations 
+ 
+We then introduce election dummy variables in the specifications reported in columns (2) - (5) of Table 2 to test 
+whether political uncertainty around the time of election may deter foreign investments into the country. It is 
+    
+15 The political stability index (0-100) is designed in a way that higher levels of the indicator are consistent with lower levels of 
+political risk. 
+
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 20 
+ 
+important to note that election timing itself is not a direct measure of uncertainty. We therefore complement it 
+with different variables reflecting political context around elections (notably, election outcome and political 
+stability characteristics) in Section 5.2.2. This approach allows us to examine the behavior of capital flows 
+under varying degrees of political uncertainty and policy unpredictability.  
+As shown in column (2), the level of capital inflows is not significantly associated with the standalone election- 
+quarter dummy. In column (3), we extend the previous specification by including controls for the periods of up 
+to four quarters before and after the election quarter. The results suggest a significant downward adjustment in 
+capital inflows one to two quarters after the election, in line with the finding in the section on stylized facts. The 
+election quarter itself remains statistically not significant in this extended specification.  
+Next, to investigate how the impact of elections on capital flows varies with political stability, we interact the 
+election quarter dummy with the ICRG political stability index (column (4)). The inclusion of the interaction term 
+allows us to test whether the effect of elections on capital flows is conditional on the prevailing level of political 
+stability as captured by the ICRG index. Interestingly, when estimated jointly, the election-quarter dummy, the 
+political stability index, and their interaction all become statistically significant. This implies that elections on 
+average are indeed associated with a negative effect on the inflow of capital in the quarter in which they occur. 
+Political stability independently influences capital flows, however, the negative election-related effect is 
+mitigated in a more stable political environment, as indicated by the positive and significant coefficient on the 
+interaction term.  
+Finally, in addition to the interaction between the election indicator and political stability, the specification in 
+column (5) of Table 2 controls for the election cycle, including four pre- and four post-election quarters. The 
+finding of adverse capital inflow dynamics in the first two quarters following the election remains unchanged, 
+consistent with column (3). We provide a nuanced analysis of possible channels behind adverse post-election 
+capital flow dynamics in Section 5.2.2. 
+The specifications containing interaction term with political stability yield a crucial result. Elections in countries 
+with a higher level of political stability can be associated with a lower degree of uncertainty and therefore a 
+milder negative effect on capital flows. The observed fluctuations in capital flows around the time of elections 
+can be particularly problematic for emerging markets, which are in focus of our analysis. These countries are 
+often highly dependent on the uninterrupted inflow of capital, and any temporary halt can have negative 
+consequences for the stability of their currencies, the continuous supply of credit, their ability to roll over debt 
+obligations, and overall financial stability. 
+Before proceeding with our analysis of the impact of elections, as a proxy for political uncertainty, on capital 
+inflows and their various dimensions, it is important to acknowledge potential endogeneity concerns associated 
+with this proxy. These concerns are particularly relevant in cases where elections are held outside the 
+constitutionally predetermined schedule (see, e.g., Julio and Yook, 2012). The classic political business cycle 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 21 
+ 
+literature starting with Nordhaus (1975) argues that opportunistic incumbents can deploy fiscal16 and monetary 
+stimulus ahead of elections to boost short-term growth and thus increase the probability of re-election. This 
+mechanism implies that elections may affect macroeconomic outcomes directly, independent of uncertainty, 
+raising identification concerns in our setting. We address these concerns through several strategies, drawing 
+on the approach proposed by Ericsson (1998). First, we instrument the election variable using the time since 
+the last election, which serves as a mechanical predictor of the probability of an upcoming election. While this 
+variable satisfies the instrument relevance condition, the Durbin-Wu-Hausman test does not reject the null 
+hypothesis of exogeneity, indicating that treating elections as exogenous in our empirical setting is statistically 
+appropriate (see also Canes-Wrone and Park (2012)). Second, we conduct Granger causality tests to examine 
+the direction of predictive causality between elections and capital flows. The results indicate that elections 
+Granger-cause capital flows, while capital flows do not Granger-cause elections. This provides further support 
+for treating elections as an exogenous determinant in our empirical framework.17 Third, we address the concern 
+more directly by focusing on a subsample of predetermined elections only - those held according to 
+constitutionally fixed schedules. We report the results in the robustness section. These results allow us to 
+conclude that elections are a suitable exogenous proxy for political uncertainty. 
+As discussed in the previous sections, different types of capital flows fulfil different economic functions and, 
+therefore, might react differently to push and pull factors. This also implies that they are likely to have different 
+sensitivity to uncertainty associated with elections. Table 3 contains estimates of our baseline model 
+specification for different types of capital inflows, distinguishing between non-debt (column (1)) and debt inflows 
+(column (2)), as well as by instrument type such as FDI, portfolio, and other flows (columns (3) - (5), 
+respectively). In addition to our baseline specification based on gross private capital inflows (presented in 
+column (6)), we also examine resident capital outflows and net capital flows, as shown in columns (7) and (8). 
+Non-debt flows (column (1)) contain foreign direct investments and portfolio equity flows, while debt flows 
+(column (2)) include portfolio debt instruments and other investments. Within the classic push-pull framework, 
+disaggregating gross private capital inflows into debt and non-debt components does not alter the overall 
+pattern regarding the direction or the significance of push and pull factors affecting these flows. As expected, 
+however, the relative importance of these factors differs. In particular, our regression results suggest that an 
+increase in a global risk aversion is associated with a much larger drop in debt flows compared to non-debt 
+ones (as shown by the magnitude of the coefficients). This reflects sensitivity of debt flows to changes in 
+market confidence and spreads as well as their vulnerability to contagion. Similarly, global liquidity conditions 
+only play a statistically significant role in explaining debt flows. This is unsurprising given that these flows 
+frequently have short maturity, rely on wholesale funding and are therefore subject to roll-over risk.  
+We proceed to a more granular breakdown of flows by instrument type. Direct investments (column (3) in Table 
+3) appear to be insulated from the global liquidity conditions and the magnitude of the sensitivity to risk 
+    
+16 See de Haan and Klomp (2013) for an overview of the recent literature on political budget cycles. 
+17 In addition, we conduct placebo lead regressions and estimate a logit model of election timing. Both exercises support the 
+assumption that elections are exogenous to capital flows. 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 22 
+ 
+aversion is also smaller compared to other types of flows. Being of a more long-term and strategic nature, they 
+are less responsive to short-term financial market fluctuations. Portfolio inflows are primarily driven by push 
+factors (column (4) in Table 3). The regression for these flows has the lowest explanatory power, which is not 
+surprising given the high volatility of these flows. Other inflows (column (5)) benefit from higher liquidity and are 
+very vulnerable to risk aversion.  
+ 
+Table 3: Various types of capital flows and elections 
+ 
+Note: Driscoll-Kraay standard errors in parentheses. *** p<0.01, ** p<0.05, * p<0.1. 
+Differential and domestic (except for political) variables enter the regressions with a lag. 
+Source: Authors’ estimations 
+ 
+We now turn to our primary variable of interest: elections and political uncertainty associated with them. The 
+reported regressions in Table 3 suggest that, as with gross private inflows, election-related political uncertainty 
+plays an important role for both debt and non-debt private capital inflows. Namely, the inflows tend to be 
+smaller in the election quarter, but the hit is larger and more statistically significant for debt flows. Looking into 
+specific instrument type, negative and statistically significant effect of elections is confirmed for FDI and other 
+
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 23 
+ 
+investment inflows, but not for portfolio flows. Empirical literature also finds particularly strong impact of 
+elections on more irreversible forms of capital ﬂows like FDI (see, e.g. Honig (2020), Julio and Yook (2016)). As 
+for other investment flows, their decline in election quarters is likely linked to a lower private investment activity 
+around elections (as documented by Julio and Yook (2012)) and a corresponding lower demand for financing. 
+Portfolio flows, which can be reversed quickly, seem to be insulated from the election-related uncertainty. 
+Our results do not indicate a statistically significant decline in capital inflows in the run-up to elections. 
+However, some flows do appear to decline in their immediate aftermath (up to two quarters). The decline 
+seems more persistent for non-debt inflows (and namely FDI as their main component), possibly because 
+direct investors, who face higher risk, may be more cautious about returning until there is greater clarity on 
+potential policy changes following an election. A similar effect is also present for other inflows but with a weaker 
+statistical significance.  
+Political stability appears to be a mitigating factor for election-related uncertainty across all types of flows. In 
+sum, these results broadly reinforce the conclusions from the regressions for gross capital inflows, indicating 
+that the findings are not driven by only a particular type of flow. Mirroring the gross-inflows findings, greater 
+political stability proxied by the ICRG political stability index reduces the adverse effects of election-related 
+uncertainty. 
+Before turning to other factors that may affect the political uncertainty associated with elections, we first explore 
+the relationship between election cycles and private capital outflows, as well as net capital flows (Table 3, 
+columns (7) and (8)) and compare the results with the impact of elections on our baseline specification for 
+capital inflows (Table 3, columns (6)). We do this to provide a more comprehensive picture beyond only inflows. 
+The main push and pull drivers seem to have some similarity across these different types of flows, at least in 
+terms of the direction of their impact. The level of financial market development, risk aversion and growth rate 
+differential seem to matter for all types of flows. In contrast, capital account restrictions appear to be a 
+statistically significant driver only for capital outflows. Turning to election cycle and political stability controls, 
+these appear to play a limited role in explaining gross capital outflows, in contrast to their more pronounced 
+effect on inflows. Neither overall political stability, elections, nor their interaction show a statistically significant 
+link with capital outflows (column (7), Table 3). On the one hand, this might suggest that resident investors are 
+accustomed to domestic political risks or have a better reading of them. On the other hand, one might have 
+expected private capital to leave the country if the political situation in the home country deteriorates. These 
+results are consistent with other studies suggesting that foreign investors have limited information about the 
+host country and face weaker protection under its legal and political institutions, leaving them more vulnerable 
+to policy uncertainty (e.g., Dixit (2011)). Although we find no evidence of a contemporaneous reaction of 
+outflows to elections, our regression results suggest that resident investors might adjust their portfolios 1 to 2 
+quarters after the elections.  
+As regards the relationship between elections and net capital flows, the overall pattern appears relatively 
+closely aligned with that of gross capital inflows. This likely reflects the fact that net inflows in emerging markets 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 24 
+ 
+are typically driven by inflows more than by outflows. The significance of political variables for net flows is 
+weaker than for gross inflows, likely because the effects are diluted by the impact of outflows.  
+The results reported in Tables 2 and 3 suggest that election cycles can be associated with a decline in the level 
+of capital inflows, though the magnitude and significance of this effect vary across different types of flows. 
+However, several factors may either amplify or mitigate the uncertainty surrounding elections—for example, the 
+availability of polls providing guidance on likely outcomes, or whether the incumbent ultimately wins or loses. 
+The analysis in the next section centers on gross capital inflows, the sources of election-related uncertainty and 
+factors that may mitigate these effects. 
+5.2.2. Pre- and Post-Election Political Landscape and Gross Capital Inflows  
+ 
+The uncertainty surrounding elections likely varies across countries and within countries over time. To explore 
+this variation, we extend our baseline specification on gross private capital inflows by incorporating variables 
+that help capture various aspects of the political landscape and the level of uncertainty associated with 
+elections and their outcomes (Table 4 and Table 5). 
+We begin by controlling for variables that capture the pre-election political landscape. In particular, we focus on 
+measures of government stability (as a proxy for the likelihood of policy change), the degree of polarization as 
+well as the availability of credible pre-election polling (Table 4).  
+First, we augment our standard specification—which includes the election-quarter dummy and the ICRG overall 
+political stability indicator—by including the “margin of majority” (from DPI database). This represents the 
+fraction of the seats held by the government, calculated as the number of government-held seats divided by the 
+total number of seats in the legislature. The hypothesis is that a larger majority likely implies a greater policy 
+continuity, lower probability of coalition breakdown and thus stronger capital inflows. Accordingly, we expect a 
+positive coefficient on this control variable and a positive interaction with the election-quarter dummy. Column 
+(1) of Table 4 shows that while the coefficient on the election-quarter dummy remains negative and statistically 
+significant, the coefficient on the margin of majority is positive and weakly significant. However, there is no 
+differential effect during election periods as the interaction term is not significant. These results support the 
+finding in the literature that minority governments can be as stable as majority ones (see, e.g. Thürk and 
+Krauss (2023)).  
+Following Julio and Yook (2012), we employ an alternative proxy for government stability—the ICRG political 
+sub-pillar combining government stability, military-in-politics, and democratic accountability indices. A higher 
+score on this composite indicator reflects greater legislative strength, more robust checks and balances, 
+stronger popular support, and enhanced democratic features. We expect that stronger political stability proxied 
+by this indicator can partially offset the negative effects of uncertainty surrounding elections. The estimates in 
+Table 4, column (2), indicate weak but positive associations between this indicator and capital inflows in 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 25 
+ 
+election quarters. We return to these results below, when discussing countries’ institutional characteristics 
+mitigating uncertainty. 
+ 
+Table 4: Gross capital inflows vs. pre-election political landscape 
+ 
+Note: Driscoll-Kraay standard errors in parentheses. *** p<0.01, ** p<0.05, * p<0.1. Differential and domestic (except 
+for political) variables enter the regression with a lag. 
+Source: Authors’ estimations 
+ 
+Next, we introduce another variable from the DPI database that captures the effectiveness of checks and 
+balances. It reflects the share of veto players that drop from government over a year, with higher values 
+corresponding to more turnover, higher likelihood of policy change and hence higher uncertainty. The estimates 
+
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 26 
+ 
+in column (3) show no statistically significant association with capital inflows, and we again find no differential 
+effect during election periods. We then account for polarization across countries. Higher levels of polarization, 
+reflecting larger ideological gaps between the principal governing parties and the opposition, are expected to 
+yield a less predictable policy path (column (4) in Table 4). We do not find a statistically significant impact of 
+this indicator on capital inflows.  
+We subsequently proceed to include a dummy variable that equals to 1 when reliable polls were available in 
+the run up to elections and were favorable to the incumbent and 0 otherwise. We expect favorable polls for the 
+incumbent to reduce uncertainty as it makes the status quo more likely to persist. However, this hypothesis is 
+not supported by our results reported in column (5), Table 4, as the corresponding coefficient on elections with 
+favorable polls is not statistically significant. At the same time, this does not diminish the broader negative 
+impact of elections on capital flows. One potential explanation is the limited availability of credible polls across 
+the emerging markets included in the study. As noted in the stylized facts section, reliable and favorable polls 
+were available in only about one-third of the election episodes analyzed.  
+Table 4 explores a set of pre-election drivers of political uncertainty and provides tentative evidence that higher 
+uncertainty is associated with larger declines in capital inflows. That said, the estimated effects of these 
+indicators are, on balance, modest.  
+We next focus on other features of elections that may exert more substantial effects, particularly when 
+uncertainty persists beyond election date. In Table 5, we examine separately (i) elections marred by post-
+election violence, (ii) elections held outside a predetermined schedule (e.g., snap/unscheduled elections), and 
+(iii) cases with incumbent turnover. We subsequently motivate these choices and present empirical results.  
+We begin by distinguishing between peaceful elections and those marked by violence shortly before or 
+immediately after the vote. As shown in column (1) of Table 5, both types are associated with lower capital 
+flows in the election quarter. However, elections accompanied by violence exhibit a persistent negative effect 
+that lasts one to two quarters post-election. In the meantime, for peaceful elections the effect is short-lived and 
+confined to the election quarter. These results corroborate the view that election effects are heterogeneous; 
+higher-uncertainty elections have more persistent, adverse effects on capital flows.   
+In our dataset, around 80% of the elections were held on predetermined dates, while the remaining 20% 
+occurred outside of the regular political cycle. Predetermined elections take place following an established 
+schedule (typically set in the constitution) that is known ex ante to market participants. By contrast, non-
+predetermined (off-cycle) elections are those that are held earlier or later than the prescribed timetable. Such 
+elections in our sample are often triggered by political instability or crises (government collapse, vote of no 
+confidence, public protests, etc.). We therefore anticipate greater uncertainty and more negative capital-flow 
+outcomes around them. To provide a more nuanced analysis, we control separately for these two types of 
+election cycles. Column (2) of Table 5 reports the results. The coefficient on the non-predetermined elections 
+appears to be marginally larger than that on the predetermined ones suggesting that investors tend to be more 
+cautious around non-predetermined elections likely due to higher levels of uncertainty. For non-predetermined 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 27 
+ 
+elections, we find a statistically significant negative effect that endures for four quarters following the election. 
+For predetermined elections, the negative effect is confined to the election quarter. Consistent with the previous 
+specification, high-uncertainty elections exert a more negative and more persistent impact, helping to explain 
+the persistence observed in the full-sample results. 
+ 
+Table 5: Gross capital inflows: the persistence of high-uncertainty election effects   
+ 
+Note: Driscoll-Kraay standard errors in parentheses. *** p<0.01, ** p<0.05, * p<0.1. Differential and 
+domestic (except for political) variables enter the regressions with a lag. 
+Source: Authors’ estimations  
+
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 28 
+ 
+Next, we control for whether the incumbent lost the election (columns (3) of Table 5). A change in a country’s 
+leadership can heighten uncertainty about future policies or signal a more material shift from the status quo, 
+potentially delaying foreign capital inflows until the new policy agenda becomes clear. Uncertainty can also 
+arise from limited experience or untested track records of newly elected officials. We find that, when the 
+incumbent loses, election-related effects on capital flows are negative and statistically significant both in the 
+election quarter and up to two quarters thereafter. In contrast, when the incumbent retains power, the negative 
+effect on capital flows is smaller in magnitude and short-lived. This pattern is consistent with the hypothesis that 
+policy continuity reduces uncertainty and stabilizes capital flows. 
+These findings shed light on the persistent post-election drag on capital flows reported in Table 2 and point to 
+plausible underlying mechanisms. 
+5.2.3. Quantifying the Impact of Political Uncertainty 
+ 
+Evidence from Table 2 through Table 5 points to a significant role election-related political uncertainty plays in 
+shaping capital flows to emerging market economies. Importantly, the magnitude of the effect is conditional on 
+the overall prevailing level of political stability. Higher levels of political stability, measured by the ICRG political 
+risk index, tend to cushion the adverse effects of elections, whereas countries with low political stability are 
+most exposed to shifts in investor risk appetite triggered by electoral events. Moreover, political cycles marked 
+by heightened policy uncertainty (e.g., incumbent defeat) coincide with larger and longer lasting retrenchments 
+in capital flows.  
+Table 6 quantifies the impact of election-induced uncertainty on capital inflows to EM countries in the bottom 
+quartile of political stability. The effects are sizable, averaging to -1.25 percent of trend GDP in the election 
+quarter. This corresponds to a substantial 28% decline in gross capital inflows relative to their level in two pre-
+election quarters. The most pronounced negative effects occur when the incumbent loses or when elections 
+are not held on a predetermined schedule—situations typically associated with heightened uncertainty. In such 
+cases, gross capital inflows to the least politically stable countries in our sample decline by about 50% 
+compared to the two pre-election quarters.  
+For some types of flows (gross capital inflows, non-debt flows and FDI) negative election-related effects are 
+observed only among countries in the lowest quartile of political stability in the quarter when election took 
+place. However, for net inflows and debt-related inflows, the negative impact extends to countries in the second 
+quartile as well. The effects are most persistent when the incumbent loses the election or when elections occur 
+outside of the predetermined schedule. In these cases, even countries in the third quartile of the ICRG political 
+stability index see their gross capital inflows decline in the election quarter.  
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 29 
+ 
+Table 6: Change in capital flows during the election quarter: countries in the lowest ICRG political 
+stability quartile 
+ 
+Source: Authors’ estimations 
+5.2.4. The Role of Institutional Capacity 
+ 
+Having established the importance of political stability in shaping investor behavior across various 
+specifications, we proceed to a more granular exploration of its underlying factors and their capacity to mitigate 
+election-related uncertainty (Table 7). To this end, we augment our main regression framework by 
+decomposing the overall ICRG score into five thematic pillars: the political pillar (government stability, military in 
+politics, democratic accountability);18 socioeconomic conditions; investment profile; institutional development 
+(corruption, law and order, bureaucracy); and tensions and conflicts (internal and external conflicts, religious 
+and ethnic tensions).19 As in the case of the overall ICRG index, higher scores on these pillars indicate lower 
+political risk. Each of these variables is included into the regression both directly and through an interaction with 
+the election dummy, allowing to capture their potential mitigating effects during electoral periods.  
+The results highlight several important patterns. First, socioeconomic conditions (column (3)), investment risk 
+(column (4)), and tensions and conflicts (column (6)) are independently significant in explaining capital flows. 
+Higher scores are associated with larger inflows—consistent with investor sensitivity to structural and 
+operational risk factors. Second, the interaction terms with the election dummy are positive and statistically 
+significant for almost all ICRG pillars, suggesting that strong institutions, low investment risks, political stability 
+and strong economic performance play a buffering role for capital flows during elections. By contrast, while 
+tensions and conflicts are significant as a standalone variable, they do not exhibit a meaningful interaction with 
+electoral periods, implying that these factors are persistent deterrents to capital flows, rather than conditional 
+on election cycles.  
+    
+18 Already presented in Table 4 above.  
+19 Reflects contract enforcement, payment delays, profit repatriation constraints. 
+Absolute change (in % of 
+trend GDP)
+Relative change (in % of 
+average flows during 6 
+months before the election)
+Based on regression results 
+reported in
+Gross inflows -1.25 -28.3% Table 2, column 4
+Net inflows -1.39 -62.2% Table 3, column 8
+Non-debt inflows -0.25 -11.0% Table 3, column 1
+Debt inflows -0.95 -44.8% Table 3, column 2
+FDI inflows -0.35 -16.4% Table 3, column 3
+Other investment inflows -0.39 -30.5% Table 3, column 5
+Gross inflows in case of predetermined elections -0.25 -5.6% Table 5, column 2
+Gross inflows in case of non-predetermined elections -2.15 -48.7% Table 5, column 2
+Gross inflows when incumbent lost -2.53 -57.3% Table 5, column 3
+Gross inflows when incumbent won 0.33 7.6% Table 5, column 3
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 30 
+ 
+Table 7: Gross capital inflows and institutional characteristics (ICRG) 
+  
+Note: Driscoll-Kraay standard errors in parentheses. *** p<0.01, ** p<0.05, * p<0.1. Differential and domestic (except 
+for political) variables enter the regressions with a lag. 
+Source: Authors’ estimations 
+ 
+In sum, these findings imply that many institutional country characteristics matter for investment, and their 
+importance is amplified during periods of heightened political uncertainty, such as elections. This reinforces the 
+
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 31 
+ 
+idea that institutional quality not only shapes long-term investment prospects but can also serve as an anchor 
+of stability amid short-term election-triggered volatility. 
+While our results highlight the role of strong institutions in mitigating the decline of capital flows triggered by 
+election-related uncertainty, previous studies (see, e.g. Carrière-Swallow and Céspedes (2013)) have 
+emphasized the importance of financial market depth in shaping emerging markets’ vulnerability to global 
+uncertainty shocks. In particular, when global liquidity tightens, countries with shallow financial systems face 
+binding credit constraints that amplify the contraction in investment. In our specification, financial depth 
+emerges as a significant positive determinant of capital inflows. However, when we interact financial depth with 
+the election dummy to assess its moderating effect on election-related uncertainty, the interaction term is not 
+statistically significant.20 This suggests that, in contrast to global shocks, a deeper financial system may not be 
+sufficient to cushion against political uncertainty. One possible explanation is that elections introduce 
+uncertainty about long-term policy direction, which undermines investor confidence. In such contexts, strong 
+institutional frameworks may offer reassurance that partially compensates for the lack of policy clarity. By 
+contrast, the resilience to global uncertainty shocks (proxied by VIX dynamics) appears to depend more on the 
+functioning of domestic financial markets and their ability to withstand shocks originating in global capital 
+markets. 
+Findings consistent to those reported in Table 7 emerge when we replicate the analysis using an alternative set 
+of governance indicators from the World Bank: voice and accountability; political stability and absence of 
+violence/terrorism; government effectiveness; regulatory quality; rule of law; and control of corruption. We 
+substitute ICRG stability score with WB country rankings by governance dimension along with the average 
+across the six indicators. As with the ICRG-based specifications, we include governance variables as 
+standalone controls but also interacted with election dummies. Unlike the quarterly ICRG scores, however, the 
+World Bank indicators are available only at an annual frequency, which makes them less aligned with the 
+timing of other macroeconomic variables in our regressions. This difference in frequency is the main reason we 
+rely primarily on ICRG data in our core specifications.  
+As shown in Column (1) of Table 8, the overall governance level is a highly statistically significant driver of 
+capital flows. Countries with more solid governance frameworks systematically attract more capital, reflecting 
+stronger investor confidence. Moreover, this positive effect is amplified during election periods: the interaction 
+between elections and governance is significantly positive, indicating that institutional strength mitigates 
+election-induced uncertainty.  
+Among individual indicators, control of corruption (Column (2)), government effectiveness (Column (3)), rule of 
+law (Column (6)) and regulatory quality (Column (7)) stand out as particularly influential. These dimensions not 
+only correlate positively with capital inflows but also are especially valued by investors during periods of 
+heightened uncertainty, as suggested by the significance of the interaction term with the election-quarter 
+    
+20 We do not report these results for brevity. 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 32 
+ 
+dummy. Conversely, voice and accountability (Column (4)) and political stability (Column (7)) appear less 
+relevant for capital flow dynamics.  
+Table 8: Gross capital inflows and institutional characteristics (WB Governance) 
+ 
+Note: Driscoll-Kraay standard errors in parentheses. *** p<0.01, ** p<0.05, * p<0.1. Differential and domestic (except for 
+political) variables enter the regressions with a lag. 
+Source: Authors’ estimations 
+
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 33 
+ 
+Overall, the results underscore the importance of institutional development as a buffer against uncertainty. 
+Marginal effect calculations based on estimated regression coefficients and governance quartile data show that 
+in countries with average or above-average governance, the stabilizing influence of strong institutions offsets 
+the adverse effects of election-related uncertainty. In contrast, countries in the bottom quartile of governance 
+rankings remain vulnerable to capital flow volatility during election cycles. 
+ 
+5.3. Robustness Checks  
+ 
+In this final subsection, we assess the robustness of our conclusions by exploring alternative model 
+specifications, including with the use of different proxies for political uncertainty in addition or in place of 
+election indicator. The results are presented in Tables 9-11. 
+Measuring uncertainty is inherently challenging. Beyond using elections as a proxy, we employ two alternative 
+indicators widely used in the literature: the World Uncertainty Index (WUI) and the Economic Policy Uncertainty 
+(EPU) index. WUI is a text-based measure of uncertainty in the EIU country reports and captures uncertainty 
+related to economic and political developments, regarding both near-term and long-term concerns (see Ahir et 
+al. (2022) for the details on the index construction). We report our results in Table 9, where we start from 
+specifications with no election-related variables but only with WUI to capture the country-specific uncertainty 
+beyond global uncertainty level tracked by VIX (column (1)). We then sequentially introduce the election 
+dummy, the ICRG political stability index and the interaction term between elections and political stability 
+(columns (2) through (4)), as well as dummies for the quarters preceding and following elections (columns (5) 
+and (6)). Finally, we include an interaction between the election dummy and the WUI to study whether the 
+impact of elections on capital flows varies with the level of economic and political uncertainty captured by the 
+WUI (column (7)). Across all seven specifications that control for WUI in Table 9, neither the coefficients on the 
+WUI nor its interaction with the election dummy are statistically significant, while the findings regarding the 
+significance of the election-related variables remain robust. In other words, election-related uncertainty, 
+particularly when conditioned on political stability, plays a distinct and robust role in shaping capital flow 
+patterns, going beyond what is captured by broader country-level measures of uncertainty such as the WUI. 
+As an additional robustness check, we replace the WUI with the Economic Policy Uncertainty (EPU) index 
+developed by Baker et al. (2016) (column (8) of Table 9). The EPU index captures the share of newspaper 
+articles that simultaneously reference terms related to the economy, policy, and uncertainty. Its narrower focus 
+on political uncertainty makes it particularly relevant for our context. Baker et al. (2016) also note that the index 
+spikes upward during elections. A key limitation is that country-specific EPU indices are available for only 8 of 
+the 38 countries in our sample. Therefore, we must rely on the global EPU index, which is a GDP-weighted 
+average of national indices across 18 countries. The EPU variable is not statistically significant, but the 
+election-related dummy variables remain robust and statistically significant, consistent with our earlier findings. 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 34 
+ 
+Table 9: Gross capital inflows and alternative uncertainty measures 
+ 
+Note: Driscoll-Kraay standard errors in parentheses. *** p<0.01, ** p<0.05, * p<0.1. Differential and domestic (except for 
+political) variables enter the regressions with a lag. 
+Source: Authors’ estimations 
+ 
+Next, as a robustness check we explore whether there is a “democratic premium” in terms of capital flows, that 
+is, whether elections have a smaller negative impact in more democratic countries, where potentially stronger 
+institutions, more solid legal frameworks and greater transparency may reduce the scope for unpredictable 
+policy changes, lowering election-related uncertainty. To do this, we expand our baseline model specification 
+by controlling for the level and changes of democratic development (Table 10). We proxy democratic 
+development using several measures. Specifically, we consider the Polity score, which classifies countries 
+along a spectrum from strongly autocratic to strongly democratic21 (column (1)) and its annual change (column 
+    
+21 The Polity index scale ranges from +10 (strongly democratic) to -10 (strongly autocratic). 
+
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 35 
+ 
+(2)). We further incorporate a continuous index of electoral competitiveness from the DPI22 database (column 
+(3)) as well as a binary variable derived from this index which that equals to 1 for competitive systems and 0 for 
+uncompetitive ones (column (4)). We do not find any evidence of a “democratic premium” such that more 
+democratic countries attract more capital inflows or are less susceptible to election uncertainty. Democracy 
+indicators added into specification are not statistically significant, while election-related uncertainty remains a 
+negative factor for capital flows. 
+ 
+Table 10: Gross capital inflows and indicators of democracy 
+  
+Note: Driscoll-Kraay standard errors in parentheses. *** p<0.01, ** p<0.05, * p<0.1. Differential and 
+domestic (except for political) variables enter the regressions with a lag. 
+Source: Authors’ estimations 
+    
+22 The index ranges from 1 (no legislature or executive power) to 7 (competitively elected prime-minister/president or legislative 
+elections where multiple parties win seats with the largest party getting less than 75%). 
+
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+INTERNATIONAL MONETARY FUND 36 
+We also conduct a set of additional robustness checks to verify the stability of our findings. We start by 
+redefining the dependent variable, scaling capital flows by quarterly GDP rather than trend GDP as in the 
+baseline. Column (1) of Table 11 presents the baseline model specification under this alternative normalization. 
+The results suggest that this modification does not materially alter our inference both in terms of push and pull 
+and the political factors. The key difference relative to the baseline is that a statistically significant negative 
+effect on capital flows is also observed in the 2 pre-election quarters.  
+Second, we experiment with alternative fixed effects specifications. In particular, in column (2) we exclude 
+country-specific time trends from the specification, retaining only country fixed effects.23 In column (3) we add 
+an overall time trend to the specification in the previous regression, while in column (4) we control for annual 
+time fixed effects. In all the cases the overall inference remains unchanged.  
+Third, we account for two major crisis episodes – global financial crisis and the pandemic – that occurred 
+during our sample period. In column (5), we exclude the year 2020 from the sample to account for the 
+unprecedented disruptions caused by the global pandemic, while in column (6), we include a global financial 
+crisis (GFC) dummy to control for the effects of the 2008–09 crisis. Given the exceptional nature of these 
+shocks, even otherwise stable relationships may have been temporarily distorted. The GFC dummy variable is 
+not statistically significant, likely because the stress of this episode is captured by highly statistically significant 
+VIX. Our main findings remain robust to these modifications.
+Fourth, we check for the robustness of our findings while controlling for the uncertainty that can be generated 
+by elections in the United States (columns (7) and (8) of Table 11). This can be viewed as a push factor since 
+developments and policy uncertainty in the U.S. are likely to have spillover effects on the rest of the world. 
+Specifically, we add a dummy for elections in the United States into our baseline specification (both with and 
+without the domestic election dummy). We do not find any significant relationship between this event and 
+private capital inflows into emerging market economies, while the coefficients on domestic elections remain 
+negative and statistically significant. This suggests that domestic political uncertainty has a stronger effect on 
+capital inflows compared to political uncertainty in the U.S. One potential explanation could be that investors 
+are likely to be more sensitive to political uncertainties in emerging market countries where institutional 
+frameworks tend to be weaker. Julio and Yook (2016), however, show that when focusing only on U.S. 
+investors, their FDI flows abroad drop significantly in the quarter leading up to the U.S. election. 
+Fifth, we test the robustness of our main findings to the presence of potentially strong unobserved common 
+factors, such as global shocks or regional trends, which may influence capital flows and be correlated with 
+election cycles, thereby confounding the estimated election effect. To address this concern, we augment our 
+specification in two ways. First, we include quarterly cross-sectional averages of capital flows as a proxy for 
+unobserved global factors (column (9) of Table 11). Second, we incorporate year-region24 fixed effects to 
+23 Gross capital inflows scaled by trend GDP remain the dependent variable in the regressions in columns (2)-(8), as in our baseline 
+specification. 
+24 38 EM countries from the sample were grouped into four regions: Asia and Pacific, Europe and Central Asia, Latin America and 
+Middle East and Africa. 
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 37 
+ 
+capture region-specific shocks (column (10)). Across both specifications, our main results remain robust, 
+suggesting that the estimated effects are not driven by omitted common factors.  
+ 
+Table 11: Gross capital inflows: Alternative model specifications 
+ 
+Note: Driscoll-Kraay standard errors in parentheses. *** p<0.01, ** p<0.05, * p<0.1. 
+Source: Authors’ estimations 
+ 
+Finally, we take a closer look at potential endogeneity concerns with using elections as a proxy variable for 
+political uncertainty. Following the approach of Julio and Yook (2012, 2016), we re-estimate our baseline 
+specification on a subsample limited to elections with predetermined, constitutionally fixed dates. These 
+elections provide a more rigorous proxy for an exogenous source of political uncertainty, as their timing is less 
+likely to be influenced by strategic considerations. In column (11) of Table 11 we focus on this subsample. The 
+main conclusions on the decline of capital inflows during the election quarter and on mitigating effects of 
+political stability are confirmed. This evidence is consistent with the assumption that election timing is 
+exogenous. 
+  
+
+IMF WORKING PAPERS Elections Matter: Capital Flows and Election Cycles 
+ 
+INTERNATIONAL MONETARY FUND 38 
+ 
+6.Conclusions 
+This paper contributes to the relatively limited literature on the impact of political uncertainty on international 
+capital flows. We employ the occurrence of an election as an exogenous measure of political uncertainty. Even 
+in the absence of crises or major political overhauls, elections periodically open the possibility of ex-ante 
+unknown changes in the economic, institutional, and regulatory environment.  
+We construct a quarterly dataset covering international capital flows and political cycles for 38 emerging 
+economies from 1990 to 2020. We employ a standard fixed-effects model to estimate the relationship between 
+election cycles and the magnitude of private capital inflows in our sample, accounting for both the election 
+quarter and the immediately adjacent time periods. At the same time, we control for a range of standard push 
+and pull factors, which behave in line with established findings in the capital flows literature. 
+Our analysis demonstrates that gross private capital inflows into emerging market economies are significantly 
+lower during the election quarter. These results are also broadly confirmed across different types of capital 
+flows, although the impact is not uniform. FDI and other flows appear more sensitive to election-related 
+uncertainty compared to portfolio flows.  
+Crucially, the uncertainty associated with elections has varying implications for countries, depending on their 
+level of political stability and the quality of their institutions. Higher political stability, as measured by ICRG 
+political stability index, appears to cushion the adverse effects of electoral uncertainty. Our analysis shows that 
+countries in the bottom quartile of the ICRG political stability index experience, on average, a 28 percent 
+decline in gross capital inflows during election quarters. Notably, this negative effect is absent in countries with 
+above-average political stability scores.  
+Negative effects associated with elections can persist for up to two quarters when uncertainty remains elevated 
+after the election, particularly in cases involving electoral violence, snap elections triggered by political crises, 
+or leadership changes resulting from the vote. We also find that such circumstances tend to coincide with more 
+pronounced declines in capital inflows. Particularly, elections held outside the regular electoral cycle (i.e., non-
+predetermined elections) and those resulting in the defeat of the incumbent leader or ruling party are typically 
+accompanied by larger negative effects. In countries in the bottom quartile of the ICRG political stability index, 
+such events are associated with over 50 percent declines in gross capital inflows during the election quarter.  
+In addition, our analysis shows that countries with strong governance, characterized by effective control of 
+corruption, high regulatory quality, government effectiveness, and a well-established rule of law, are less 
+affected by election-related uncertainty in capital flows. These findings underscore the macroeconomic stability 
+benefits of structural reforms. Strengthening institutional quality not only supports long-term development goals 
+but also functions as a buffer against episodic shocks, such as those triggered by electoral cycles. By reducing 
+uncertainty, such reforms can bolster investor confidence and enhance greater financial resilience. Our 
+analysis also indicates that favorable socioeconomic conditions and better investment risk profiles can help 
+mitigate the adverse effects of political uncertainty. Therefore, sustaining the attractiveness of economies to 

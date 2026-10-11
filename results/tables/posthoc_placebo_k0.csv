@@ -1,0 +1,3 @@
+outcome,sample,actual_k0,placebo_mean,placebo_sd,placebo_p_two_sided,draws,status
+gross_inflows_gdp_w,EMDE (pre-euro classification),-2.1801543450312493,0.016513571805575177,0.6836657503653164,0.0,1000,POST-HOC / EXPLORATORY
+private_inflows_gdp_w,EMDE (pre-euro classification),-1.8608820084531945,0.13653902088888953,0.6293772048212918,0.002,1000,POST-HOC / EXPLORATORY

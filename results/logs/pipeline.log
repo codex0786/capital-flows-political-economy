@@ -142,3 +142,34 @@ If you are unsure how to get the access you need, contact
 2026-10-11 17:19:50,066 panels INFO quarterly panel (5294, 112)
 2026-10-11 17:19:50,087 panels INFO political events: {'election_parliamentary': 761, 'election_presidential': 506, 'major_social_unrest_quarter': 388, 'chief_executive_change': 364}
 2026-10-11 17:20:27,103 validation INFO data quality report: 179 rows
+2026-10-11 17:24:13,435 analysis INFO quarterly estimation sample: 4722 obs, 108 countries
+2026-10-11 17:24:16,692 analysis INFO H1 done
+2026-10-11 17:24:17,996 analysis INFO H2 done
+2026-10-11 17:24:19,133 analysis INFO H3 done
+2026-10-11 17:24:20,854 analysis INFO H5 done
+2026-10-11 17:24:21,877 analysis INFO H6 done
+2026-10-11 17:24:31,462 analysis INFO quarterly estimation sample: 4722 obs, 108 countries
+2026-10-11 17:24:34,714 analysis INFO H1 done
+2026-10-11 17:24:36,021 analysis INFO H2 done
+2026-10-11 17:24:37,159 analysis INFO H3 done
+2026-10-11 17:24:38,883 analysis INFO H5 done
+2026-10-11 17:24:39,908 analysis INFO H6 done
+2026-10-11 17:24:41,972 analysis INFO event studies done
+2026-10-11 17:24:42,709 analysis INFO annual done
+2026-10-11 17:24:42,867 analysis INFO reverse done
+2026-10-11 17:24:42,987 analysis INFO policy done
+2026-10-11 17:24:48,062 analysis INFO quarterly estimation sample: 4722 obs, 108 countries
+2026-10-11 17:24:51,331 analysis INFO H1 done
+2026-10-11 17:24:52,637 analysis INFO H2 done
+2026-10-11 17:24:53,778 analysis INFO H3 done
+2026-10-11 17:24:55,501 analysis INFO H5 done
+2026-10-11 17:24:56,528 analysis INFO H6 done
+2026-10-11 17:24:58,595 analysis INFO event studies done
+2026-10-11 17:24:59,015 analysis INFO annual done
+2026-10-11 17:24:59,172 analysis INFO reverse done
+2026-10-11 17:24:59,291 analysis INFO policy done
+2026-10-11 17:24:59,306 analysis INFO analysis complete: 166 estimates
+2026-10-11 17:26:09,513 robustness INFO robustness matrix: 34 rows
+2026-10-11 17:33:15,022 fetch INFO fetched IMF BOP (IMF.STA:BOP) -> imf_bop_official_oi_Q_raw.csv (7538506 bytes)
+2026-10-11 17:38:44,248 fetch INFO fetched IMF BOP (IMF.STA:BOP) -> imf_bop_official_oi_by_instrument_Q_raw.csv (66481472 bytes)
+2026-10-11 17:39:17,539 posthoc INFO post-hoc alignment written

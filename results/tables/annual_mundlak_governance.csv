@@ -1,0 +1,7 @@
+governance,term,coef,se,p,nobs,n_countries,interpretation
+wgi_rl_est,wgi_rl_est,3.9002796106745974,3.2898399028502356,0.23579886718250453,1307,121,within-country
+wgi_rl_est,wgi_rl_est_mean,-0.8701787599809685,3.991766343354055,0.8274342454592232,1307,121,between-country (Mundlak mean; NOT causal)
+wgi_pv_est,wgi_pv_est,3.282699454931897,1.5331318443834594,0.032260145033710774,1307,121,within-country
+wgi_pv_est,wgi_pv_est_mean,-1.2067270589814254,2.2415875384004313,0.5903451666314843,1307,121,between-country (Mundlak mean; NOT causal)
+wgi_rq_est,wgi_rq_est,4.904635744874852,2.4488466281813777,0.045195001396841884,1307,121,within-country
+wgi_rq_est,wgi_rq_est_mean,1.2144178650638553,3.2133941053451522,0.7054872584345673,1307,121,between-country (Mundlak mean; NOT causal)

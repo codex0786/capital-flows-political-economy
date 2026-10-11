@@ -34,6 +34,25 @@ def download(freq: str, refresh: bool = False):
                      note=f"SDMX key {key}; startPeriod=2014; USD; BPM6")
 
 
+
+
+def download_official_oi(freq: str = "Q", refresh: bool = False):
+    """Other-investment liabilities of the central bank (S121) and general government (S13)
+    by instrument (F2 deposits, F4 loans, F81 trade credit, F8AP other payables) plus SDR
+    allocations (O_F12_S1N). Used to construct gross *private* inflows (post-hoc alignment with
+    Arakelyan & Evdokimova 2025; see report/protocol_changelog.md).
+
+    Note: a first query using O_FL1_S121/O_FL1_S13 returned only the SDR series (those
+    sector codes are not published for O_FL1); that file is retained as imf_bop_official_oi_Q_raw.csv.
+    """
+    inst = "+".join(f"O_{i}_{s}" for i in ("F2", "F4", "F81", "F8AP") for s in ("S121", "S13"))
+    key = f".L_NIL_T.{inst}+O_F12_S1N.USD.{freq}"
+    dest = RAW / "imf_bop" / f"imf_bop_official_oi_by_instrument_{freq}_raw.csv"
+    return fetch_raw(f"{BASE}/{key}", dest, "IMF BOP (IMF.STA:BOP)", params={"startPeriod": "2014"},
+                     headers=CSV_HEADER, refresh=refresh, timeout=1200,
+                     note=f"SDMX key {key}; official-sector other-investment liabilities")
+
+
 if __name__ == "__main__":
     for f in (sys.argv[1:] or ["A", "Q"]):
         download(f)

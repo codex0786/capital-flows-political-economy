@@ -1,0 +1,1187 @@
+[
+ {
+  "spec": "baseline",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay",
+   "twoway_cluster"
+  ]
+ },
+ {
+  "spec": "baseline_no_controls",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "baseline",
+  "outcome": "gross_outflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay",
+   "twoway_cluster"
+  ]
+ },
+ {
+  "spec": "baseline_no_controls",
+  "outcome": "gross_outflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "baseline",
+  "outcome": "net_flows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay",
+   "twoway_cluster"
+  ]
+ },
+ {
+  "spec": "baseline",
+  "outcome": "gross_inflows_vol8",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay",
+   "twoway_cluster"
+  ]
+ },
+ {
+  "spec": "baseline",
+  "outcome": "gross_outflows_vol8",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay",
+   "twoway_cluster"
+  ]
+ },
+ {
+  "spec": "scheduled_vs_early",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "elec_exec_sched_pre",
+   "elec_exec_sched_post",
+   "elec_exec_early_pre",
+   "elec_exec_early_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "scheduled_vs_early",
+  "outcome": "gross_outflows_gdp_w",
+  "terms": [
+   "elec_exec_sched_pre",
+   "elec_exec_sched_post",
+   "elec_exec_early_pre",
+   "elec_exec_early_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "moderation_wgi_rl_2014",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post",
+   "pre_x_m",
+   "post_x_m"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay",
+   "twoway_cluster"
+  ]
+ },
+ {
+  "spec": "moderation_wgi_rq_2014",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post",
+   "pre_x_m",
+   "post_x_m"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "moderation_wgi_ge_2014",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post",
+   "pre_x_m",
+   "post_x_m"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "moderation_wgi_va_2014",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post",
+   "pre_x_m",
+   "post_x_m"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "moderation_wgi_cc_2014",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post",
+   "pre_x_m",
+   "post_x_m"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "moderation_wgi_pv_2014",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post",
+   "pre_x_m",
+   "post_x_m"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "moderation_v2x_jucon_2014",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post",
+   "pre_x_m",
+   "post_x_m"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "moderation_v2xlg_legcon_2014",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post",
+   "pre_x_m",
+   "post_x_m"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "components",
+  "outcome": "fdi_in_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay"
+  ]
+ },
+ {
+  "spec": "components",
+  "outcome": "pe_in_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay"
+  ]
+ },
+ {
+  "spec": "components",
+  "outcome": "pd_in_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay"
+  ]
+ },
+ {
+  "spec": "components",
+  "outcome": "oi_in_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay"
+  ]
+ },
+ {
+  "spec": "components_outflows",
+  "outcome": "fdi_out_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "components_outflows",
+  "outcome": "port_out_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "components_outflows",
+  "outcome": "oi_out_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "components_outflows",
+  "outcome": "reserve_change_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "vix_x_wgi_rl_2014",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "vix_x_m"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay",
+   "twoway_cluster"
+  ]
+ },
+ {
+  "spec": "vix_x_reserves_months_2014",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "vix_x_m"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay",
+   "twoway_cluster"
+  ]
+ },
+ {
+  "spec": "vix_x_st_debt_reserves_2014",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "vix_x_m"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay",
+   "twoway_cluster"
+  ]
+ },
+ {
+  "spec": "vix_joint",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "vix_x_wgi_rl_2014",
+   "vix_x_reserves_months_2014",
+   "vix_x_st_debt_reserves_2014"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "vix_joint_volatility",
+  "outcome": "gross_inflows_vol8",
+  "terms": [
+   "vix_x_wgi_rl_2014",
+   "vix_x_reserves_months_2014",
+   "vix_x_st_debt_reserves_2014"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "emde_interaction",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post",
+   "pre_x_emde",
+   "post_x_emde"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay",
+   "twoway_cluster"
+  ]
+ },
+ {
+  "spec": "group_AE",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025, AE only",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "group_EMDE",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025, EMDE only",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "emde_interaction",
+  "outcome": "gross_outflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post",
+   "pre_x_emde",
+   "post_x_emde"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "group_AE",
+  "outcome": "gross_outflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025, AE only",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "group_EMDE",
+  "outcome": "gross_outflows_gdp_w",
+  "terms": [
+   "elec_exec_pre",
+   "elec_exec_post"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025, EMDE only",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "annual_election_year",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "exec_election"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "annual 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "year",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay"
+  ]
+ },
+ {
+  "spec": "annual_election_year",
+  "outcome": "gross_outflows_gdp_w",
+  "terms": [
+   "exec_election"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "annual 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "year",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay"
+  ]
+ },
+ {
+  "spec": "annual_election_year",
+  "outcome": "net_flows_gdp_w",
+  "terms": [
+   "exec_election"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "annual 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "year",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay"
+  ]
+ },
+ {
+  "spec": "annual_election_year",
+  "outcome": "fdi_in_gdp_w",
+  "terms": [
+   "exec_election"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "annual 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "year",
+  "covariances": [
+   "cluster_country",
+   "driscoll_kraay"
+  ]
+ },
+ {
+  "spec": "annual_within_wgi_rl_est",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "wgi_rl_est"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "annual 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "year",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "annual_within_wgi_pv_est",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "wgi_pv_est"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "annual 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "year",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "annual_within_wgi_rq_est",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "wgi_rq_est"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "annual 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "year",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "annual_within_wgi_ge_est",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "wgi_ge_est"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "annual 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "year",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "annual_within_v2x_jucon",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "v2x_jucon"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "annual 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "year",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "reverse_unrest_event",
+  "outcome": "unrest_event",
+  "terms": [
+   "stop_l1to4"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "reverse_early_election_q",
+  "outcome": "early_election_q",
+  "terms": [
+   "stop_l1to4"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "reverse_exec_change",
+  "outcome": "exec_change",
+  "terms": [
+   "L_stop_any"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "annual 2016-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "year",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "reverse_irregular_exec_change",
+  "outcome": "irregular_exec_change",
+  "terms": [
+   "L_stop_any"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "annual 2016-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "year",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "policy_rate_change",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "d_policy_rate"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "quarterly, BIS-rate countries",
+  "fixed_effects": "country + period",
+  "time_unit": "quarter",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "kaopen_change",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "d_ka_open"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "annual 2015-2023",
+  "fixed_effects": "country + period",
+  "time_unit": "year",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "kaopen_change",
+  "outcome": "port_in_gdp_w",
+  "terms": [
+   "d_ka_open"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_fiscal_balance_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "annual 2015-2023",
+  "fixed_effects": "country + period",
+  "time_unit": "year",
+  "covariances": [
+   "cluster_country"
+  ]
+ },
+ {
+  "spec": "fiscal_balance_contemporaneous",
+  "outcome": "gross_inflows_gdp_w",
+  "terms": [
+   "fiscal_balance_gdp"
+  ],
+  "controls": [
+   "L_gdp_growth",
+   "L_inflation",
+   "L_ca_gdp",
+   "L_public_debt_gdp",
+   "L_log_gdp_pc"
+  ],
+  "sample": "annual 2015-2025",
+  "fixed_effects": "country + period",
+  "time_unit": "year",
+  "covariances": [
+   "cluster_country"
+  ]
+ }
+]
