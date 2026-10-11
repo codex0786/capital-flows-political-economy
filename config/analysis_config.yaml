@@ -1,0 +1,64 @@
+# Central analysis configuration. All scripts read sample dates and model options from here.
+# Protocol version is recorded in report/research_protocol.md; changes here after
+# results were first observed must be logged in report/protocol_changelog.md.
+
+protocol_version: "1.0"
+protocol_frozen_on: "2026-10-11"
+
+sample:
+  main_start_year: 2015
+  main_end_year: 2025          # last completed calendar year (as of Oct 2026)
+  extension_year: 2026         # partial year: only published quarters, flagged
+  pre_sample_year: 2014        # predetermined moderators measured here
+  quarterly_start: "2015Q1"
+
+country_inclusion:
+  min_population_millions: 1.0        # avoid micro-states dominating ratio outcomes
+  min_annual_bop_years: 9             # of 11 (2015-2025) with gross FDI+portfolio+other liabilities
+  min_quarterly_bop_quarters: 32      # of 44 for the quarterly analytical panel
+  require_wgi: true
+  exclude_iso3: []                    # no discretionary exclusions; all exclusions are rule-based
+  # Financial centres are kept in the sample but flagged; excluded in a robustness test.
+  financial_centres: [LUX, IRL, NLD, MLT, CYP, HKG, SGP, CHE, BEL, PAN, MUS, BHR, BHS, BRB]
+
+classification:
+  primary: imf_weo_apr2026            # Advanced vs EMDE (IMF WEO)
+  alternative: wb_income_fy26         # High income vs others (World Bank)
+
+outcomes:
+  primary:
+    - gross_inflows_gdp               # sum of FDI, portfolio and other-investment net incurrence of liabilities
+    - gross_outflows_gdp              # sum of FDI, portfolio and other-investment net acquisition of assets (excl. reserves)
+  secondary:
+    - net_flows_gdp
+    - fdi_inflows_gdp
+    - pe_inflows_gdp
+    - pd_inflows_gdp
+    - oi_inflows_gdp
+    - fdi_outflows_gdp
+    - port_outflows_gdp
+    - oi_outflows_gdp
+    - reserve_change_gdp
+  winsorize_pct: [1, 99]              # applied to ratio outcomes, pooled sample; robustness: none and [2.5, 97.5]
+
+elections:
+  types: [legislative, presidential]  # national legislative (lower/unicameral) and presidential first rounds
+  pre_window_quarters: 1              # election quarter and the one before = "pre/at election"
+  post_window_quarters: 2
+  event_study_leads: 6
+  event_study_lags: 6
+  # Reference is k = -4 (one year before the election), not -1: the hypothesis concerns the
+  # pre-election run-up itself, so normalising on k = -1 would absorb the effect of interest.
+  reference_period: -4
+  early_election_rule_months: 6       # election > 6 months before the date implied by the modal term
+
+inference:
+  primary: cluster_country
+  alternatives: [driscoll_kraay, twoway_cluster, wild_cluster_bootstrap]
+  bootstrap_reps: 999
+  seed: 20261011
+  driscoll_kraay_bandwidth: 4
+
+multiple_testing:
+  method: holm
+  family: primary_hypotheses

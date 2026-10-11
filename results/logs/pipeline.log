@@ -1,0 +1,144 @@
+2026-10-11 16:27:29,714 fetch INFO fetched IMF BOP (IMF.STA:BOP) -> imf_bop_A_raw.csv (53374370 bytes)
+2026-10-11 16:32:45,097 fetch ERROR FAILED Wikidata SPARQL https://query.wikidata.org/sparql: HTTP 504: upstream request timeout
+2026-10-11 16:32:45,099 wikidata ERROR chunk failed Q1076105 2008: Download failed for Wikidata SPARQL: HTTP 504: upstream request timeout
+2026-10-11 16:37:21,253 fetch ERROR FAILED Wikidata SPARQL https://query.wikidata.org/sparql: HTTP 504: upstream request timeout
+2026-10-11 16:37:21,255 wikidata ERROR chunk failed Q1076105 2009: Download failed for Wikidata SPARQL: HTTP 504: upstream request timeout
+2026-10-11 16:38:54,639 fetch ERROR FAILED IMF WEO DataMapper https://www.imf.org/external/datamapper/api/v1/NGDPD: HTTP 403: <HTML><HEAD>
+<TITLE>Access Denied</TITLE>
+</HEAD><BODY>
+<H1>Access Denied</H1>
+ 
+You don't have permission to access "http&#58;&#47;&#47;www&#46;imf&#46;org&#47;external&#47;datamapper&#47;api&#47;v1&
+2026-10-11 16:38:54,642 ingest.macro ERROR source group weo failed: Download failed for IMF WEO DataMapper: HTTP 403: <HTML><HEAD>
+<TITLE>Access Denied</TITLE>
+</HEAD><BODY>
+<H1>Access Denied</H1>
+ 
+You don't have permission to access "http&#58;&#47;&#47;www&#46;imf&#46;org&#47;external&#47;datamapper&#47;api&#47;v1&
+2026-10-11 16:38:58,530 fetch INFO fetched World Bank API v2 -> wdi_NY.GDP.MKTP.CD.json (900978 bytes)
+2026-10-11 16:39:00,474 fetch INFO fetched World Bank API v2 -> wdi_NE.TRD.GNFS.ZS.json (891630 bytes)
+2026-10-11 16:39:01,400 fetch INFO fetched World Bank API v2 -> wdi_FI.RES.TOTL.CD.json (997089 bytes)
+2026-10-11 16:39:02,120 fetch INFO fetched World Bank API v2 -> wdi_FI.RES.TOTL.MO.json (970673 bytes)
+2026-10-11 16:39:02,774 fetch INFO fetched World Bank API v2 -> wdi_DT.DOD.DECT.CD.json (994225 bytes)
+2026-10-11 16:39:03,632 fetch INFO fetched World Bank API v2 -> wdi_DT.DOD.DSTC.IR.ZS.json (975939 bytes)
+2026-10-11 16:41:00,184 fetch INFO fetched World Bank API v2 -> wdi_FS.AST.PRVT.GD.ZS.json (1021436 bytes)
+2026-10-11 16:41:01,819 fetch INFO fetched World Bank API v2 -> wdi_CM.MKT.LCAP.GD.ZS.json (1073716 bytes)
+2026-10-11 16:41:54,781 fetch ERROR FAILED Wikidata SPARQL https://query.wikidata.org/sparql: HTTP 504: upstream request timeout
+2026-10-11 16:41:54,782 wikidata ERROR chunk failed Q1076105 2010: Download failed for Wikidata SPARQL: HTTP 504: upstream request timeout
+2026-10-11 16:41:56,090 fetch INFO fetched World Bank API v2 -> wdi_FR.INR.RINR.json (885665 bytes)
+2026-10-11 16:41:57,031 fetch INFO fetched World Bank API v2 -> wdi_SP.POP.TOTL.json (856189 bytes)
+2026-10-11 16:41:57,846 fetch INFO fetched World Bank API v2 -> wdi_NY.GDP.TOTL.RT.ZS.json (998665 bytes)
+2026-10-11 16:41:58,629 fetch INFO fetched World Bank API v2 -> wdi_TX.VAL.FUEL.ZS.UN.json (999664 bytes)
+2026-10-11 16:41:59,998 fetch INFO fetched World Bank WGI (API source 3) -> wgi_VA.EST.json (102 bytes)
+2026-10-11 16:42:01,210 fetch INFO fetched World Bank WGI (API source 3) -> wgi_VA.SE.json (189 bytes)
+2026-10-11 16:42:01,634 fetch INFO fetched World Bank WGI (API source 3) -> wgi_VA.PER.RNK.json (102 bytes)
+2026-10-11 16:42:02,079 fetch INFO fetched World Bank WGI (API source 3) -> wgi_PV.EST.json (102 bytes)
+2026-10-11 16:42:02,536 fetch INFO fetched World Bank WGI (API source 3) -> wgi_PV.SE.json (189 bytes)
+2026-10-11 16:42:02,971 fetch INFO fetched World Bank WGI (API source 3) -> wgi_PV.PER.RNK.json (102 bytes)
+2026-10-11 16:42:03,376 fetch INFO fetched World Bank WGI (API source 3) -> wgi_GE.EST.json (102 bytes)
+2026-10-11 16:42:03,804 fetch INFO fetched World Bank WGI (API source 3) -> wgi_GE.SE.json (189 bytes)
+2026-10-11 16:42:05,193 fetch INFO fetched World Bank WGI (API source 3) -> wgi_GE.PER.RNK.json (102 bytes)
+2026-10-11 16:42:05,720 fetch INFO fetched World Bank WGI (API source 3) -> wgi_RQ.EST.json (102 bytes)
+2026-10-11 16:42:06,112 fetch INFO fetched World Bank WGI (API source 3) -> wgi_RQ.SE.json (189 bytes)
+2026-10-11 16:42:06,518 fetch INFO fetched World Bank WGI (API source 3) -> wgi_RQ.PER.RNK.json (102 bytes)
+2026-10-11 16:42:06,948 fetch INFO fetched World Bank WGI (API source 3) -> wgi_RL.EST.json (102 bytes)
+2026-10-11 16:42:07,380 fetch INFO fetched World Bank WGI (API source 3) -> wgi_RL.SE.json (189 bytes)
+2026-10-11 16:42:08,373 fetch INFO fetched World Bank WGI (API source 3) -> wgi_RL.PER.RNK.json (102 bytes)
+2026-10-11 16:42:08,807 fetch INFO fetched World Bank WGI (API source 3) -> wgi_CC.EST.json (102 bytes)
+2026-10-11 16:42:09,214 fetch INFO fetched World Bank WGI (API source 3) -> wgi_CC.SE.json (189 bytes)
+2026-10-11 16:42:09,624 fetch INFO fetched World Bank WGI (API source 3) -> wgi_CC.PER.RNK.json (102 bytes)
+2026-10-11 16:42:09,749 fetch INFO fetched World Bank API v2 -> wb_country_meta.json (113954 bytes)
+2026-10-11 16:42:10,120 fetch INFO fetched World Bank API v2 -> wgi_source_meta.json (239 bytes)
+2026-10-11 16:45:24,804 fetch ERROR FAILED Wikidata SPARQL https://query.wikidata.org/sparql: HTTP 504: upstream request timeout
+2026-10-11 16:45:24,806 wikidata ERROR chunk failed Q1076105 2011: Download failed for Wikidata SPARQL: HTTP 504: upstream request timeout
+2026-10-11 16:53:54,964 fetch INFO fetched World Bank WGI (API source 3) -> wgi_VA.EST.json (879369 bytes)
+2026-10-11 16:53:55,618 fetch INFO fetched World Bank WGI (API source 3) -> wgi_VA.SE.json (870894 bytes)
+2026-10-11 16:53:56,290 fetch INFO fetched World Bank WGI (API source 3) -> wgi_VA.SC.json (815499 bytes)
+2026-10-11 16:53:56,946 fetch INFO fetched World Bank WGI (API source 3) -> wgi_PV.EST.json (862328 bytes)
+2026-10-11 16:53:57,590 fetch INFO fetched World Bank WGI (API source 3) -> wgi_PV.SE.json (853679 bytes)
+2026-10-11 16:53:58,172 fetch INFO fetched World Bank WGI (API source 3) -> wgi_PV.SC.json (798457 bytes)
+2026-10-11 16:53:58,856 fetch INFO fetched World Bank WGI (API source 3) -> wgi_GE.EST.json (879544 bytes)
+2026-10-11 16:53:59,586 fetch INFO fetched World Bank WGI (API source 3) -> wgi_GE.SE.json (871040 bytes)
+2026-10-11 16:54:00,286 fetch INFO fetched World Bank WGI (API source 3) -> wgi_GE.SC.json (815560 bytes)
+2026-10-11 16:54:00,905 fetch INFO fetched World Bank WGI (API source 3) -> wgi_RQ.EST.json (858884 bytes)
+2026-10-11 16:54:01,610 fetch INFO fetched World Bank WGI (API source 3) -> wgi_RQ.SE.json (850395 bytes)
+2026-10-11 16:54:02,200 fetch INFO fetched World Bank WGI (API source 3) -> wgi_RQ.SC.json (794857 bytes)
+2026-10-11 16:54:02,869 fetch INFO fetched World Bank WGI (API source 3) -> wgi_RL.EST.json (834931 bytes)
+2026-10-11 16:54:03,540 fetch INFO fetched World Bank WGI (API source 3) -> wgi_RL.SE.json (826066 bytes)
+2026-10-11 16:54:04,281 fetch INFO fetched World Bank WGI (API source 3) -> wgi_RL.SC.json (770856 bytes)
+2026-10-11 16:54:05,000 fetch INFO fetched World Bank WGI (API source 3) -> wgi_CC.EST.json (869425 bytes)
+2026-10-11 16:54:05,944 fetch INFO fetched World Bank WGI (API source 3) -> wgi_CC.SE.json (860622 bytes)
+2026-10-11 16:54:06,620 fetch INFO fetched World Bank WGI (API source 3) -> wgi_CC.SC.json (805305 bytes)
+2026-10-11 16:54:06,734 fetch INFO fetched World Bank API v2 -> wgi_source_meta.json (239 bytes)
+2026-10-11 16:54:09,350 fetch INFO fetched (curl) IMF WEO DataMapper -> weo_NGDPD.json (157531 bytes)
+2026-10-11 16:54:11,036 fetch INFO fetched (curl) IMF WEO DataMapper -> weo_NGDP_RPCH.json (121723 bytes)
+2026-10-11 16:54:12,814 fetch INFO fetched (curl) IMF WEO DataMapper -> weo_NGDPDPC.json (176186 bytes)
+2026-10-11 16:54:17,258 fetch INFO fetched (curl) IMF WEO DataMapper -> weo_PCPIPCH.json (120999 bytes)
+2026-10-11 16:54:18,121 fetch INFO fetched (curl) IMF WEO DataMapper -> weo_BCA_NGDPD.json (124819 bytes)
+2026-10-11 16:54:20,020 fetch INFO fetched (curl) IMF WEO DataMapper -> weo_GGXCNL_NGDP.json (104901 bytes)
+2026-10-11 16:54:21,625 fetch INFO fetched (curl) IMF WEO DataMapper -> weo_GGXWDG_NGDP.json (98046 bytes)
+2026-10-11 16:54:26,735 fetch INFO fetched (curl) IMF WEO DataMapper -> weo_LP.json (151275 bytes)
+2026-10-11 16:54:29,002 fetch INFO fetched (curl) IMF WEO DataMapper -> weo_NGDPD_groups.json (157531 bytes)
+2026-10-11 16:54:29,512 fetch INFO fetched (curl) FRED (Federal Reserve Bank of St. Louis) -> VIXCLS.csv (161527 bytes)
+2026-10-11 16:54:29,892 fetch INFO fetched (curl) FRED (Federal Reserve Bank of St. Louis) -> FEDFUNDS.csv (13959 bytes)
+2026-10-11 16:54:30,750 fetch INFO fetched (curl) FRED (Federal Reserve Bank of St. Louis) -> DGS10.csv (268999 bytes)
+2026-10-11 16:54:31,197 fetch INFO fetched (curl) FRED (Federal Reserve Bank of St. Louis) -> DTWEXBGS.csv (104537 bytes)
+2026-10-11 16:54:31,771 fetch INFO fetched (curl) FRED (Federal Reserve Bank of St. Louis) -> POILBREUSDM.csv (12119 bytes)
+2026-10-11 16:54:32,144 fetch INFO fetched (curl) FRED (Federal Reserve Bank of St. Louis) -> BAMLH0A0HYM2.csv (12702 bytes)
+2026-10-11 16:54:36,130 fetch INFO fetched International IDEA Voter Turnout Database -> idea_voter_turnout_all.xlsx (514288 bytes)
+2026-10-11 16:54:37,147 fetch INFO fetched BIS Central bank policy rates (WS_CBPOL) -> bis_cbpol_m.csv (2691228 bytes)
+2026-10-11 16:54:38,622 fetch INFO fetched World Uncertainty Index (Ahir, Bloom & Furceri) -> WUI_Data_2026_07.xlsx (1491634 bytes)
+2026-10-11 16:54:40,004 fetch INFO fetched Geopolitical Risk Index (Caldara & Iacoviello) -> data_gpr_export.xls (2716160 bytes)
+2026-10-11 16:54:43,377 fetch INFO fetched Chinn-Ito Financial Openness Index -> kaopen_2023.xls (1091584 bytes)
+2026-10-11 16:55:58,368 fetch INFO fetched IMF Reported Social Unrest Index (IMF.WHD:RSUI) -> rsui_raw.csv (38795632 bytes)
+2026-10-11 16:58:22,963 cleaning INFO BOP A: 2223 rows, 198 economies
+2026-10-11 16:58:23,589 cleaning INFO BOP Q: 7386 rows, 158 economies
+2026-10-11 17:01:20,010 cleaning INFO interim step meta done
+2026-10-11 17:01:20,703 cleaning INFO BOP A: 2223 rows, 198 economies
+2026-10-11 17:01:20,725 cleaning INFO interim step bop_a done
+2026-10-11 17:01:21,817 cleaning INFO BOP Q: 7386 rows, 158 economies
+2026-10-11 17:01:21,842 cleaning INFO interim step bop_q done
+2026-10-11 17:01:22,357 cleaning INFO interim step weo done
+2026-10-11 17:12:13,946 cleaning INFO interim step wdi done
+2026-10-11 17:12:20,783 cleaning INFO interim step vdem done
+2026-10-11 17:12:21,720 cleaning INFO interim step idea done
+2026-10-11 17:12:22,437 cleaning INFO interim step wui done
+2026-10-11 17:12:23,029 cleaning INFO interim step gpr done
+2026-10-11 17:12:23,717 cleaning INFO interim step rsui done
+2026-10-11 17:12:24,226 cleaning INFO interim step kaopen done
+2026-10-11 17:12:24,666 cleaning INFO BIS policy rates not mapped to a single country: ['XM']
+2026-10-11 17:12:24,690 cleaning INFO interim step policy done
+2026-10-11 17:12:25,143 cleaning INFO interim step fred done
+2026-10-11 17:12:39,450 cleaning INFO interim step wgi done
+2026-10-11 17:14:23,126 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2008.json (402 bytes)
+2026-10-11 17:14:23,705 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2009.json (402 bytes)
+2026-10-11 17:14:24,495 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2010.json (19498 bytes)
+2026-10-11 17:14:25,275 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2011.json (17430 bytes)
+2026-10-11 17:14:26,035 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2012.json (21412 bytes)
+2026-10-11 17:14:26,883 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2013.json (17521 bytes)
+2026-10-11 17:14:27,713 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2014.json (42094 bytes)
+2026-10-11 17:14:28,724 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2015.json (46894 bytes)
+2026-10-11 17:14:29,529 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2016.json (39092 bytes)
+2026-10-11 17:14:30,395 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2017.json (39428 bytes)
+2026-10-11 17:14:47,721 fetch ERROR FAILED Wikipedia national electoral calendar (CC BY-SA) https://en.wikipedia.org/w/api.php: HTTP 429: You are making too many requests to the API.
+Please follow the best practices at <https://www.mediawiki.org/wiki/Wikimedia_APIs/Rate_limits>.
+If you are unsure how to get the access you need, contact 
+2026-10-11 17:15:20,291 wikipedia WARNING no calendar page for 2008
+2026-10-11 17:15:26,919 wikipedia WARNING no calendar page for 2009
+2026-10-11 17:15:33,757 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2018.json (31729 bytes)
+2026-10-11 17:15:41,465 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2019.json (29737 bytes)
+2026-10-11 17:15:48,513 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2020.json (46035 bytes)
+2026-10-11 17:15:55,536 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2021.json (42478 bytes)
+2026-10-11 17:16:02,567 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2022.json (53657 bytes)
+2026-10-11 17:16:09,629 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2023.json (64142 bytes)
+2026-10-11 17:16:16,674 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2024.json (84579 bytes)
+2026-10-11 17:16:23,682 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2025.json (63810 bytes)
+2026-10-11 17:16:30,460 fetch INFO fetched Wikipedia national electoral calendar (CC BY-SA) -> national_electoral_calendar_2026.json (34376 bytes)
+2026-10-11 17:18:01,767 cleaning INFO interim step vdem done
+2026-10-11 17:19:43,369 panels INFO universe: 196 candidates, annual sample 121, quarterly sample 108
+2026-10-11 17:19:43,804 panels INFO annual panel (1436, 141)
+2026-10-11 17:19:49,314 panels INFO universe: 196 candidates, annual sample 121, quarterly sample 108
+2026-10-11 17:19:49,749 panels INFO annual panel (1436, 141)
+2026-10-11 17:19:50,066 panels INFO quarterly panel (5294, 112)
+2026-10-11 17:19:50,087 panels INFO political events: {'election_parliamentary': 761, 'election_presidential': 506, 'major_social_unrest_quarter': 388, 'chief_executive_change': 364}
+2026-10-11 17:20:27,103 validation INFO data quality report: 179 rows

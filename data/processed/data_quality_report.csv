@@ -1,0 +1,180 @@
+check,dataset,variable,value,detail
+unique_keys,annual,iso3+year,1.0,n=1436
+coverage,annual,year,121.0,2014 to 2025
+bpm6_identity_resid_abs_median_pct_gdp,annual,fa_balance,0.0,share |resid|<0.5% GDP: 1.000; n=1309
+missingness_share,annual,fdi_in_gdp,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,fdi_in_gdp,82.0,"BHR:2023, CHE:2015, CHE:2016, CHE:2017, CHE:2018, CHE:2020, CHE:2021, CHE:2023, CHE:2024, EST:2021, HKG:2015, HKG:2016, HKG:2017, HKG:2018, HKG:2019 ..."
+missingness_share,annual,fdi_out_gdp,0.0008,"nonmissing by group {'AE': 1.0, 'EMDE': 0.999}; countries with any data 121"
+outliers_robust_z_gt5,annual,fdi_out_gdp,167.0,"AUS:2022, AUT:2016, AUT:2018, AUT:2021, AZE:2015, AZE:2016, AZE:2017, AZE:2019, BEL:2016, BEL:2018, BEL:2019, BEL:2020, BEL:2021, BEL:2022, BHR:2015 ..."
+missingness_share,annual,port_in_gdp,0.0038,"nonmissing by group {'AE': 1.0, 'EMDE': 0.995}; countries with any data 121"
+outliers_robust_z_gt5,annual,port_in_gdp,55.0,"BEL:2024, BEL:2025, BHR:2016, BHR:2020, BHR:2023, BHR:2025, CAN:2021, CHL:2021, DNK:2018, DNK:2020, EGY:2017, FIN:2018, FIN:2022, FIN:2024, FIN:2025 ..."
+missingness_share,annual,port_out_gdp,0.0015,"nonmissing by group {'AE': 1.0, 'EMDE': 0.998}; countries with any data 121"
+outliers_robust_z_gt5,annual,port_out_gdp,178.0,"AUS:2021, AUS:2024, AUT:2025, BEL:2016, BEL:2020, BEL:2021, BEL:2022, BEL:2024, BEL:2025, BEN:2021, BFA:2015, BHR:2016, BHR:2018, BHR:2021, BHR:2023 ..."
+missingness_share,annual,pe_in_gdp,0.0281,"nonmissing by group {'AE': 1.0, 'EMDE': 0.961}; countries with any data 120"
+outliers_robust_z_gt5,annual,pe_in_gdp,240.0,"AUS:2015, AUS:2016, AUS:2017, AUS:2019, AUS:2020, AUS:2021, AUS:2022, AUS:2023, AUS:2025, AUT:2017, AUT:2018, AUT:2019, AUT:2020, AUT:2021, BEL:2015 ..."
+missingness_share,annual,pd_in_gdp,0.0395,"nonmissing by group {'AE': 1.0, 'EMDE': 0.945}; countries with any data 119"
+outliers_robust_z_gt5,annual,pd_in_gdp,37.0,"BEL:2024, BEL:2025, BHR:2016, BHR:2025, CHL:2021, DNK:2020, EGY:2017, FIN:2019, FIN:2022, FIN:2025, FRA:2023, GRC:2020, HKG:2017, HKG:2025, IRL:2015 ..."
+missingness_share,annual,oi_in_gdp,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,oi_in_gdp,46.0,"BFA:2015, BFA:2016, CHE:2020, CHE:2023, FIN:2022, FIN:2024, GBR:2015, GBR:2020, GRC:2017, GRC:2020, GRC:2021, HKG:2017, HKG:2018, HKG:2020, HKG:2021 ..."
+missingness_share,annual,oi_out_gdp,0.0008,"nonmissing by group {'AE': 0.997, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,oi_out_gdp,87.0,"AZE:2015, AZE:2016, AZE:2022, BEL:2023, BFA:2015, BFA:2016, BHR:2023, BHR:2025, CHE:2018, CHE:2020, DNK:2018, FIN:2016, FIN:2021, FIN:2022, FIN:2024 ..."
+missingness_share,annual,reserve_change_gdp,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,reserve_change_gdp,48.0,"AZE:2015, BGR:2020, BHR:2015, BWA:2020, BWA:2024, CHE:2015, CHE:2016, CHE:2017, CHE:2020, CHE:2023, CZE:2016, CZE:2017, HKG:2015, HKG:2017, HKG:2020 ..."
+missingness_share,annual,gross_inflows_gdp,0.0038,"nonmissing by group {'AE': 1.0, 'EMDE': 0.995}; countries with any data 121"
+outliers_robust_z_gt5,annual,gross_inflows_gdp,60.0,"BFA:2015, BHR:2023, CHE:2018, CHE:2023, FIN:2022, HKG:2015, HKG:2016, HKG:2017, HKG:2018, HKG:2020, HKG:2021, HKG:2023, HKG:2024, HKG:2025, HUN:2016 ..."
+missingness_share,annual,gross_outflows_gdp,0.003,"nonmissing by group {'AE': 0.997, 'EMDE': 0.997}; countries with any data 121"
+outliers_robust_z_gt5,annual,gross_outflows_gdp,96.0,"BEL:2016, BFA:2015, BHR:2023, BHR:2024, CHE:2016, CHE:2018, CHE:2020, EST:2021, FIN:2022, FRA:2025, GBR:2020, GRC:2017, GRC:2020, HKG:2015, HKG:2016 ..."
+missingness_share,annual,net_flows_gdp,0.0046,"nonmissing by group {'AE': 0.997, 'EMDE': 0.995}; countries with any data 121"
+outliers_robust_z_gt5,annual,net_flows_gdp,25.0,"AZE:2022, CHE:2023, HKG:2022, KHM:2021, KWT:2021, KWT:2022, KWT:2023, KWT:2024, KWT:2025, LBN:2016, MOZ:2015, MOZ:2016, MOZ:2017, MOZ:2018, MOZ:2020 ..."
+missingness_share,annual,ca_gdp,0.0008,"nonmissing by group {'AE': 1.0, 'EMDE': 0.999}; countries with any data 121"
+outliers_robust_z_gt5,annual,ca_gdp,22.0,"AZE:2022, KGZ:2022, KGZ:2023, KHM:2021, KWT:2021, KWT:2022, KWT:2023, KWT:2024, KWT:2025, LBN:2022, MOZ:2015, MOZ:2016, MOZ:2018, MOZ:2020, MOZ:2022 ..."
+missingness_share,annual,fiscal_balance_gdp,0.0008,"nonmissing by group {'AE': 1.0, 'EMDE': 0.999}; countries with any data 121"
+outliers_robust_z_gt5,annual,fiscal_balance_gdp,28.0,"KWT:2015, KWT:2016, KWT:2017, KWT:2018, KWT:2019, KWT:2022, KWT:2023, KWT:2024, KWT:2025, NOR:2022, NOR:2023, NOR:2024, OMN:2016, QAT:2015, TLS:2015 ..."
+missingness_share,annual,public_debt_gdp,0.0008,"nonmissing by group {'AE': 1.0, 'EMDE': 0.999}; countries with any data 121"
+outliers_robust_z_gt5,annual,public_debt_gdp,25.0,"GRC:2015, GRC:2016, GRC:2017, GRC:2018, GRC:2019, GRC:2020, GRC:2021, JPN:2015, JPN:2016, JPN:2017, JPN:2018, JPN:2019, JPN:2020, JPN:2021, JPN:2022 ..."
+missingness_share,annual,trade_open_gdp,0.0684,"nonmissing by group {'AE': 0.992, 'EMDE': 0.909}; countries with any data 115"
+outliers_robust_z_gt5,annual,trade_open_gdp,22.0,"HKG:2015, HKG:2016, HKG:2017, HKG:2018, HKG:2019, HKG:2020, HKG:2021, HKG:2022, HKG:2023, HKG:2024, HKG:2025, SGP:2015, SGP:2016, SGP:2017, SGP:2018 ..."
+missingness_share,annual,private_credit_gdp,0.0996,"nonmissing by group {'AE': 0.887, 'EMDE': 0.905}; countries with any data 118"
+outliers_robust_z_gt5,annual,private_credit_gdp,6.0,"HKG:2019, HKG:2020, HKG:2021, HKG:2022, HKG:2023, HKG:2024"
+missingness_share,annual,mktcap_gdp,0.4837,"nonmissing by group {'AE': 0.598, 'EMDE': 0.485}; countries with any data 74"
+outliers_robust_z_gt5,annual,mktcap_gdp,31.0,"CHE:2017, CHE:2019, CHE:2020, CHE:2021, CHE:2025, HKG:2015, HKG:2016, HKG:2017, HKG:2018, HKG:2019, HKG:2020, HKG:2021, HKG:2022, HKG:2023, HKG:2024 ..."
+missingness_share,annual,ext_debt_gdp,0.4494,"nonmissing by group {'AE': 0.022, 'EMDE': 0.752}; countries with any data 73"
+outliers_robust_z_gt5,annual,ext_debt_gdp,23.0,"LBN:2020, LBN:2021, LBN:2022, LBN:2023, LBN:2024, MNG:2015, MNG:2016, MNG:2017, MNG:2018, MNG:2019, MNG:2020, MNG:2021, MNG:2022, MOZ:2015, MOZ:2016 ..."
+missingness_share,annual,L_gdp_growth,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,L_gdp_growth,14.0,"BOL:2021, ESP:2021, IRL:2016, IRQ:2021, LBN:2021, MUS:2021, PAN:2021, PER:2021, UKR:2023, VEN:2017, VEN:2018, VEN:2019, VEN:2020, VEN:2021"
+missingness_share,annual,L_inflation,0.0023,"nonmissing by group {'AE': 1.0, 'EMDE': 0.997}; countries with any data 121"
+outliers_robust_z_gt5,annual,L_inflation,58.0,"AGO:2017, AGO:2018, AGO:2019, AGO:2021, AGO:2022, AGO:2023, AGO:2025, ARG:2018, ARG:2019, ARG:2020, ARG:2021, ARG:2022, ARG:2023, ARG:2024, ARG:2025 ..."
+missingness_share,annual,L_ca_gdp,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,L_ca_gdp,24.0,"AZE:2023, KGZ:2023, KGZ:2024, KHM:2022, KWT:2015, KWT:2022, KWT:2023, KWT:2024, KWT:2025, LBN:2015, LBN:2023, MOZ:2015, MOZ:2016, MOZ:2017, MOZ:2019 ..."
+missingness_share,annual,L_fiscal_balance_gdp,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,L_fiscal_balance_gdp,23.0,"KWT:2015, KWT:2016, KWT:2018, KWT:2019, KWT:2023, KWT:2024, KWT:2025, NOR:2023, NOR:2024, OMN:2017, QAT:2015, QAT:2016, TLS:2015, TLS:2016, TLS:2017 ..."
+missingness_share,annual,L_public_debt_gdp,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,L_public_debt_gdp,25.0,"GRC:2015, GRC:2016, GRC:2017, GRC:2018, GRC:2019, GRC:2020, GRC:2021, GRC:2022, JPN:2015, JPN:2016, JPN:2017, JPN:2018, JPN:2019, JPN:2020, JPN:2021 ..."
+missingness_share,annual,L_log_gdp_pc,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,L_log_gdp_pc,0.0,
+missingness_share,annual,L_trade_open_gdp,0.057,"nonmissing by group {'AE': 1.0, 'EMDE': 0.921}; countries with any data 115"
+outliers_robust_z_gt5,annual,L_trade_open_gdp,23.0,"HKG:2015, HKG:2016, HKG:2017, HKG:2018, HKG:2019, HKG:2020, HKG:2021, HKG:2022, HKG:2023, HKG:2024, HKG:2025, IRL:2021, SGP:2015, SGP:2016, SGP:2017 ..."
+missingness_share,annual,L_reserves_months,0.0608,"nonmissing by group {'AE': 0.997, 'EMDE': 0.917}; countries with any data 114"
+outliers_robust_z_gt5,annual,L_reserves_months,11.0,"CHE:2021, LBN:2021, LBN:2022, SAU:2015, SAU:2016, SAU:2017, SAU:2018, SAU:2019, SAU:2020, SAU:2021, SAU:2022"
+missingness_share,annual,wgi_cc_est,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_cc_est,0.0,
+missingness_share,annual,wgi_cc_se,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_cc_se,3.0,"GNB:2015, GNB:2016, GNB:2017"
+missingness_share,annual,wgi_ge_est,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_ge_est,0.0,
+missingness_share,annual,wgi_ge_se,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_ge_se,0.0,
+missingness_share,annual,wgi_pv_est,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_pv_est,0.0,
+missingness_share,annual,wgi_pv_se,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_pv_se,4.0,"HKG:2015, HKG:2016, HKG:2017, HKG:2018"
+missingness_share,annual,wgi_rl_est,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_rl_est,0.0,
+missingness_share,annual,wgi_rl_se,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_rl_se,70.0,"ARM:2020, ARM:2021, ARM:2022, ARM:2023, ARM:2024, ARM:2025, AZE:2020, AZE:2021, AZE:2022, AZE:2023, AZE:2024, AZE:2025, BHR:2018, BHR:2019, BHR:2020 ..."
+missingness_share,annual,wgi_rq_est,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_rq_est,0.0,
+missingness_share,annual,wgi_rq_se,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_rq_se,0.0,
+missingness_share,annual,wgi_va_est,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_va_est,0.0,
+missingness_share,annual,wgi_va_se,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_va_se,0.0,
+missingness_share,annual,wgi_cc_2014,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_cc_2014,0.0,
+missingness_share,annual,wgi_ge_2014,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_ge_2014,0.0,
+missingness_share,annual,wgi_pv_2014,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_pv_2014,0.0,
+missingness_share,annual,wgi_rl_2014,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_rl_2014,0.0,
+missingness_share,annual,wgi_rq_2014,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_rq_2014,0.0,
+missingness_share,annual,wgi_va_2014,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 121"
+outliers_robust_z_gt5,annual,wgi_va_2014,0.0,
+missingness_share,annual,wui,0.0494,"nonmissing by group {'AE': 0.97, 'EMDE': 0.943}; countries with any data 115"
+outliers_robust_z_gt5,annual,wui,17.0,"BGD:2025, BRA:2018, BRA:2025, CAN:2025, CHE:2025, CHL:2022, CHL:2025, ECU:2025, GBR:2019, IRL:2019, MEX:2025, NPL:2025, PRY:2025, USA:2025, ZAF:2016 ..."
+missingness_share,annual,rsui_index,0.1293,"nonmissing by group {'AE': 1.0, 'EMDE': 0.821}; countries with any data 105"
+outliers_robust_z_gt5,annual,rsui_index,29.0,"ARM:2018, BDI:2015, BFA:2015, BFA:2022, BLR:2020, BOL:2019, CHL:2019, HKG:2019, HND:2017, KAZ:2022, KEN:2017, LBN:2020, LKA:2022, LTU:2020, MDG:2025 ..."
+missingness_share,annual,rsui_event,0.1293,"nonmissing by group {'AE': 1.0, 'EMDE': 0.821}; countries with any data 105"
+outliers_robust_z_gt5,annual,rsui_event,0.0,
+unique_keys,quarterly,iso3+quarter,1.0,n=5294
+coverage,quarterly,quarter,108.0,2014Q1 to 2026Q2
+bpm6_identity_resid_abs_median_pct_gdp,quarterly,fa_balance,0.0,share |resid|<0.5% GDP: 1.000; n=4700
+missingness_share,quarterly,fdi_in_gdp,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,fdi_in_gdp,320.0,"AGO:2021Q4, AUT:2016Q1, AUT:2018Q4, AUT:2019Q4, AUT:2020Q3, BEL:2015Q2, BEL:2015Q4, BEL:2016Q1, BEL:2017Q4, BEL:2018Q4, BEL:2019Q2, BEL:2019Q4, BEL:2020Q2, BEL:2023Q2, BEL:2024Q2 ..."
+missingness_share,quarterly,fdi_out_gdp,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,fdi_out_gdp,618.0,"AGO:2019Q1, AGO:2021Q4, ARM:2019Q4, AUS:2022Q1, AUT:2016Q1, AUT:2016Q4, AUT:2018Q4, AUT:2019Q3, AUT:2019Q4, AUT:2020Q1, AUT:2020Q3, AUT:2021Q3, AUT:2021Q4, AUT:2022Q1, AUT:2024Q1 ..."
+missingness_share,quarterly,port_in_gdp,0.0034,"nonmissing by group {'AE': 1.0, 'EMDE': 0.995}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,port_in_gdp,369.0,"AGO:2018Q2, AGO:2019Q4, ALB:2020Q2, ALB:2021Q4, ALB:2023Q2, ARG:2018Q1, ARM:2021Q1, AUS:2020Q3, AUS:2020Q4, AUS:2022Q1, AUS:2024Q4, AUS:2025Q3, AUT:2016Q3, AUT:2020Q2, AUT:2021Q1 ..."
+missingness_share,quarterly,port_out_gdp,0.0028,"nonmissing by group {'AE': 1.0, 'EMDE': 0.996}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,port_out_gdp,661.0,"AGO:2019Q1, AGO:2020Q2, ALB:2020Q2, ARM:2022Q4, ARM:2024Q3, AUS:2017Q3, AUS:2020Q1, AUS:2020Q4, AUS:2021Q2, AUS:2021Q3, AUS:2021Q4, AUS:2024Q3, AUS:2024Q4, AUS:2025Q4, AUT:2020Q2 ..."
+missingness_share,quarterly,pe_in_gdp,0.0296,"nonmissing by group {'AE': 0.97, 'EMDE': 0.971}; countries with any data 106"
+outliers_robust_z_gt5,quarterly,pe_in_gdp,1000.0,"ARG:2017Q3, AUS:2015Q1, AUS:2015Q2, AUS:2016Q1, AUS:2016Q3, AUS:2016Q4, AUS:2017Q1, AUS:2017Q4, AUS:2018Q3, AUS:2018Q4, AUS:2019Q1, AUS:2019Q3, AUS:2020Q1, AUS:2020Q2, AUS:2020Q3 ..."
+missingness_share,quarterly,pd_in_gdp,0.0398,"nonmissing by group {'AE': 0.97, 'EMDE': 0.956}; countries with any data 105"
+outliers_robust_z_gt5,quarterly,pd_in_gdp,349.0,"AGO:2018Q2, AGO:2019Q4, ALB:2020Q2, ALB:2021Q4, ALB:2023Q2, ARG:2017Q1, ARG:2018Q1, ARM:2015Q1, ARM:2021Q1, AUS:2020Q1, AUS:2020Q4, AUS:2023Q4, AUS:2024Q4, AUS:2025Q3, AUT:2016Q3 ..."
+missingness_share,quarterly,oi_in_gdp,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,oi_in_gdp,253.0,"AGO:2016Q2, ARM:2016Q4, BDI:2021Q3, BEL:2015Q1, BEL:2015Q2, BEL:2015Q4, BEL:2016Q1, BEL:2018Q3, BEL:2022Q1, BEL:2022Q3, BEL:2022Q4, BEL:2023Q1, BEL:2024Q1, BEL:2025Q1, CAN:2020Q4 ..."
+missingness_share,quarterly,oi_out_gdp,0.0002,"nonmissing by group {'AE': 0.999, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,oi_out_gdp,290.0,"AUT:2020Q4, AUT:2023Q1, AZE:2015Q1, AZE:2016Q4, AZE:2022Q2, AZE:2022Q3, BEL:2015Q1, BEL:2015Q2, BEL:2015Q4, BEL:2016Q1, BEL:2016Q3, BEL:2018Q3, BEL:2020Q1, BEL:2022Q4, BEL:2023Q1 ..."
+missingness_share,quarterly,reserve_change_gdp,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,reserve_change_gdp,200.0,"ALB:2020Q2, ALB:2021Q4, ARG:2019Q3, ARM:2016Q4, AZE:2015Q1, AZE:2015Q4, BDI:2021Q3, BGR:2015Q1, BGR:2020Q3, BGR:2021Q3, BGR:2022Q3, BGR:2023Q4, BGR:2024Q1, BGR:2024Q3, BGR:2025Q4 ..."
+missingness_share,quarterly,gross_inflows_gdp,0.0034,"nonmissing by group {'AE': 1.0, 'EMDE': 0.995}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,gross_inflows_gdp,243.0,"AUT:2018Q4, AUT:2019Q4, BDI:2021Q3, BEL:2015Q1, BEL:2015Q2, BEL:2015Q4, BEL:2016Q1, BEL:2022Q1, BEL:2023Q1, BEL:2024Q1, CHE:2015Q1, CHE:2015Q4, CHE:2016Q2, CHE:2018Q2, CHE:2018Q3 ..."
+missingness_share,quarterly,gross_outflows_gdp,0.003,"nonmissing by group {'AE': 0.999, 'EMDE': 0.996}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,gross_outflows_gdp,370.0,"AUS:2022Q1, AUT:2018Q4, AUT:2019Q4, AUT:2025Q1, AZE:2015Q1, AZE:2016Q4, BEL:2015Q1, BEL:2015Q2, BEL:2015Q4, BEL:2016Q1, BEL:2016Q3, BEL:2018Q4, BEL:2019Q2, BEL:2019Q3, BEL:2020Q1 ..."
+missingness_share,quarterly,net_flows_gdp,0.0047,"nonmissing by group {'AE': 0.999, 'EMDE': 0.994}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,net_flows_gdp,106.0,"ALB:2020Q2, AZE:2021Q4, AZE:2022Q2, AZE:2022Q3, BDI:2021Q3, CHE:2015Q1, CHE:2023Q3, CZE:2017Q1, DNK:2015Q1, DNK:2015Q2, EST:2021Q4, HKG:2022Q2, HKG:2022Q3, HKG:2025Q1, HKG:2025Q3 ..."
+missingness_share,quarterly,L_gdp_growth,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,L_gdp_growth,60.0,"BOL:2021Q1, BOL:2021Q2, BOL:2021Q3, BOL:2021Q4, ESP:2021Q1, ESP:2021Q2, ESP:2021Q3, ESP:2021Q4, IRL:2016Q1, IRL:2016Q2, IRL:2016Q3, IRL:2016Q4, IRQ:2021Q1, IRQ:2021Q2, IRQ:2021Q3 ..."
+missingness_share,quarterly,L_inflation,0.0025,"nonmissing by group {'AE': 1.0, 'EMDE': 0.996}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,L_inflation,212.0,"AGO:2017Q1, AGO:2017Q2, AGO:2017Q3, AGO:2017Q4, AGO:2018Q1, AGO:2018Q2, AGO:2018Q3, AGO:2018Q4, AGO:2019Q1, AGO:2019Q2, AGO:2019Q3, AGO:2019Q4, AGO:2021Q1, AGO:2021Q2, AGO:2021Q3 ..."
+missingness_share,quarterly,L_ca_gdp,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,L_ca_gdp,96.0,"AZE:2023Q1, AZE:2023Q2, AZE:2023Q3, AZE:2023Q4, KGZ:2023Q1, KGZ:2023Q2, KGZ:2023Q3, KGZ:2023Q4, KGZ:2024Q1, KGZ:2024Q2, KGZ:2024Q3, KGZ:2024Q4, KHM:2022Q1, KHM:2022Q2, KHM:2022Q3 ..."
+missingness_share,quarterly,L_fiscal_balance_gdp,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,L_fiscal_balance_gdp,88.0,"KWT:2015Q1, KWT:2015Q2, KWT:2015Q3, KWT:2015Q4, KWT:2016Q1, KWT:2016Q2, KWT:2016Q3, KWT:2016Q4, KWT:2018Q1, KWT:2018Q2, KWT:2018Q3, KWT:2018Q4, KWT:2019Q1, KWT:2019Q2, KWT:2019Q3 ..."
+missingness_share,quarterly,L_public_debt_gdp,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,L_public_debt_gdp,96.0,"GRC:2015Q1, GRC:2015Q2, GRC:2015Q3, GRC:2015Q4, GRC:2017Q1, GRC:2017Q2, GRC:2017Q3, GRC:2017Q4, GRC:2018Q1, GRC:2018Q2, GRC:2018Q3, GRC:2018Q4, GRC:2019Q1, GRC:2019Q2, GRC:2019Q3 ..."
+missingness_share,quarterly,L_log_gdp_pc,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,L_log_gdp_pc,0.0,
+missingness_share,quarterly,L_trade_open_gdp,0.064,"nonmissing by group {'AE': 1.0, 'EMDE': 0.908}; countries with any data 102"
+outliers_robust_z_gt5,quarterly,L_trade_open_gdp,88.0,"HKG:2015Q1, HKG:2015Q2, HKG:2015Q3, HKG:2015Q4, HKG:2016Q1, HKG:2016Q2, HKG:2016Q3, HKG:2016Q4, HKG:2017Q1, HKG:2017Q2, HKG:2017Q3, HKG:2017Q4, HKG:2018Q1, HKG:2018Q2, HKG:2018Q3 ..."
+missingness_share,quarterly,L_reserves_months,0.0093,"nonmissing by group {'AE': 0.997, 'EMDE': 0.988}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,L_reserves_months,44.0,"CHE:2021Q1, CHE:2021Q2, CHE:2021Q3, CHE:2021Q4, LBN:2021Q1, LBN:2021Q2, LBN:2021Q3, LBN:2021Q4, LBN:2022Q1, LBN:2022Q2, LBN:2022Q3, LBN:2022Q4, SAU:2015Q1, SAU:2015Q2, SAU:2015Q3 ..."
+missingness_share,quarterly,wgi_cc_2014,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,wgi_cc_2014,0.0,
+missingness_share,quarterly,wgi_ge_2014,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,wgi_ge_2014,0.0,
+missingness_share,quarterly,wgi_pv_2014,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,wgi_pv_2014,0.0,
+missingness_share,quarterly,wgi_rl_2014,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,wgi_rl_2014,0.0,
+missingness_share,quarterly,wgi_rq_2014,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,wgi_rq_2014,0.0,
+missingness_share,quarterly,wgi_va_2014,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,wgi_va_2014,0.0,
+missingness_share,quarterly,elec_exec_pre,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+missingness_share,quarterly,elec_exec_post,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+missingness_share,quarterly,elec_exec_sched_pre,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+missingness_share,quarterly,elec_exec_sched_post,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+missingness_share,quarterly,elec_exec_early_pre,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+missingness_share,quarterly,elec_exec_early_post,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+missingness_share,quarterly,elec_any_pre,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+missingness_share,quarterly,elec_any_post,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+missingness_share,quarterly,wui,0.046,"nonmissing by group {'AE': 0.97, 'EMDE': 0.947}; countries with any data 103"
+outliers_robust_z_gt5,quarterly,wui,64.0,"BEL:2025Q3, BGD:2024Q4, BGD:2025Q1, BGD:2025Q2, BGD:2025Q3, BGD:2025Q4, BOL:2019Q4, BOL:2020Q1, BRA:2018Q3, BRA:2025Q3, BRA:2025Q4, CAN:2025Q3, CAN:2025Q4, CHE:2020Q2, CHE:2025Q2 ..."
+missingness_share,quarterly,gpr_country,0.6086,"nonmissing by group {'AE': 0.606, 'EMDE': 0.296}; countries with any data 42"
+outliers_robust_z_gt5,quarterly,gpr_country,205.0,"BEL:2022Q1, CHN:2017Q2, CHN:2017Q3, CHN:2018Q2, CHN:2018Q3, CHN:2018Q4, CHN:2019Q1, CHN:2019Q2, CHN:2019Q3, CHN:2020Q1, CHN:2020Q2, CHN:2020Q3, CHN:2021Q1, CHN:2021Q4, CHN:2022Q1 ..."
+missingness_share,quarterly,rsui_index,0.0925,"nonmissing by group {'AE': 1.0, 'EMDE': 0.866}; countries with any data 98"
+outliers_robust_z_gt5,quarterly,rsui_index,135.0,"ARG:2023Q4, ARM:2018Q2, AUT:2021Q4, BDI:2015Q2, BDI:2015Q3, BDI:2015Q4, BEL:2017Q4, BGD:2024Q3, BGD:2024Q4, BGD:2025Q1, BGD:2025Q4, BLR:2020Q3, BLR:2020Q4, BLR:2021Q1, BLR:2021Q2 ..."
+missingness_share,quarterly,rsui_event,0.0925,"nonmissing by group {'AE': 1.0, 'EMDE': 0.866}; countries with any data 98"
+outliers_robust_z_gt5,quarterly,rsui_event,0.0,
+missingness_share,quarterly,policy_rate,0.6527,"nonmissing by group {'AE': 0.434, 'EMDE': 0.309}; countries with any data 38"
+outliers_robust_z_gt5,quarterly,policy_rate,63.0,"ARG:2015Q1, ARG:2015Q2, ARG:2015Q3, ARG:2015Q4, ARG:2016Q1, ARG:2016Q2, ARG:2016Q3, ARG:2016Q4, ARG:2017Q1, ARG:2017Q2, ARG:2017Q3, ARG:2017Q4, ARG:2018Q1, ARG:2018Q2, ARG:2018Q3 ..."
+missingness_share,quarterly,gpr_global,0.0,"nonmissing by group {'AE': 1.0, 'EMDE': 1.0}; countries with any data 108"
+outliers_robust_z_gt5,quarterly,gpr_global,0.0,
+election_verification,political_events,wikipedia+idea+vdem,642.0,2015-2026 national contests
+election_verification,political_events,wikipedia_only,137.0,2015-2026 national contests
+election_verification,political_events,two_sources,110.0,2015-2026 national contests
+election_date_conflicts_gt7d,political_events,event_date,7.0,Wikipedia date kept; IDEA date preserved in coding_notes
+ae_membership_matches_ADVEC,country_metadata,country_group,1.0,"[{'year': '2015', 'sum_members_bn': 45898.599, 'ADVEC_aggregate_bn': 45898.598, 'difference_bn': -0.001}, {'year': '2019', 'sum_members_bn': 52663.788, 'ADVEC_aggregate_bn': 52663.787, 'difference_bn': -0.001}, {'year': '2024', 'sum_members_bn': 65382.171, 'ADVEC_aggregate_bn': 65382.172, 'difference_bn': 0.001}, {'year': '2025', 'sum_members_bn': 69386.69, 'ADVEC_aggregate_bn': 69386.689, 'difference_bn': -0.001}]"
