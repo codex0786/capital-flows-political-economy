@@ -7,7 +7,7 @@
 :root{
   --bg:#f4f5f7; --surface:#ffffff; --surface-2:#eceef2; --line:#d9dce3; --fg:#141a26; --fg-2:#4a5263; --fg-3:#6b7385;
   --ink:#16213a; --accent:#2a78d6; --accent-soft:#dbe8f9; --warm:#eb6834; --warm-soft:#fbe2d6; --aqua:#1baf7a;
-  --pos:#1f7a4d; --neg:#b4361f; --ref:#8a91a1;
+  --pos:#1f7a4d; --neg:#b4361f; --ref:#8a91a1; --violet:#4a3aa7; --unx:#c9ccd4;
   --f-display:'Source Serif 4', Georgia, 'Times New Roman', serif;
   --f-ui:'IBM Plex Sans', 'Segoe UI', Helvetica, Arial, sans-serif;
   --f-mono:'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
@@ -16,11 +16,11 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0e1420; --surface:#151d2c; --surface-2:#1c2638; --line:#2a3550; --fg:#e8ecf3; --fg-2:#b3bccd; --fg-3:#8c96aa;
   --ink:#e8ecf3; --accent:#5b9cf0; --accent-soft:#1d3254; --warm:#f08a5d; --warm-soft:#3d2418; --aqua:#2fc48e;
-  --pos:#57c08c; --neg:#f07a62; --ref:#6f7890; color-scheme:dark}}
+  --pos:#57c08c; --neg:#f07a62; --ref:#6f7890; --violet:#9085e9; --unx:#4a536a; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0e1420; --surface:#151d2c; --surface-2:#1c2638; --line:#2a3550; --fg:#e8ecf3; --fg-2:#b3bccd; --fg-3:#8c96aa;
   --ink:#e8ecf3; --accent:#5b9cf0; --accent-soft:#1d3254; --warm:#f08a5d; --warm-soft:#3d2418; --aqua:#2fc48e;
-  --pos:#57c08c; --neg:#f07a62; --ref:#6f7890; color-scheme:dark}
+  --pos:#57c08c; --neg:#f07a62; --ref:#6f7890; --violet:#9085e9; --unx:#4a536a; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-ui);font-size:15px;line-height:1.5;margin:0}
 .wrap{max-width:1180px;margin:0 auto;padding-inline:20px}
@@ -105,6 +105,23 @@ code{font-family:var(--f-mono);font-size:.9em;background:var(--surface-2);paddin
 .prof td,.prof th{font-size:13px;padding:6px 8px}
 .prof td.n{min-width:56px}
 input[type=search]{font:15px var(--f-ui);color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;max-width:100%}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tile{background:var(--surface-2);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.tile .k{font-size:12px;color:var(--fg-3)} .tile .v{font:600 24px/1.1 var(--f-display);color:var(--ink);font-variant-numeric:tabular-nums}
+.tile .s{font-size:12.5px;color:var(--fg-2)}
+.narr{display:flex;flex-direction:column;gap:8px;max-width:78ch}
+.narr p{font-size:15.5px;line-height:1.65}
+.yearlist{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)}
+.yearlist .yr{display:grid;grid-template-columns:64px 80px minmax(0,1fr);gap:12px;padding:10px 0;border-bottom:1px solid var(--line);align-items:baseline}
+@media (max-width:620px){.yearlist .yr{grid-template-columns:52px minmax(0,1fr)}.yearlist .yr .dv{display:none}}
+.yr .y{font:600 15px var(--f-mono)} .yr .dv{font:13px var(--f-mono);font-variant-numeric:tabular-nums}
+.slider{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1 1 200px}
+.slider label{font:500 12px var(--f-ui);color:var(--fg-3);display:flex;justify-content:space-between;gap:8px}
+.slider input{width:100%;accent-color:var(--accent)}
+.btn{font:500 13px var(--f-ui);background:var(--surface);color:var(--fg-2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer}
+.btn:hover{color:var(--fg)}
+details summary{cursor:pointer;color:var(--accent);font:500 13px var(--f-ui)}
 footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);font-size:13px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -112,13 +129,69 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
 <header class="top wrap">
   <span class="eyebrow">Elections · institutions · BPM6 capital flows · 108 economies · 2015Q1–2025Q4</span>
   <h1>Capital in Motion</h1>
-  <p class="lede">An interactive version of a pre-registered study of whether national elections, institutional quality and global risk change cross-border capital flows. Every estimate here comes from the same reproducible pipeline as the written report.</p>
+  <p class="lede">Pick an economy to see what happened to its capital flows since 2015, which forces were behind it, and where flows are likely to go over the next year. The other tabs hold the cross-country study behind the analysis.</p>
 </header>
 <nav class="tabs" aria-label="Sections"><div class="wrap" id="tabs">
-  <a href="#overview">Overview</a><a href="#countries">Countries</a><a href="#years">Country × year</a><a href="#models">Model lab</a><a href="#dynamics">Dynamics</a><a href="#robustness">Robustness</a><a href="#report">Report</a><a href="#data">Data &amp; methods</a>
+  <a href="#analysis">Country analysis</a><a href="#overview">Overview</a><a href="#countries">Countries</a><a href="#years">Country × year</a><a href="#models">Model lab</a><a href="#dynamics">Dynamics</a><a href="#robustness">Robustness</a><a href="#report">Report</a><a href="#data">Data &amp; methods</a>
 </div></nav>
 
 <main class="wrap">
+
+<!-- COUNTRY ANALYSIS -->
+<section class="view" id="v-analysis" hidden>
+  <div class="panel">
+    <div class="controls">
+      <div class="ctl" style="flex:2 1 280px"><label for="a-country">Choose an economy</label><select id="a-country"></select></div>
+      <div class="ctl"><label>Flow</label><div class="seg" id="a-outcome"><button aria-pressed="true" data-v="gross_in">Gross inflows</button><button aria-pressed="false" data-v="gross_out">Gross outflows</button><button aria-pressed="false" data-v="net">Net flows</button></div></div>
+    </div>
+    <div id="a-head"></div>
+    <div class="tiles" id="a-tiles"></div>
+  </div>
+
+  <div class="panel">
+    <div><span class="eyebrow">1 · What happened</span><h2 id="a-title-happened" style="margin-top:4px"></h2></div>
+    <div class="legend" id="a-legend"></div>
+    <div class="chart" id="a-chart"></div>
+    <p class="small muted">Quarterly flows, annualised % of GDP. Grey line: the driver model's fitted values. Vertical lines: executive-relevant elections (dashed = early). Shaded: 2026 (partial year). Right of the dotted divider: the forecast with 80% and 95% ranges.</p>
+    <div class="narr" id="a-happened"></div>
+  </div>
+
+  <div class="panel">
+    <div><span class="eyebrow">2 · Why it happened</span><h2 style="margin-top:4px">Drivers, year by year</h2></div>
+    <div class="narr" id="a-why"></div>
+    <div class="legend" id="a-why-legend"></div>
+    <div class="chart" id="a-why-chart"></div>
+    <p class="small muted">Each bar splits the year's average deviation from the country's own 2015–25 average into driver contributions (pp of GDP). The dot is the actual deviation. Global = risk appetite, US rates, dollar and oil. Domestic = growth, inflation, external balance and public finances. These are statistical attributions from a fixed-effects model, not causal effects.</p>
+    <div class="yearlist" id="a-years"></div>
+    <details><summary>Show all eleven driver categories by year</summary><div class="tbl" id="a-why-table" style="margin-top:10px"></div></details>
+  </div>
+
+  <div class="panel">
+    <div><span class="eyebrow">3 · Outlook</span><h2 style="margin-top:4px">Next four quarters</h2></div>
+    <div class="narr" id="a-outlook"></div>
+    <div class="tbl" id="a-fc-table"></div>
+    <div class="panel" style="background:var(--surface-2);border:0">
+      <h3>What if global conditions change?</h3>
+      <p class="small muted">Shifts the path using this country's estimated sensitivity to each global factor, carried forward by its momentum. Sensitivities come from about 44 quarters of data and are shrunk toward the group estimate, so treat the result as a rough order of magnitude.</p>
+      <div class="controls">
+        <div class="slider"><label for="s-vix"><span>VIX change</span><span class="mono" id="s-vix-v">0 pts</span></label><input type="range" id="s-vix" min="-10" max="25" step="1" value="0"></div>
+        <div class="slider"><label for="s-fed"><span>US policy rate change</span><span class="mono" id="s-fed-v">0.00 pp</span></label><input type="range" id="s-fed" min="-2" max="2" step="0.25" value="0"></div>
+        <div class="slider"><label for="s-usd"><span>Dollar move (one quarter)</span><span class="mono" id="s-usd-v">0%</span></label><input type="range" id="s-usd" min="-10" max="10" step="1" value="0"></div>
+        <div class="slider"><label for="s-oil"><span>Oil price move (one quarter)</span><span class="mono" id="s-oil-v">0%</span></label><input type="range" id="s-oil" min="-40" max="40" step="5" value="0"></div>
+      </div>
+      <div class="controls"><button class="btn" id="s-riskoff">Risk-off shock</button><button class="btn" id="s-easing">US easing</button><button class="btn" id="s-reset">Reset</button></div>
+      <p class="interp" id="s-result"></p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div><span class="eyebrow">4 · How reliable is the forecast?</span><h2 style="margin-top:4px">2024–25 backtest</h2></div>
+    <p class="small muted">The model was re-estimated with data to 2023Q4 and asked to forecast 2024Q1–2025Q4, then compared with what happened.</p>
+    <div class="legend" id="a-bt-legend"></div>
+    <div class="chart" id="a-bt-chart"></div>
+    <div class="tbl" id="a-bt-table"></div>
+  </div>
+</section>
 
 <!-- OVERVIEW -->
 <section class="view" id="v-overview">
@@ -295,6 +368,11 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
 
 <!-- DATA -->
 <section class="view" id="v-data" hidden>
+  <div class="panel"><h3>How the country analysis works</h3>
+    <p><b>Driver model.</b> For each country group (advanced; emerging and developing), quarterly flows in 2015Q1–2025Q4 are regressed on last quarter's flow (momentum), global push factors (VIX, US policy rate, change in the US 10-year yield, dollar and oil price changes), last year's domestic fundamentals from the IMF WEO (growth, inflation, current account, fiscal balance, public debt) and the election-quarter and post-election windows, with country fixed effects. Each country gets its own sensitivity to the global factors, shrunk toward the group estimate (empirical Bayes) because 44 quarters is too few to estimate them alone.</p>
+    <p><b>Why.</b> With country fixed effects, each quarter's deviation from the country's own average splits exactly into driver contributions plus an unexplained remainder. These are statistical attributions, not causal effects. The model explains only a small share of quarterly movement, which is typical for gross capital flows.</p>
+    <p><b>Outlook.</b> The central forecast blends the driver model, the average of the last four reported quarters and the 2015–25 average. Weights are chosen per group and flow by minimising error in a 2024–25 backtest (estimated to 2023Q4). For gross flows the backtest gave the driver model no weight, so the central path rests on the recent level and the long-run average, plus the election effect where that improved accuracy. Ranges come from backtest errors at each horizon, scaled by the country's volatility; 80% ranges contained 79–84% of 2024–25 outcomes. Scenario sliders apply the model's country sensitivities on top of the central path.</p>
+    <p class="small muted">Code: <code>src/forecast/country_model.py</code>. Backtest summary: <code>results/tables/country_model_backtest.csv</code>.</p></div>
   <div class="panel"><h3>Sources</h3><div class="tbl" id="dt-sources"></div></div>
   <div class="grid g2">
     <div class="panel"><h3>Definitions</h3>
@@ -314,6 +392,7 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
 <footer><div class="wrap">Capital in Motion · data retrieved 11 October 2026 · IMF BOP v21, IMF WEO, World Bank WDI and WGI (2026), V-Dem v16, International IDEA, Wikipedia calendars, WUI, FRED · estimates from the project pipeline (<code>run_pipeline.sh</code>)</div></footer>
 
 <script type="application/json" id="bundle">__BUNDLE__</script>
+<script type="application/json" id="cabundle">__CABUNDLE__</script>
 <script>
 (function(){
 const B = JSON.parse(document.getElementById('bundle').textContent);
@@ -605,11 +684,143 @@ function renderContrast(){
 $('#y-find').addEventListener('input',renderYears);
 seg('#y-group',v=>{yGroup=v;renderYears();});
 
+/* ---------- COUNTRY ANALYSIS ---------- */
+const CA=JSON.parse(document.getElementById('cabundle').textContent);
+const CATS5={Global:['Global risk appetite','US interest rates','US dollar','Oil prices'],Domestic:['Domestic growth','Domestic inflation','External balance','Public finances'],Elections:['Elections'],Momentum:['Momentum'],Unexplained:['Unexplained']};
+const CAT_COL={Global:'--accent',Domestic:'--aqua',Elections:'--warm',Momentum:'--violet',Unexplained:'--unx'};
+const OUTL={gross_in:'gross inflows',gross_out:'gross outflows',net:'net flows'};
+const caList=Object.entries(CA.countries).sort((a,b)=>a[1].name.localeCompare(b[1].name));
+$('#a-country').innerHTML=['AE','EMDE'].map(g=>`<optgroup label="${g==='AE'?'Advanced economies':'Emerging & developing economies'}">`+caList.filter(([,c])=>c.group===g).map(([k,c])=>`<option value="${k}">${esc(c.name)}</option>`).join('')+'</optgroup>').join('');
+$('#a-country').value='IND';
+let aOut='gross_in';
+const scen={vix:0,fed:0,usd:0,oil:0};
+function aData(){ const iso=$('#a-country').value; return {iso,c:CA.countries[iso],d:CA.countries[iso][aOut]}; }
+function renderAnalysis(){
+  const {iso,c,d}=aData(); const lab=OUTL[aOut]; const bt=CA.backtest[`${aOut}_${c.group}`];
+  const fcAvg=d.forecast.length? d.forecast.reduce((p,r)=>p+r.mean,0)/d.forecast.length : null;
+  const lastQ=d.quarters.filter((q,i)=>d.actual[i]!=null).slice(-1)[0];
+  $('#a-head').innerHTML=`<div class="controls" style="gap:8px"><span class="chip ${c.group==='AE'?'conf':'sec'}">${c.group==='AE'?'Advanced economy':'Emerging / developing'}</span><span class="small muted">Latest reported quarter: ${lastQ}</span></div>`;
+  $('#a-tiles').innerHTML=[
+    ['2015–25 average',fmt(d.mean,1)+'%','of GDP, annualised'],
+    ['Last four quarters',fmt(d.last4,1)+'%','to '+lastQ],
+    ['Forecast, next 4 quarters',fcAvg==null?'–':fmt(fcAvg,1)+'%',d.forecast.length?`${d.forecast[0].quarter}–${d.forecast[d.forecast.length-1].quarter}`:''],
+    ['Backtest error',d.backtest?fmt(d.backtest.rmse_comb,1)+' pp':'–',d.backtest?`vs ${fmt(d.backtest.rmse_mean,1)} pp for the average alone`:'not enough data']
+  ].map(t=>`<div class="tile"><span class="k">${t[0]}</span><span class="v">${t[1]}</span><span class="s">${esc(t[2])}</span></div>`).join('');
+  $('#a-title-happened').textContent=`${c.name}: ${lab}, 2015 to ${lastQ}`;
+  $('#a-happened').innerHTML=d.narrative.happened.map(t=>`<p>${esc(t)}</p>`).join('');
+  $('#a-why').innerHTML=d.narrative.why.map(t=>`<p>${esc(t)}</p>`).join('');
+  $('#a-outlook').innerHTML=(d.narrative.outlook||[]).map(t=>`<p>${esc(t)}</p>`).join('');
+  $('#a-years').innerHTML=d.narrative.years.map(y=>`<div class="yr"><span class="y">${y.year}</span><span class="dv" style="color:${y.dev<0?'var(--warm)':'var(--accent)'}">${y.dev>=0?'+':''}${fmt(y.dev,1)} pp</span><span>${esc(y.text)}${y.context?`<br><span class="small muted">${esc(y.context)}</span>`:''}</span></div>`).join('');
+  renderAChart(); renderWhy(); renderForecastTable(); renderScenario(); renderBacktest();
+}
+function scenarioDelta(d){
+  const z=CA.assumptions.zstats, b=d.loadings, rho=d.rho;
+  const dz={vix:scen.vix/z.vix.sd, fed_funds:scen.fed/z.fed_funds.sd, usd_chg:scen.usd/z.usd_chg.sd, brent_chg:scen.oil/z.brent_chg.sd};
+  let prev=0; return d.forecast.map((r,h)=>{ let x=b.vix*dz.vix+b.fed_funds*dz.fed_funds; if(h===0) x+=b.usd_chg*dz.usd_chg+b.brent_chg*dz.brent_chg; const v=x+rho*prev; prev=v; return v; });
+}
+function renderAChart(){
+  const {iso,d}=aData(); const host=$('#a-chart'); host.innerHTML='';
+  const hq=d.quarters, fq=d.forecast.map(r=>r.quarter); const xs=[...hq,...fq]; const n=hq.length;
+  const W=1100,H=360,m={l:48,r:16,t:14,b:34}; const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'History and forecast'},host);
+  const sd=scenarioDelta(d);
+  const vals=[...d.actual,...d.fitted,...d.forecast.flatMap(r=>[r.lo95,r.hi95]),...d.forecast.map((r,i)=>r.mean+sd[i])].filter(v=>v!=null);
+  let lo=Math.min(0,...vals),hi=Math.max(0,...vals); const pad=(hi-lo)*.05; lo-=pad; hi+=pad;
+  const X=i=>m.l+i/(xs.length-1)*(W-m.l-m.r), Y=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);
+  const g=el('g',{class:'grid'},svg); niceTicks(lo,hi).forEach(t=>{el('line',{x1:m.l,x2:W-m.r,y1:Y(t),y2:Y(t)},g); const tx=el('text',{x:m.l-8,y:Y(t)+4,'text-anchor':'end'},svg); tx.textContent=fmt(t,0);});
+  const p0=d.partial.indexOf(1); const step=(W-m.l-m.r)/(xs.length-1);
+  if(p0>=0) el('rect',{x:X(p0)-step/2,y:m.t,width:X(n-1)-X(p0)+step,height:H-m.t-m.b,fill:css('--surface-2')},svg);
+  el('line',{class:'zero',x1:m.l,x2:W-m.r,y1:Y(0),y2:Y(0)},svg);
+  el('line',{x1:X(n-0.5),x2:X(n-0.5),y1:m.t,y2:H-m.b,stroke:css('--fg-3'),'stroke-dasharray':'2 3'},svg);
+  const ce=B.countries[iso]; const toQ=dd=>{const t=new Date(dd); return t.getUTCFullYear()+'Q'+(Math.floor(t.getUTCMonth()/3)+1);};
+  if(ce) ce.elections.filter(e=>e.exec===1&&e.verification!=='wikipedia_only').forEach(e=>{const i=xs.indexOf(toQ(e.date)); if(i>=0) el('line',{x1:X(i),x2:X(i),y1:m.t,y2:H-m.b,stroke:css('--warm'),'stroke-width':1.4,'stroke-dasharray':e.timing==='early'?'5 4':''},svg);});
+  d.forecast.forEach((r,i)=>{ if(r.election){ el('line',{x1:X(n+i),x2:X(n+i),y1:m.t,y2:H-m.b,stroke:css('--warm'),'stroke-width':1.4,'stroke-dasharray':'2 2'},svg);} });
+  // bands
+  const band=(lk,hk,op)=>{ let path=''; const idx=d.forecast.map((r,i)=>n+i);
+    path='M'+idx.map((x,i)=>X(x)+','+Y(d.forecast[i][hk])).join('L')+'L'+idx.slice().reverse().map((x,j)=>{const i=idx.length-1-j; return X(x)+','+Y(d.forecast[i][lk]);}).join('L')+'Z';
+    el('path',{d:path,fill:css('--accent'),opacity:op},svg); };
+  if(d.forecast.length){ band('lo95','hi95',0.12); band('lo80','hi80',0.22); }
+  const line=(arr,off,col,w,dash,op)=>{ let p=''; arr.forEach((v,i)=>{ if(v==null){return;} p+=(p&&arr[i-1]!=null?'L':'M')+X(i+off).toFixed(1)+','+Y(v).toFixed(1); }); el('path',{d:p,fill:'none',stroke:col,'stroke-width':w,'stroke-dasharray':dash||'',opacity:op||1,'stroke-linejoin':'round'},svg); };
+  line(d.fitted,0,css('--ref'),1.5,'',0.9);
+  line(d.actual,0,css('--accent'),2);
+  if(d.forecast.length){ const lastI=d.actual.map((v,i)=>v!=null?i:-1).filter(i=>i>=0).pop();
+    const fpath=[d.actual[lastI],...d.forecast.map(r=>r.mean)]; let p='M'+X(lastI)+','+Y(fpath[0]); d.forecast.forEach((r,i)=>{p+='L'+X(n+i)+','+Y(r.mean);}); el('path',{d:p,fill:'none',stroke:css('--accent'),'stroke-width':2.2,'stroke-dasharray':'6 4'},svg);
+    if(sd.some(v=>Math.abs(v)>0.005)){ let q='M'+X(lastI)+','+Y(fpath[0]); d.forecast.forEach((r,i)=>{q+='L'+X(n+i)+','+Y(r.mean+sd[i]);}); el('path',{d:q,fill:'none',stroke:css('--warm'),'stroke-width':2.2,'stroke-dasharray':'2 3'},svg); }
+    d.forecast.forEach((r,i)=>el('circle',{cx:X(n+i),cy:Y(r.mean),r:3.5,fill:css('--accent')},svg)); }
+  const every=Math.ceil(xs.length/12); xs.forEach((x,i)=>{ if(x.endsWith('Q1')&&(+x.slice(0,4))%2===1 || i===n){ const t=el('text',{x:X(i),y:H-12,'text-anchor':'middle'},svg); t.textContent=x.slice(0,4)+(x.endsWith('Q1')?'':' '+x.slice(4)); } });
+  // hover
+  const tip=document.createElement('div'); tip.className='tip'; host.appendChild(tip);
+  const cross=el('line',{y1:m.t,y2:H-m.b,stroke:css('--fg-3'),opacity:0},svg);
+  const hit=el('rect',{x:m.l,y:m.t,width:W-m.l-m.r,height:H-m.t-m.b,fill:'transparent'},svg);
+  hit.addEventListener('pointermove',ev=>{ const r=svg.getBoundingClientRect(); let i=Math.round(((ev.clientX-r.left)/r.width*W-m.l)/step); i=Math.max(0,Math.min(xs.length-1,i)); cross.setAttribute('x1',X(i)); cross.setAttribute('x2',X(i)); cross.setAttribute('opacity',1);
+    let h=`<b>${xs[i]}</b>`; if(i<n){ h+=`<br>Actual: ${fmt(d.actual[i])}`+(d.fitted[i]!=null?`<br>Model fit: ${fmt(d.fitted[i])}`:'')+(d.partial[i]?'<br>partial year':''); }
+    else { const f=d.forecast[i-n]; h+=`<br>Forecast: ${fmt(f.mean)}<br>80%: ${fmt(f.lo80)} to ${fmt(f.hi80)}`+(Math.abs(sd[i-n])>0.005?`<br>With scenario: ${fmt(f.mean+sd[i-n])}`:'')+(f.election?`<br>Election: ${esc(f.election)}`:''); }
+    tip.innerHTML=h; tip.style.left=(X(i)/W*100)+'%'; tip.style.top='12%'; tip.style.opacity=1; });
+  hit.addEventListener('pointerleave',()=>{tip.style.opacity=0; cross.setAttribute('opacity',0);});
+  legend($('#a-legend'),[{name:'Actual',color:css('--accent')},{name:'Model fit',color:css('--ref')},{name:'Forecast (central)',color:css('--accent'),dash:1},{name:'Scenario path',color:css('--warm'),dash:1},{name:'Election',color:css('--warm')}]);
+}
+function renderWhy(){
+  const {d}=aData(); const rows=d.annual; const host=$('#a-why-chart'); host.innerHTML='';
+  const groups=Object.keys(CATS5); const agg=rows.map(r=>{ const o={year:r.year,actual:r.actual-d.mean}; groups.forEach(g=>o[g]=CATS5[g].reduce((p,c)=>p+(r[c]||0),0)); return o; });
+  const W=1100,H=320,m={l:48,r:16,t:12,b:30}; const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Driver contributions by year'},host);
+  let lo=0,hi=0; agg.forEach(o=>{ let pos=0,neg=0; groups.forEach(g=>{ if(o[g]>0) pos+=o[g]; else neg+=o[g]; }); hi=Math.max(hi,pos,o.actual); lo=Math.min(lo,neg,o.actual); });
+  const pad=(hi-lo)*.06; lo-=pad; hi+=pad; const bw=(W-m.l-m.r)/agg.length; const Y=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);
+  const gg=el('g',{class:'grid'},svg); niceTicks(lo,hi).forEach(t=>{ el('line',{x1:m.l,x2:W-m.r,y1:Y(t),y2:Y(t)},gg); const tx=el('text',{x:m.l-8,y:Y(t)+4,'text-anchor':'end'},svg); tx.textContent=fmt(t,0); });
+  el('line',{class:'zero',x1:m.l,x2:W-m.r,y1:Y(0),y2:Y(0)},svg);
+  const tip=document.createElement('div'); tip.className='tip'; host.appendChild(tip);
+  agg.forEach((o,i)=>{ const x=m.l+i*bw+bw*0.2, w=bw*0.6; let pos=0,neg=0;
+    groups.forEach(g=>{ const v=o[g]; if(Math.abs(v)<1e-9) return; const y0=v>0?pos:neg, y1=y0+v; if(v>0) pos=y1; else neg=y1;
+      el('rect',{x,y:Math.min(Y(y0),Y(y1))+1,width:w,height:Math.max(0.5,Math.abs(Y(y1)-Y(y0))-2),rx:2,fill:css(CAT_COL[g])},svg); });
+    el('circle',{cx:x+w/2,cy:Y(o.actual),r:5,fill:css('--ink'),stroke:css('--surface'),'stroke-width':2},svg);
+    const t=el('text',{x:x+w/2,y:H-10,'text-anchor':'middle'},svg); t.textContent=o.year;
+    const hit=el('rect',{x:m.l+i*bw,y:m.t,width:bw,height:H-m.t-m.b,fill:'transparent'},svg);
+    hit.addEventListener('pointerenter',()=>{ tip.innerHTML=`<b>${o.year}</b>: actual ${o.actual>=0?'+':''}${fmt(o.actual)} pp vs average`+groups.map(g=>`<br>${g}: ${o[g]>=0?'+':''}${fmt(o[g])}`).join(''); tip.style.left=((x+w/2)/W*100)+'%'; tip.style.top='8%'; tip.style.opacity=1; });
+    hit.addEventListener('pointerleave',()=>tip.style.opacity=0); });
+  legend($('#a-why-legend'),[...groups.map(g=>({name:g,color:css(CAT_COL[g])})),{name:'Actual deviation (dot)',color:css('--ink')}]);
+  const cats=Object.values(CATS5).flat();
+  $('#a-why-table').innerHTML='<table class="prof"><thead><tr><th>Driver</th>'+rows.map(r=>`<th class="n">${r.year}</th>`).join('')+'</tr></thead><tbody>'+
+    cats.map(c=>`<tr><td>${esc(c)}</td>`+rows.map(r=>`<td class="n">${fmt(r[c],1)}</td>`).join('')+'</tr>').join('')+
+    `<tr><td><b>Actual minus average</b></td>${rows.map(r=>`<td class="n"><b>${fmt(r.actual-d.mean,1)}</b></td>`).join('')}</tr></tbody></table>`;
+}
+function renderForecastTable(){
+  const {d}=aData(); const sd=scenarioDelta(d); const any=sd.some(v=>Math.abs(v)>0.005);
+  $('#a-fc-table').innerHTML=d.forecast.length? '<table><thead><tr><th>Quarter</th><th class="n">Central</th><th class="n">80% range</th><th class="n">95% range</th>'+(any?'<th class="n">With scenario</th>':'')+'<th>Notes</th></tr></thead><tbody>'+
+    d.forecast.map((r,i)=>`<tr><td class="mono">${r.quarter}</td><td class="n"><b>${fmt(r.mean,1)}</b></td><td class="n">${fmt(r.lo80,1)} to ${fmt(r.hi80,1)}</td><td class="n">${fmt(r.lo95,1)} to ${fmt(r.hi95,1)}</td>`+(any?`<td class="n">${fmt(r.mean+sd[i],1)}</td>`:'')+`<td class="small">${r.election?'Election: '+esc(r.election):''}${r.global_source&&r.global_source!=='observed'?(r.election?' · ':'')+'global factors '+esc(r.global_source):''}</td></tr>`).join('')+'</tbody></table>'
+    : '<p class="muted">No forecast: the latest quarters are missing for this economy.</p>';
+}
+function renderScenario(){
+  const {c,d}=aData(); const sd=scenarioDelta(d);
+  $('#s-vix-v').textContent=(scen.vix>0?'+':'')+scen.vix+' pts'; $('#s-fed-v').textContent=(scen.fed>0?'+':'')+scen.fed.toFixed(2)+' pp';
+  $('#s-usd-v').textContent=(scen.usd>0?'+':'')+scen.usd+'%'; $('#s-oil-v').textContent=(scen.oil>0?'+':'')+scen.oil+'%';
+  const avg=sd.length? sd.reduce((p,v)=>p+v,0)/sd.length : 0;
+  $('#s-result').innerHTML = (scen.vix||scen.fed||scen.usd||scen.oil)
+    ? `Under this scenario, ${esc(c.name)}'s ${OUTL[aOut]} would be about <b>${fmt(Math.abs(avg),2)} pp of GDP ${avg<0?'lower':'higher'}</b> on average over the next four quarters than the central path (shown dotted in orange above). For scale, the 80% range is ${d.forecast.length?fmt(d.forecast[0].hi80-d.forecast[0].lo80,1):'–'} pp wide, so global moves of this size are small next to country-specific noise.`
+    : 'Move a slider or pick a preset to see how the path shifts.';
+}
+function setScen(v){ Object.assign(scen,v); $('#s-vix').value=scen.vix; $('#s-fed').value=scen.fed; $('#s-usd').value=scen.usd; $('#s-oil').value=scen.oil; renderAChart(); renderForecastTable(); renderScenario(); }
+[['#s-vix','vix'],['#s-fed','fed'],['#s-usd','usd'],['#s-oil','oil']].forEach(([id,k])=>$(id).addEventListener('input',e=>setScen({[k]:+e.target.value})));
+$('#s-riskoff').addEventListener('click',()=>setScen({vix:15,fed:0,usd:5,oil:-20}));
+$('#s-easing').addEventListener('click',()=>setScen({vix:-3,fed:-1,usd:-3,oil:0}));
+$('#s-reset').addEventListener('click',()=>setScen({vix:0,fed:0,usd:0,oil:0}));
+function renderBacktest(){
+  const {c,d}=aData(); const bt=d.backtest, grp=CA.backtest[`${aOut}_${c.group}`];
+  if(bt){ lineChart($('#a-bt-chart'),bt.path.map(p=>p.quarter),[{name:'Actual',v:bt.path.map(p=>p.actual),color:css('--accent')},{name:'Forecast made at end-2023',v:bt.path.map(p=>p.forecast),color:css('--warm'),dash:'6 4'}],{h:240,xlab:()=>true});
+    legend($('#a-bt-legend'),[{name:'Actual',color:css('--accent')},{name:'Forecast made at end-2023',color:css('--warm'),dash:1}]); }
+  else { $('#a-bt-chart').innerHTML='<p class="muted">Not enough 2024–25 data for a backtest.</p>'; $('#a-bt-legend').innerHTML=''; }
+  const w=grp.weights;
+  $('#a-bt-table').innerHTML=`<table><thead><tr><th>Forecast method</th><th class="n">${esc(c.name)} error</th><th class="n">${c.group} group error</th></tr></thead><tbody>
+   <tr class="hl"><td>Blend used here: model ${Math.round(w.model*100)}% · recent level ${Math.round(w.last4*100)}% · long-run average ${Math.round(w.mean*100)}%${w.election_overlay?' + election effect':''}</td><td class="n">${bt?fmt(bt.rmse_comb,2):'–'}</td><td class="n">${fmt(grp.rmse_comb,2)}</td></tr>
+   <tr><td>Driver model alone</td><td class="n">${bt?fmt(bt.rmse_model,2):'–'}</td><td class="n">${fmt(grp.rmse_model,2)}</td></tr>
+   <tr><td>Country's 2015–23 average</td><td class="n">${bt?fmt(bt.rmse_mean,2):'–'}</td><td class="n">${fmt(grp.rmse_mean,2)}</td></tr>
+   <tr><td>Average of last four quarters</td><td class="n">${bt?fmt(bt.rmse_last4,2):'–'}</td><td class="n">${fmt(grp.rmse_last4,2)}</td></tr></tbody></table>
+   <p class="small muted" style="margin-top:8px">Root-mean-square error, pp of GDP (annualised), 2024Q1–2025Q4. In the ${c.group} group the blend beat the plain average in ${Math.round(grp.share_comb_beats_mean*100)}% of economies, and 80% intervals contained ${Math.round(grp.coverage80*100)}% of outcomes.</p>`;
+}
+$('#a-country').addEventListener('change',renderAnalysis); seg('#a-outcome',v=>{aOut=v;renderAnalysis();});
+
 /* ---------- routing ---------- */
-const views=['overview','countries','years','models','dynamics','robustness','report','data'];
+const views=['analysis','overview','countries','years','models','dynamics','robustness','report','data'];
 const rendered={};
-const renderers={overview:renderOverview,countries:renderCountry,years:renderYears,models:renderModels,dynamics:renderDynamics,robustness:()=>{renderRobust();renderMT($('#r-mt'),['primary','H3_components','H5_family']);},report:renderReport,data:()=>{}};
-function route(){ let v=location.hash.replace('#',''); if(!views.includes(v)) v='overview';
+const renderers={analysis:renderAnalysis,overview:renderOverview,countries:renderCountry,years:renderYears,models:renderModels,dynamics:renderDynamics,robustness:()=>{renderRobust();renderMT($('#r-mt'),['primary','H3_components','H5_family']);},report:renderReport,data:()=>{}};
+function route(){ let v=location.hash.replace('#',''); if(!views.includes(v)) v='analysis';
   views.forEach(x=>{ $('#v-'+x).hidden=(x!==v); });
   document.querySelectorAll('#tabs a').forEach(a=>a.setAttribute('aria-current',a.getAttribute('href')==='#'+v?'page':'false'));
   renderers[v](); rendered[v]=true; }

@@ -39,6 +39,7 @@ $PY -m src.visualisation.figures
 
 
 echo "== 8. Interactive prototype"
+$PY -m src.forecast.country_model
 $PY -m src.prototype.export_bundle
 $PY -m src.prototype.build_app
 echo "done"

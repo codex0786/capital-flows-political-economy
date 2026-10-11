@@ -1,0 +1,7 @@
+outcome_group,countries,quarters,rmse_model,rmse_mean,rmse_last4,rmse_comb,rmse_best_without_election_overlay,share_comb_beats_mean,coverage80,w_model,w_last4,w_mean,w_election_overlay
+gross_in_AE,33,2024Q1–2025Q4,19.16,15.95,19.73,15.95,15.95,0.0,0.82,0.0,0.0,1.0,0.0
+gross_in_EMDE,75,2024Q1–2025Q4,8.13,8.23,7.57,7.38,7.4,0.6,0.84,0.0,0.75,0.25,1.0
+gross_out_AE,33,2024Q1–2025Q4,18.78,16.73,19.36,16.73,16.73,0.0,0.79,0.0,0.0,1.0,0.0
+gross_out_EMDE,75,2024Q1–2025Q4,8.97,9.33,6.65,6.65,6.65,0.57,0.8,0.0,1.0,0.0,0.0
+net_AE,33,2024Q1–2025Q4,6.7,6.82,7.15,6.49,6.49,0.61,0.82,0.25,0.25,0.5,0.0
+net_EMDE,75,2024Q1–2025Q4,6.64,7.21,6.11,6.07,6.07,0.6,0.81,0.25,0.75,0.0,1.0

@@ -6,7 +6,8 @@ def main():
     tpl = (ROOT / "src" / "prototype" / "app_template.html").read_text()
     bundle = (RESULTS / "prototype" / "bundle.json").read_text().replace("</", "<\\/")
     out = RESULTS / "prototype" / "index.html"
-    out.write_text(tpl.replace("__BUNDLE__", bundle))
+    ca = (RESULTS / "prototype" / "country_analysis.json").read_text().replace("</", "<\\/")
+    out.write_text(tpl.replace("__BUNDLE__", bundle).replace("__CABUNDLE__", ca))
     print(out, round(out.stat().st_size / 1024), "KB")
 
 
