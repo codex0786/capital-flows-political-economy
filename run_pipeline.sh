@@ -36,4 +36,9 @@ echo "== 7. Literature, tables, figures"
 $PY -m src.literature.build_literature
 $PY -m src.visualisation.tables
 $PY -m src.visualisation.figures
+
+
+echo "== 8. Interactive prototype"
+$PY -m src.prototype.export_bundle
+$PY -m src.prototype.build_app
 echo "done"

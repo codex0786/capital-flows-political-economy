@@ -1,0 +1,497 @@
+<title>Capital in Motion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+/* Layout: a working analyst's console. Sticky section bar, each view a single column of
+   controls -> chart -> numbers. Ledger detail: BPM6 entry codes shown beside every flow. */
+:root{
+  --bg:#f4f5f7; --surface:#ffffff; --surface-2:#eceef2; --line:#d9dce3; --fg:#141a26; --fg-2:#4a5263; --fg-3:#6b7385;
+  --ink:#16213a; --accent:#2a78d6; --accent-soft:#dbe8f9; --warm:#eb6834; --warm-soft:#fbe2d6; --aqua:#1baf7a;
+  --pos:#1f7a4d; --neg:#b4361f; --ref:#8a91a1;
+  --f-display:'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --f-ui:'IBM Plex Sans', 'Segoe UI', Helvetica, Arial, sans-serif;
+  --f-mono:'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1420; --surface:#151d2c; --surface-2:#1c2638; --line:#2a3550; --fg:#e8ecf3; --fg-2:#b3bccd; --fg-3:#8c96aa;
+  --ink:#e8ecf3; --accent:#5b9cf0; --accent-soft:#1d3254; --warm:#f08a5d; --warm-soft:#3d2418; --aqua:#2fc48e;
+  --pos:#57c08c; --neg:#f07a62; --ref:#6f7890; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1420; --surface:#151d2c; --surface-2:#1c2638; --line:#2a3550; --fg:#e8ecf3; --fg-2:#b3bccd; --fg-3:#8c96aa;
+  --ink:#e8ecf3; --accent:#5b9cf0; --accent-soft:#1d3254; --warm:#f08a5d; --warm-soft:#3d2418; --aqua:#2fc48e;
+  --pos:#57c08c; --neg:#f07a62; --ref:#6f7890; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-ui);font-size:15px;line-height:1.5;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px}
+header.top{padding-block:28px 18px;display:flex;flex-direction:column;gap:6px}
+.eyebrow{font:500 12px/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font:600 clamp(30px,4.4vw,44px)/1.08 var(--f-display);margin:0;color:var(--ink);text-wrap:balance}
+.lede{color:var(--fg-2);max-width:68ch;margin:4px 0 0}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav.tabs a{font:500 14px var(--f-ui);color:var(--fg-2);text-decoration:none;padding:12px 12px 11px;border-bottom:2px solid transparent;white-space:nowrap}
+nav.tabs a:hover{color:var(--fg)}
+nav.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+nav.tabs a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main{padding-block:24px 64px}
+section.view{display:flex;flex-direction:column;gap:20px}
+h2{font:600 26px/1.2 var(--f-display);margin:0;color:var(--ink);text-wrap:balance}
+h3{font:600 17px/1.3 var(--f-ui);margin:0;color:var(--ink)}
+p{margin:0}
+.muted{color:var(--fg-3)} .small{font-size:13px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.grid{display:grid;gap:16px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))} .g3{grid-template-columns:repeat(3,minmax(0,1fr))} .g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:900px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g3,.g2{grid-template-columns:1fr}}
+@media (max-width:520px){.g4{grid-template-columns:1fr}}
+.finding{display:flex;flex-direction:column;gap:8px}
+.finding .num{font:600 34px/1 var(--f-display);color:var(--ink);font-variant-numeric:tabular-nums}
+.chip{display:inline-flex;align-items:center;gap:6px;font:500 11px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:999px;width:max-content}
+.chip.conf{background:var(--accent-soft);color:var(--accent)}
+.chip.sec{background:var(--surface-2);color:var(--fg-2)}
+.chip.post{background:var(--warm-soft);color:var(--warm)}
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:end}
+.ctl{display:flex;flex-direction:column;gap:4px;min-width:0}
+.ctl label{font:500 12px var(--f-ui);color:var(--fg-3)}
+select{font:15px var(--f-ui);color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 30px 8px 10px;max-width:100%}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{font:500 13px var(--f-ui);background:var(--surface);color:var(--fg-2);border:0;padding:8px 11px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent)}
+.chart{width:100%;position:relative}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart text{fill:var(--fg-3);font:12px var(--f-ui)}
+.chart .axis{stroke:var(--line)} .chart .zero{stroke:var(--fg-3);stroke-width:1}
+.chart .grid line{stroke:var(--line);stroke-dasharray:2 3}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font:12px/1.4 var(--f-ui);padding:7px 9px;border-radius:6px;white-space:nowrap;transform:translate(-50%,-110%);opacity:0;transition:opacity .1s}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--fg-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:3px;border-radius:2px;display:inline-block}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 12px var(--f-ui);color:var(--fg-3);text-transform:uppercase;letter-spacing:.04em}
+td.n,th.n{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.hl td{background:var(--accent-soft)}
+.read{font-size:16px;line-height:1.65;color:var(--fg)}
+.callout{border-left:3px solid var(--warm);background:var(--warm-soft);padding:12px 14px;border-radius:0 8px 8px 0;color:var(--fg)}
+.callout.blue{border-left-color:var(--accent);background:var(--accent-soft)}
+.interp{font-size:16px;line-height:1.6}
+article.report{max-width:760px;display:flex;flex-direction:column;gap:18px}
+article.report h2{margin-top:18px}
+article.report p,article.report li{font-size:16.5px;line-height:1.7;color:var(--fg)}
+article.report ul,article.report ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+article.report .fig{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:8px}
+.toc{display:flex;flex-wrap:wrap;gap:8px}
+.toc a{font:500 13px var(--f-ui);color:var(--accent);text-decoration:none;background:var(--accent-soft);padding:5px 10px;border-radius:999px}
+code{font-family:var(--f-mono);font-size:.9em;background:var(--surface-2);padding:1px 5px;border-radius:4px}
+footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);font-size:13px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="top wrap">
+  <span class="eyebrow">Elections · institutions · BPM6 capital flows · 108 economies · 2015Q1–2025Q4</span>
+  <h1>Capital in Motion</h1>
+  <p class="lede">An interactive version of a pre-registered study of whether national elections, institutional quality and global risk change cross-border capital flows. Every estimate here comes from the same reproducible pipeline as the written report.</p>
+</header>
+<nav class="tabs" aria-label="Sections"><div class="wrap" id="tabs">
+  <a href="#overview">Overview</a><a href="#countries">Countries</a><a href="#models">Model lab</a><a href="#dynamics">Dynamics</a><a href="#robustness">Robustness</a><a href="#report">Report</a><a href="#data">Data &amp; methods</a>
+</div></nav>
+
+<main class="wrap">
+
+<!-- OVERVIEW -->
+<section class="view" id="v-overview">
+  <div class="grid g4">
+    <div class="panel finding"><span class="chip conf">Confirmatory</span><span class="num">−0.14</span><p>pp of GDP change in gross inflows in the pre-election window. 95% CI −1.59 to 1.30, Holm p = 1.00.</p></div>
+    <div class="panel finding"><span class="chip conf">Confirmatory</span><span class="num">4 / 4</span><p>primary hypotheses not supported: inflows, outflows, rule-of-law moderation, AE vs EMDE difference.</p></div>
+    <div class="panel finding"><span class="chip sec">Secondary</span><span class="num">−1.4</span><p>pp: gross inflows and outflows both fall in the two quarters after elections. Net flows do not move. Fragile.</p></div>
+    <div class="panel finding"><span class="chip post">Post-hoc</span><span class="num">−2.15</span><p>pp in EMDE gross inflows in the election quarter itself. Placebo p &lt; 0.001. Needs out-of-sample confirmation.</p></div>
+  </div>
+  <div class="panel">
+    <div class="controls" style="justify-content:space-between">
+      <div><h3>Gross capital flows by country group, 2015–2025</h3><p class="small muted">Aggregate flow ÷ aggregate GDP of reporting economies. Inflows = net incurrence of liabilities (<span class="mono">L_NIL_T</span>); outflows = net acquisition of assets (<span class="mono">A_NFA_T</span>).</p></div>
+      <div class="seg" id="ov-group"><button aria-pressed="true" data-v="EMDE">EMDE</button><button aria-pressed="false" data-v="AE">AE</button></div>
+    </div>
+    <div class="legend" id="ov-legend"></div>
+    <div class="chart" id="ov-chart"></div>
+  </div>
+  <div class="grid g2">
+    <div class="panel"><h3>How to read the evidence</h3>
+      <p><span class="chip conf">Confirmatory</span> Tested exactly as written in the protocol, frozen before any regression was run, with multiple-testing adjustment.</p>
+      <p><span class="chip sec">Secondary</span> Pre-registered but outside the primary family. Read as supporting evidence.</p>
+      <p><span class="chip post">Post-hoc</span> Specified after results were seen, to compare with the closest prior IMF study. Treat as a lead to test on new data.</p></div>
+    <div class="panel"><h3>Sample</h3><div id="ov-sample" class="tbl"></div></div>
+  </div>
+</section>
+
+<!-- COUNTRIES -->
+<section class="view" id="v-countries" hidden>
+  <div class="panel">
+    <div class="controls">
+      <div class="ctl" style="flex:1 1 260px"><label for="c-country">Economy</label><select id="c-country"></select></div>
+      <div class="ctl"><label>Series</label><div class="seg" id="c-series"><button aria-pressed="true" data-v="gross">Gross in / out</button><button aria-pressed="false" data-v="comp">Inflow components</button><button aria-pressed="false" data-v="net">Net</button></div></div>
+    </div>
+    <div id="c-head"></div>
+    <div class="legend" id="c-legend"></div>
+    <div class="chart" id="c-chart"></div>
+    <p class="small muted">Quarterly flows as annualised % of GDP (100 × 4 × flow ÷ annual GDP), not winsorised. Vertical lines mark national elections: solid = scheduled, dashed = early (rule-based), grey = non-executive contest. The shaded band is 2026: partial year, projected GDP denominator, excluded from all estimates.</p>
+  </div>
+  <div class="panel"><h3>Elections in the event file, 2015–2026</h3><div class="tbl" id="c-elections"></div></div>
+</section>
+
+<!-- MODELS -->
+<section class="view" id="v-models" hidden>
+  <div class="panel">
+    <div><h3>Model lab</h3><p class="small muted">Two-way fixed effects, previous-year macro controls (growth, inflation, current account, fiscal balance, public debt, log GDP per capita), standard errors clustered by country. All 128 combinations were estimated with the study's pipeline.</p></div>
+    <div class="controls">
+      <div class="ctl" style="flex:1 1 210px"><label for="m-outcome">Outcome</label><select id="m-outcome"></select></div>
+      <div class="ctl" style="flex:1 1 210px"><label for="m-sample">Sample</label><select id="m-sample"></select></div>
+      <div class="ctl" style="flex:1 1 210px"><label for="m-scheme">Election windows</label><select id="m-scheme"></select></div>
+      <div class="ctl" style="flex:1 1 210px"><label for="m-fe">Fixed effects</label><select id="m-fe"></select></div>
+    </div>
+    <div id="m-status"></div>
+    <div class="chart" id="m-chart"></div>
+    <p class="interp" id="m-interp"></p>
+    <div class="tbl" id="m-table"></div>
+  </div>
+  <div class="panel"><h3>Same specification across samples</h3><p class="small muted">The window term that differs most from zero in the chosen specification, re-estimated in each sample.</p><div class="tbl" id="m-across"></div></div>
+</section>
+
+<!-- DYNAMICS -->
+<section class="view" id="v-dynamics" hidden>
+  <div class="panel">
+    <div><h3>Event study around executive-relevant elections</h3><p class="small muted">Coefficients for each quarter from 6 before to 6 after the election, relative to 4 quarters before (k = −4, marked). Quarters more than 6 from any election are also in the reference group. 95% intervals, clustered by country.</p></div>
+    <div class="controls">
+      <div class="ctl" style="flex:1 1 220px"><label for="d-outcome">Outcome</label><select id="d-outcome"></select></div>
+      <div class="ctl"><label>Sample</label><div class="seg" id="d-sample"><button aria-pressed="true" data-v="all">All</button><button aria-pressed="false" data-v="ae">AE</button><button aria-pressed="false" data-v="emde">EMDE</button></div></div>
+      <div class="ctl"><label>Elections</label><div class="seg" id="d-events"><button aria-pressed="true" data-v="scheduled">Scheduled</button><button aria-pressed="false" data-v="all">All</button></div></div>
+    </div>
+    <div class="chart" id="d-chart"></div>
+    <p class="small muted" id="d-note"></p>
+  </div>
+</section>
+
+<!-- ROBUSTNESS -->
+<section class="view" id="v-robustness" hidden>
+  <div class="panel">
+    <div class="controls" style="justify-content:space-between">
+      <div><h3>Pre-specified robustness tests</h3><p class="small muted">Each row re-estimates the baseline with one change. Blue = pre-election window (primary). Orange = post-election window (secondary).</p></div>
+      <div class="seg" id="r-outcome"><button aria-pressed="true" data-v="in">Gross inflows</button><button aria-pressed="false" data-v="out">Gross outflows</button></div>
+    </div>
+    <div class="chart" id="r-chart"></div>
+  </div>
+  <div class="grid g2">
+    <div class="panel"><h3>Leave-one-out and placebo calendars</h3><div class="tbl" id="r-loo"></div><p class="small muted">Placebo: each country's election calendar shifted by 8–12 quarters, 500 draws. p = share of placebo estimates at least as large in absolute value.</p></div>
+    <div class="panel"><h3>Multiple-testing adjustment</h3><div class="tbl" id="r-mt"></div></div>
+  </div>
+</section>
+
+<!-- REPORT -->
+<section class="view" id="v-report" hidden>
+<article class="report" id="report-body">
+  <span class="eyebrow">Research report · v1.0 · 11 October 2026</span>
+  <h2 style="margin-top:0;font-size:32px">Capital in Motion: elections, institutional stability and international capital flows, 2015–2026</h2>
+  <div class="toc"><a href="#report" data-jump="r-summary">Summary</a><a href="#report" data-jump="r-question">Question</a><a href="#report" data-jump="r-data">Data</a><a href="#report" data-jump="r-method">Method</a><a href="#report" data-jump="r-results">Results</a><a href="#report" data-jump="r-hetero">Heterogeneity</a><a href="#report" data-jump="r-dynamics">Dynamics</a><a href="#report" data-jump="r-robust">Robustness</a><a href="#report" data-jump="r-posthoc">Post-hoc</a><a href="#report" data-jump="r-limits">Limitations</a><a href="#report" data-jump="r-conclusion">Conclusion</a></div>
+
+  <h2 id="r-summary">Summary</h2>
+  <p>We test whether national elections, institutional quality and global financial conditions change cross-border capital flows in 108 economies (quarterly) and 121 economies (annual) between 2015 and 2025. Flows are IMF balance-of-payments data under the BPM6 manual. Gross inflows are new liabilities to non-residents; gross outflows are new foreign assets acquired by residents. Election dates are triangulated across Wikipedia's national electoral calendars, International IDEA and V-Dem.</p>
+  <div class="callout blue"><p><b>Pre-registered result.</b> Gross inflows and outflows do not change in the two-quarter window covering the election quarter and the quarter before it. Institutions, development level and asset class do not change that conclusion. All four primary tests have Holm-adjusted p = 1.00.</p></div>
+  <p>Two patterns sit outside the confirmatory tests. After elections, gross inflows and outflows fall together by about 1.4 pp of GDP while net flows stay flat. That pattern is directionally stable but statistically fragile. When the window is narrowed to the election quarter alone, matching the closest prior IMF study, inflows to emerging and developing economies fall by about 2.15 pp of GDP, roughly a third of their average level. That result passes a placebo test and seasonality controls, but it was specified after the main results were known.</p>
+
+  <h2 id="r-question">Question and hypotheses</h2>
+  <p>The push–pull framework explains capital flows by global factors and domestic fundamentals, and rarely includes dated political events. Firms delay irreversible investment around elections (Julio &amp; Yook, 2012), US multinationals' FDI to foreign affiliates dips before host-country elections (Julio &amp; Yook, 2016), and an IMF working paper finds gross private inflows to 38 emerging markets fall around elections, 1990–2020 (Arakelyan &amp; Evdokimova, 2025). We asked whether this holds in a broader and more recent sample.</p>
+  <ul>
+    <li><b>H1a / H1b:</b> gross inflows / outflows differ in the pre-election window.</li>
+    <li><b>H2:</b> the association varies with rule of law (fixed at 2014).</li>
+    <li><b>H3:</b> responses differ across FDI, portfolio equity, portfolio debt and other investment.</li>
+    <li><b>H5:</b> exposure to global risk (VIX) varies with rule of law, reserve cover and short-term debt.</li>
+    <li><b>H6:</b> the association differs between advanced and emerging/developing economies.</li>
+  </ul>
+
+  <h2 id="r-data">Data</h2>
+  <p>The country universe follows a fixed rule: World Bank-listed, population of at least 1 million in 2014, complete gross flows for at least 9 of 11 years, and a 2014 governance score. Of 196 candidates, 121 qualify annually (33 advanced, 88 emerging/developing) and 108 quarterly (33 and 75). No country was added or removed by hand.</p>
+  <p>Election dates needed three sources. International IDEA records about half of recent elections with the year only, so Wikipedia's national electoral calendars supply exact dates and each contest must be confirmed by IDEA or V-Dem to enter the analysis. That leaves 282 executive-relevant elections in 2015–2025: 195 scheduled, 71 early by our rule, 16 unclassified. Validation checks pass: the BPM6 financial-account identity holds within 0.5% of GDP in every country-period, and a full rerun from the archived raw data reproduces every table byte for byte.</p>
+  <div class="fig"><h3>Gross capital inflows by component, emerging and developing economies</h3><div class="chart" id="rep-trend"></div><p class="small muted">% of group GDP. Source: IMF BOP; IMF WEO.</p></div>
+
+  <h2 id="r-method">Method</h2>
+  <p>The baseline regresses a flow outcome on a pre-election window (the election quarter and the one before) and a post-election window (the two quarters after), with country and quarter fixed effects and the previous year's macroeconomic fundamentals. Controls are lagged so the model does not condition on channels through which elections act, such as exchange-rate moves. Standard errors are clustered by country, and Driscoll–Kraay, two-way clustered and wild-bootstrap inference are reported alongside. Causal language is reserved for scheduled elections, whose timing is fixed years in advance.</p>
+
+  <h2 id="r-results">Main results</h2>
+  <div class="tbl" id="rep-conf"></div>
+  <p>The confidence interval for H1a rules out pre-election effects larger than about 1.6 pp of GDP, about 0.12 of a within-country standard deviation of quarterly inflows. Inference agrees across methods: country-clustered SE 0.73, Driscoll–Kraay 0.45, two-way clustered 0.68.</p>
+
+  <h2 id="r-hetero">Heterogeneity</h2>
+  <p>None of the eight institutional measures, from WGI rule of law to V-Dem judicial constraints, significantly changes the pre-election association. In emerging and developing economies alone the pre-window estimate is −0.90 (p = 0.08), against +0.77 in advanced economies, but the difference is not significant (p = 0.39). Components do not differ (joint test p = 0.43). A higher VIX lowers inflows more where 2014 reserve cover was higher (−0.50 pp per standard deviation, p = 0.09), but nothing in the global-risk family survives adjustment. Sudden stops do not predict unrest, early elections or a change of chief executive.</p>
+
+  <h2 id="r-dynamics">Dynamics</h2>
+  <div class="fig"><h3>Gross inflows around scheduled executive-relevant elections, all economies</h3><div class="chart" id="rep-event"></div><p class="small muted">Reference quarter k = −4. 95% intervals clustered by country.</p></div>
+  <p>No quarter in the run-up is distinguishable from zero. Inflows dip in the first two quarters after scheduled elections and rebound in the third, which looks like a shift in timing more than a lasting change. A stacked design with clean comparison countries gives mostly negative post-election estimates but with standard errors of 3–5 pp, too wide to settle the question.</p>
+
+  <h2 id="r-robust">Robustness</h2>
+  <p>Across 34 pre-specified tests the pre-election coefficient stays between −0.94 and +0.27 and is never significant at 5%. Dropping any single country moves it between −0.47 and +0.19, and placebo calendars give p = 0.84. The post-election coefficient is negative in every test, between −0.86 and −3.00, but p ranges from 0.014 to 0.27. It loses significance without financial centres, without 2020, and in the balanced panel.</p>
+
+  <h2 id="r-posthoc">Post-hoc: the election quarter in emerging economies</h2>
+  <div class="callout"><p>This analysis was specified after the confirmatory results were known and is logged in the protocol change log.</p></div>
+  <p>Arakelyan &amp; Evdokimova (2025) define the event as the election quarter itself and remove official-sector liabilities from inflows. Re-estimating with their window:</p>
+  <div class="tbl" id="rep-posthoc"></div>
+  <p>Our pre-registered window merged the election quarter with the quarter before, which is slightly positive, so the run-up null and this effect are consistent with each other and with the IMF finding of no run-up decline. What does not replicate is the IMF's headline moderation: low political stability does not deepen the election-quarter decline here (interaction +0.08, p = 0.95). The EMDE result survives a Bonferroni correction for the six post-hoc models, 1,000 placebo calendars and country-by-season fixed effects. It should still be confirmed on new elections with the window fixed in advance.</p>
+
+  <h2 id="r-limits">Limitations</h2>
+  <ul>
+    <li>Quarterly flows are very noisy (within-country SD of 10–20 pp of GDP annualised), so effects smaller than about 0.1 SD cannot be ruled out.</li>
+    <li>The executive-relevance and early-election rules are approximations.</li>
+    <li>Not coded: election closeness, coalition changes, government-formation delays.</li>
+    <li>Only the revised 2026 vintage of the governance indicators is available.</li>
+    <li>Not used: UNCTAD greenfield and M&amp;A data, and BIS banking statistics.</li>
+    <li>Policy events are derived from data rather than hand-coded, so policy results are exploratory.</li>
+  </ul>
+
+  <h2 id="r-conclusion">Conclusion</h2>
+  <p>In 2015–2025, capital flows do not move in the run-up to elections across this broad sample. The evidence points instead to a decline in emerging-economy inflows at the moment of the vote and a short-lived gross retrenchment afterwards. The institutional cushioning reported before does not appear. These are statements about association and about scheduled election timing under stated assumptions. They do not rank countries or political systems.</p>
+  <p class="small muted">Full report with references: <code>report/final_report.md</code>. Protocol: <code>report/research_protocol.md</code> (git tag <code>protocol-v1.0</code>).</p>
+</article>
+</section>
+
+<!-- DATA -->
+<section class="view" id="v-data" hidden>
+  <div class="panel"><h3>Sources</h3><div class="tbl" id="dt-sources"></div></div>
+  <div class="grid g2">
+    <div class="panel"><h3>Definitions</h3>
+      <p><b>Gross inflows</b>: FDI + portfolio + other investment, net incurrence of liabilities (<span class="mono">D_F, P_F, O_F · L_NIL_T</span>).</p>
+      <p><b>Gross outflows</b>: the same categories, net acquisition of assets by residents (<span class="mono">A_NFA_T</span>), reserves excluded.</p>
+      <p><b>Net flows</b>: inflows − outflows; positive means a net inflow.</p>
+      <p><b>Private inflows</b> (post-hoc): gross inflows minus central-bank and general-government other-investment liabilities and SDR allocations.</p>
+      <p><b>Scaling</b>: quarterly flow × 4 ÷ annual GDP × 100, winsorised at the 1st/99th percentiles in estimation.</p></div>
+    <div class="panel"><h3>Election coding</h3>
+      <p>Wikipedia national electoral calendars give dates. A contest enters only if International IDEA or V-Dem also records it in that year.</p>
+      <p><b>Executive-relevant</b>: the presidential contest where V-Dem codes the chief executive as directly elected, otherwise the lower-house contest.</p>
+      <p><b>Early</b>: more than 6 months earlier than the country's typical 1990–2014 term implies.</p>
+      <p><b>Windows</b>: pre = election quarter and the quarter before; post = the next two quarters.</p></div>
+  </div>
+</section>
+</main>
+<footer><div class="wrap">Capital in Motion · data retrieved 11 October 2026 · IMF BOP v21, IMF WEO, World Bank WDI and WGI (2026), V-Dem v16, International IDEA, Wikipedia calendars, WUI, FRED · estimates from the project pipeline (<code>run_pipeline.sh</code>)</div></footer>
+
+<script type="application/json" id="bundle">__BUNDLE__</script>
+<script>
+(function(){
+const B = JSON.parse(document.getElementById('bundle').textContent);
+const $ = s => document.querySelector(s);
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt = (x,d=2) => x==null||isNaN(x) ? '–' : (x<0?'−':'')+Math.abs(x).toFixed(d);
+const fmtP = p => p==null ? '–' : (p<0.001 ? '<0.001' : p.toFixed(3));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const NS='http://www.w3.org/2000/svg';
+function el(tag, attrs={}, parent){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
+function niceTicks(lo, hi, n=5){ const span=hi-lo||1; const step0=span/n; const mag=Math.pow(10,Math.floor(Math.log10(step0))); const step=[1,2,2.5,5,10].map(m=>m*mag).find(s=>s>=step0); const t=[]; for(let v=Math.ceil(lo/step)*step; v<=hi+1e-9; v+=step) t.push(+v.toFixed(6)); return t; }
+
+/* ---------- generic line chart with hover ---------- */
+function lineChart(host, xs, series, opt={}){
+  host.innerHTML=''; const W=opt.w||1100, H=opt.h||340, m={l:48,r:16,t:12,b:34};
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':opt.label||'chart'},host);
+  const vals=series.flatMap(s=>s.v).filter(v=>v!=null);
+  let lo=Math.min(0,...vals), hi=Math.max(0,...vals); const pad=(hi-lo)*0.06; lo-=pad; hi+=pad;
+  const X=i=>m.l+(i/(xs.length-1))*(W-m.l-m.r), Y=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);
+  const g=el('g',{class:'grid'},svg);
+  niceTicks(lo,hi).forEach(t=>{ el('line',{x1:m.l,x2:W-m.r,y1:Y(t),y2:Y(t)},g); const tx=el('text',{x:m.l-8,y:Y(t)+4,'text-anchor':'end'},svg); tx.textContent=fmt(t,Math.abs(t)<10&&t%1?1:0); });
+  if(opt.shade){ const [a,b]=opt.shade; el('rect',{x:X(a)-((W-m.l-m.r)/(xs.length-1))/2,y:m.t,width:X(b)-X(a)+((W-m.l-m.r)/(xs.length-1)),height:H-m.t-m.b,fill:css('--surface-2')},svg); }
+  el('line',{class:'zero',x1:m.l,x2:W-m.r,y1:Y(0),y2:Y(0)},svg);
+  (opt.markers||[]).forEach(mk=>{ if(mk.i<0||mk.i>=xs.length) return; el('line',{x1:X(mk.i),x2:X(mk.i),y1:m.t,y2:H-m.b,stroke:mk.color,'stroke-width':1.5,'stroke-dasharray':mk.dash||''},svg); });
+  const every=Math.ceil(xs.length/ (W<700?6:12));
+  xs.forEach((x,i)=>{ if(opt.xlab ? opt.xlab(x,i) : i%every===0){ const t=el('text',{x:X(i),y:H-12,'text-anchor':'middle'},svg); t.textContent=opt.xfmt?opt.xfmt(x):x; } });
+  series.forEach(s=>{ let d=''; s.v.forEach((v,i)=>{ if(v==null){return;} d+=(d&&s.v[i-1]!=null?'L':'M')+X(i).toFixed(1)+','+Y(v).toFixed(1); }); el('path',{d,fill:'none',stroke:s.color,'stroke-width':2,'stroke-linejoin':'round','stroke-dasharray':s.dash||''},svg); });
+  // hover
+  const tip=document.createElement('div'); tip.className='tip'; host.appendChild(tip);
+  const cross=el('line',{y1:m.t,y2:H-m.b,stroke:css('--fg-3'),'stroke-width':1,opacity:0},svg);
+  const dots=series.map(s=>el('circle',{r:4,fill:s.color,stroke:css('--surface'),'stroke-width':2,opacity:0},svg));
+  const hit=el('rect',{x:m.l,y:m.t,width:W-m.l-m.r,height:H-m.t-m.b,fill:'transparent'},svg);
+  hit.addEventListener('pointermove',ev=>{ const r=svg.getBoundingClientRect(); const px=(ev.clientX-r.left)/r.width*W; let i=Math.round((px-m.l)/(W-m.l-m.r)*(xs.length-1)); i=Math.max(0,Math.min(xs.length-1,i));
+    cross.setAttribute('x1',X(i)); cross.setAttribute('x2',X(i)); cross.setAttribute('opacity',1);
+    series.forEach((s,k)=>{ const v=s.v[i]; if(v==null){dots[k].setAttribute('opacity',0);return;} dots[k].setAttribute('cx',X(i)); dots[k].setAttribute('cy',Y(v)); dots[k].setAttribute('opacity',1); });
+    tip.innerHTML=`<b>${esc(opt.xfmt?opt.xfmt(xs[i]):xs[i])}</b>`+series.map(s=>`<br>${esc(s.name)}: ${fmt(s.v[i])}`).join('')+(opt.extra?opt.extra(i):'');
+    tip.style.left=(X(i)/W*100)+'%'; tip.style.top=(Math.min(...series.map(s=>s.v[i]??hi).map(Y))/H*100)+'%'; tip.style.opacity=1; });
+  hit.addEventListener('pointerleave',()=>{ tip.style.opacity=0; cross.setAttribute('opacity',0); dots.forEach(d=>d.setAttribute('opacity',0)); });
+}
+function legend(host, items){ host.innerHTML=items.map(i=>`<span><i class="sw" style="background:${i.color}${i.dash?';background:repeating-linear-gradient(90deg,'+i.color+' 0 4px,transparent 4px 7px)':''}"></i>${esc(i.name)}</span>`).join(''); }
+
+/* ---------- coefficient (CI) chart: horizontal ---------- */
+function ciChart(host, rows, opt={}){
+  host.innerHTML=''; const rowH=opt.rowH||40, W=1100, labW=opt.labW||300, m={t:10,b:34,r:24};
+  const H=m.t+m.b+rows.length*rowH;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':opt.label||'coefficients'},host);
+  const all=rows.flatMap(r=>(r.items||[r]).flatMap(i=>[i.lo,i.hi])).filter(v=>v!=null);
+  let lo=Math.min(0,...all), hi=Math.max(0,...all); const pad=(hi-lo)*.08; lo-=pad; hi+=pad;
+  const X=v=>labW+(v-lo)/(hi-lo)*(W-labW-m.r);
+  const g=el('g',{class:'grid'},svg);
+  niceTicks(lo,hi,6).forEach(t=>{ el('line',{x1:X(t),x2:X(t),y1:m.t,y2:H-m.b},g); const tx=el('text',{x:X(t),y:H-12,'text-anchor':'middle'},svg); tx.textContent=fmt(t,t%1?1:0); });
+  el('line',{class:'zero',x1:X(0),x2:X(0),y1:m.t,y2:H-m.b},svg);
+  const tip=document.createElement('div'); tip.className='tip'; host.appendChild(tip);
+  rows.forEach((r,i)=>{ const yc=m.t+i*rowH+rowH/2;
+    const lab=el('text',{x:labW-14,y:yc+4,'text-anchor':'end',style:`fill:${css('--fg-2')};font-size:${opt.labSize||13}px`},svg); lab.textContent=r.label;
+    const items=r.items||[{...r,color:opt.color||css('--accent')}];
+    items.forEach((it,k)=>{ const off=(k-(items.length-1)/2)*10; if(it.coef==null) return;
+      el('line',{x1:X(it.lo),x2:X(it.hi),y1:yc+off,y2:yc+off,stroke:it.color,'stroke-width':2.5,'stroke-linecap':'round'},svg);
+      const c=el('circle',{cx:X(it.coef),cy:yc+off,r:5.5,fill:it.color,stroke:css('--surface'),'stroke-width':2},svg);
+      const hit=el('rect',{x:X(it.lo)-6,y:yc+off-9,width:Math.max(12,X(it.hi)-X(it.lo)+12),height:18,fill:'transparent'},svg);
+      hit.addEventListener('pointerenter',()=>{ tip.innerHTML=`<b>${esc(r.label)}${it.name?' · '+esc(it.name):''}</b><br>${fmt(it.coef)} [${fmt(it.lo)}, ${fmt(it.hi)}]${it.p!=null?'<br>p = '+fmtP(it.p):''}`; tip.style.left=(X(it.coef)/W*100)+'%'; tip.style.top=((yc+off)/H*100)+'%'; tip.style.opacity=1; });
+      hit.addEventListener('pointerleave',()=>tip.style.opacity=0);
+    });
+  });
+  if(opt.xlabel){ const t=el('text',{x:(labW+W-m.r)/2,y:H+2,'text-anchor':'middle'},svg); t.textContent=opt.xlabel; svg.setAttribute('viewBox',`0 0 ${W} ${H+10}`); }
+}
+
+/* ---------- event study chart ---------- */
+function eventChart(host, pts, opt={}){
+  host.innerHTML=''; const W=1100,H=opt.h||360,m={l:52,r:16,t:14,b:44};
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'event study coefficients'},host);
+  let lo=Math.min(...pts.map(p=>p.lo)), hi=Math.max(...pts.map(p=>p.hi)); const pad=(hi-lo)*.08; lo-=pad; hi+=pad;
+  const X=k=>m.l+(k+6)/12*(W-m.l-m.r), Y=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);
+  el('rect',{x:X(-1.5),y:m.t,width:X(0.5)-X(-1.5),height:H-m.t-m.b,fill:css('--surface-2')},svg);
+  const g=el('g',{class:'grid'},svg); niceTicks(lo,hi).forEach(t=>{ el('line',{x1:m.l,x2:W-m.r,y1:Y(t),y2:Y(t)},g); const tx=el('text',{x:m.l-8,y:Y(t)+4,'text-anchor':'end'},svg); tx.textContent=fmt(t,t%1?1:0); });
+  el('line',{class:'zero',x1:m.l,x2:W-m.r,y1:Y(0),y2:Y(0)},svg);
+  el('line',{x1:X(-4),x2:X(-4),y1:m.t,y2:H-m.b,stroke:css('--ref'),'stroke-dasharray':'3 4'},svg);
+  const rl=el('text',{x:X(-4)+6,y:m.t+14},svg); rl.textContent='reference';
+  for(let k=-6;k<=6;k++){ const t=el('text',{x:X(k),y:H-24,'text-anchor':'middle'},svg); t.textContent=(k>0?'+':'')+k; }
+  const xl=el('text',{x:(m.l+W-m.r)/2,y:H-4,'text-anchor':'middle'},svg); xl.textContent='Quarters relative to election (shaded = pre-registered pre-election window)';
+  const col=css('--accent'); let d='';
+  pts.forEach((p,i)=>{ d+=(i?'L':'M')+X(p.k)+','+Y(p.coef); });
+  el('path',{d,fill:'none',stroke:col,'stroke-width':1.5,opacity:.5},svg);
+  const tip=document.createElement('div'); tip.className='tip'; host.appendChild(tip);
+  pts.forEach(p=>{ if(p.k!==-4) el('line',{x1:X(p.k),x2:X(p.k),y1:Y(p.lo),y2:Y(p.hi),stroke:col,'stroke-width':2.5,'stroke-linecap':'round'},svg);
+    el('circle',{cx:X(p.k),cy:Y(p.coef),r:5.5,fill:p.k===-4?css('--ref'):col,stroke:css('--surface'),'stroke-width':2},svg);
+    const hit=el('rect',{x:X(p.k)-14,y:m.t,width:28,height:H-m.t-m.b,fill:'transparent'},svg);
+    hit.addEventListener('pointerenter',()=>{ tip.innerHTML=`<b>k = ${p.k}</b><br>${p.k===-4?'reference (0 by construction)':fmt(p.coef)+' ['+fmt(p.lo)+', '+fmt(p.hi)+']'}`; tip.style.left=(X(p.k)/W*100)+'%'; tip.style.top=(Y(p.hi)/H*100)+'%'; tip.style.opacity=1; });
+    hit.addEventListener('pointerleave',()=>tip.style.opacity=0); });
+}
+
+/* ---------- segmented controls ---------- */
+function seg(id, onChange){ const host=$(id); host.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; host.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b)); onChange(b.dataset.v); }); return ()=>host.querySelector('[aria-pressed="true"]').dataset.v; }
+function fillSelect(sel, obj){ sel.innerHTML=Object.entries(obj).map(([k,v])=>`<option value="${k}">${esc(v)}</option>`).join(''); }
+
+/* ---------- OVERVIEW ---------- */
+let ovGroup='EMDE';
+function renderOverview(){
+  const t=B.trends.filter(r=>r.group===ovGroup);
+  const s=[{name:'Gross inflows',v:t.map(r=>r.gross_in),color:css('--accent')},{name:'Gross outflows',v:t.map(r=>r.gross_out),color:css('--warm')},{name:'FDI inflows',v:t.map(r=>r.fdi),color:css('--aqua'),dash:'5 4'}];
+  legend($('#ov-legend'),s); lineChart($('#ov-chart'),t.map(r=>r.year),s,{h:300,label:'Gross flows by group',xlab:()=>true});
+  const sm=B.saved.sample;
+  $('#ov-sample').innerHTML=`<table><tbody>
+   <tr><td>Candidate economies</td><td class="n">${sm.candidates}</td></tr>
+   <tr><td>Annual sample (AE / EMDE)</td><td class="n">${sm.annual_sample} (${sm.annual_AE} / ${sm.annual_EMDE})</td></tr>
+   <tr><td>Quarterly sample (AE / EMDE)</td><td class="n">${sm.quarterly_sample} (${sm.quarterly_AE} / ${sm.quarterly_EMDE})</td></tr>
+   <tr><td>Executive-relevant elections 2015–25</td><td class="n">${sm.exec_relevant}</td></tr>
+   <tr><td>· scheduled / early (rule-based)</td><td class="n">${sm.exec_relevant_scheduled} / ${sm.exec_relevant_early}</td></tr>
+   <tr><td>Elections that changed the chief executive</td><td class="n">${(sm.exec_turnover_share*100).toFixed(0)}%</td></tr></tbody></table>`;
+}
+seg('#ov-group',v=>{ovGroup=v;renderOverview();});
+
+/* ---------- COUNTRIES ---------- */
+const cs=Object.entries(B.countries).sort((a,b)=>a[1].name.localeCompare(b[1].name));
+$('#c-country').innerHTML=['AE','EMDE'].map(g=>`<optgroup label="${g==='AE'?'Advanced economies':'Emerging & developing economies'}">`+cs.filter(([,c])=>c.group===g).map(([k,c])=>`<option value="${k}">${esc(c.name)}</option>`).join('')+'</optgroup>').join('');
+$('#c-country').value='BRA';
+let cSeries='gross';
+function renderCountry(){
+  const iso=$('#c-country').value, c=B.countries[iso]; const xs=c.q;
+  let s;
+  if(cSeries==='gross') s=[{name:'Gross inflows',v:c.in,color:css('--accent')},{name:'Gross outflows',v:c.out,color:css('--warm')}];
+  else if(cSeries==='comp') s=[{name:'FDI',v:c.fdi,color:css('--accent')},{name:'Portfolio',v:c.port,color:css('--warm')},{name:'Other investment',v:c.oi,color:css('--aqua')}];
+  else s=[{name:'Net flows',v:c.net,color:css('--accent')}];
+  const qi=q=>xs.indexOf(q);
+  const toQ=d=>{const dt=new Date(d); return dt.getUTCFullYear()+'Q'+(Math.floor(dt.getUTCMonth()/3)+1);};
+  const markers=c.elections.filter(e=>e.verification!=='wikipedia_only').map(e=>({i:qi(toQ(e.date)),color:e.exec===1?css('--fg'):css('--ref'),dash:e.timing==='early'?'5 4':''}));
+  const p0=c.partial.indexOf(1);
+  legend($('#c-legend'),[...s,{name:'Executive-relevant election',color:css('--fg')},{name:'Other national election',color:css('--ref')}]);
+  lineChart($('#c-chart'),xs,s,{h:340,markers,shade:p0>=0?[p0,xs.length-1]:null,label:'Quarterly flows for '+c.name,
+    xlab:(x,i)=>x.endsWith('Q1')&&(+x.slice(0,4))%2===1, xfmt:x=>x, extra:i=>{ const ev=c.elections.filter(e=>toQ(e.date)===xs[i]); return ev.map(e=>`<br>▲ ${e.type} election ${e.date}`).join('')+(c.partial[i]?'<br>partial year':''); }});
+  $('#c-head').innerHTML=`<div class="controls" style="gap:8px"><span class="chip ${c.group==='AE'?'conf':'sec'}">${c.group}</span><span class="small muted">${esc(c.region)} · ${esc(c.income)}${c.fc?' · financial centre (excluded in one robustness test)':''}</span></div>`;
+  $('#c-elections').innerHTML=c.elections.length? `<table><thead><tr><th>Date</th><th>Contest</th><th>Executive-relevant</th><th>Timing</th><th>Chief executive changed</th><th>Sources</th></tr></thead><tbody>`+
+    c.elections.map(e=>`<tr><td class="mono">${e.date}</td><td>${e.type}</td><td>${e.exec===1?'Yes':e.exec===0?'No':'–'}</td><td>${e.timing}</td><td>${e.turnover===1?'Yes':e.turnover===0?'No':'–'}</td><td class="small">${e.verification.replace(/\+/g,' + ').replace('_',' ')}</td></tr>`).join('')+'</tbody></table>'
+    : '<p class="muted">No national elections recorded for this economy in 2015–2026 (for example, no popular national vote).</p>';
+}
+$('#c-country').addEventListener('change',renderCountry); seg('#c-series',v=>{cSeries=v;renderCountry();});
+
+/* ---------- MODEL LAB ---------- */
+fillSelect($('#m-outcome'),B.labels.outcomes); fillSelect($('#m-sample'),B.labels.samples);
+fillSelect($('#m-scheme'),Object.fromEntries(Object.entries(B.labels.schemes).map(([k,v])=>[k,v.label]))); fillSelect($('#m-fe'),B.labels.fe);
+$('#m-sample').value='emde'; $('#m-scheme').value='imf';
+const find=(o,s,sc,fe)=>B.models.find(m=>m.outcome===o&&m.sample===s&&m.scheme===sc&&m.fe===fe);
+function status(o,s,sc,fe){
+  if(sc==='prereg'&&fe==='cq'&&s==='all'&&(o==='gross_inflows_gdp_w'||o==='gross_outflows_gdp_w')) return ['conf','Confirmatory specification (H1a / H1b). The pre-election term is the pre-registered test.'];
+  if(sc==='prereg'&&fe==='cq') return ['sec','Pre-registered model family (secondary, robustness or component outcome).'];
+  return ['post','Post-hoc specification: chosen after the confirmatory results were known. Use as exploratory evidence.'];
+}
+function renderModels(){
+  const o=$('#m-outcome').value,s=$('#m-sample').value,sc=$('#m-scheme').value,fe=$('#m-fe').value; const m=find(o,s,sc,fe);
+  const terms=B.labels.schemes[sc].terms; const [cls,txt]=status(o,s,sc,fe);
+  $('#m-status').innerHTML=`<span class="chip ${cls}">${cls==='conf'?'Confirmatory':cls==='sec'?'Secondary':'Post-hoc'}</span> <span class="small muted">${txt}</span>`;
+  ciChart($('#m-chart'),m.estimates.map(e=>({label:terms[e.term],coef:e.coef,lo:e.lo,hi:e.hi,p:e.p})),{rowH:56,labW:290,labSize:14,xlabel:'Coefficient, pp of GDP (annualised), 95% CI'});
+  const big=m.estimates.reduce((a,b)=>Math.abs(b.coef/b.se)>Math.abs(a.coef/a.se)?b:a);
+  const dir=big.coef<0?'lower':'higher', sig=big.p<0.05;
+  $('#m-interp').innerHTML=`In the <b>${esc(terms[big.term].toLowerCase())}</b>, ${esc(B.labels.outcomes[o].toLowerCase())} are <b>${fmt(Math.abs(big.coef))} pp of GDP ${dir}</b> than in other quarters (95% CI ${fmt(big.lo)} to ${fmt(big.hi)}; p = ${fmtP(big.p)}). That is ${(Math.abs(big.coef)/m.within_sd*100).toFixed(0)}% of a within-country standard deviation (${fmt(m.within_sd,1)} pp). ${sig?'The interval excludes zero.':'The interval includes zero, so the data cannot distinguish this from no effect.'}`;
+  $('#m-table').innerHTML=`<table><thead><tr><th>Window term</th><th class="n">Coef.</th><th class="n">SE</th><th class="n">95% CI</th><th class="n">p</th></tr></thead><tbody>`+
+    m.estimates.map(e=>`<tr${e===big?' class="hl"':''}><td>${esc(terms[e.term])}</td><td class="n">${fmt(e.coef)}</td><td class="n">${fmt(e.se)}</td><td class="n">[${fmt(e.lo)}, ${fmt(e.hi)}]</td><td class="n">${fmtP(e.p)}</td></tr>`).join('')+
+    `</tbody></table><p class="small muted" style="margin-top:8px">${m.n.toLocaleString()} country-quarters · ${m.countries} economies · outcome mean ${fmt(m.mean,1)} pp · ${esc(B.labels.fe[fe])} fixed effects</p>`;
+  $('#m-across').innerHTML=`<table><thead><tr><th>Sample</th><th class="n">Coef.</th><th class="n">95% CI</th><th class="n">p</th><th class="n">Economies</th></tr></thead><tbody>`+
+    Object.keys(B.labels.samples).map(k=>{const mm=find(o,k,sc,fe); const e=mm.estimates.find(x=>x.term===big.term); return `<tr${k===s?' class="hl"':''}><td>${esc(B.labels.samples[k])}</td><td class="n">${fmt(e.coef)}</td><td class="n">[${fmt(e.lo)}, ${fmt(e.hi)}]</td><td class="n">${fmtP(e.p)}</td><td class="n">${mm.countries}</td></tr>`;}).join('')+'</tbody></table>';
+}
+['#m-outcome','#m-sample','#m-scheme','#m-fe'].forEach(id=>$(id).addEventListener('change',renderModels));
+
+/* ---------- DYNAMICS ---------- */
+fillSelect($('#d-outcome'),Object.fromEntries(['gross_inflows_gdp_w','gross_outflows_gdp_w','private_inflows_gdp_w','fdi_in_gdp_w','oi_in_gdp_w'].map(k=>[k,B.labels.outcomes[k]])));
+let dSample='all', dEvents='scheduled';
+function renderDynamics(){ const o=$('#d-outcome').value; const ev=B.events.find(e=>e.outcome===o&&e.sample===dSample&&e.events===dEvents);
+  eventChart($('#d-chart'),ev.points); $('#d-note').textContent=`${ev.n.toLocaleString()} country-quarters · ${ev.countries} economies · ${dEvents==='scheduled'?'scheduled elections only (identifying sample)':'all corroborated executive-relevant elections'}.`; }
+$('#d-outcome').addEventListener('change',renderDynamics); seg('#d-sample',v=>{dSample=v;renderDynamics();}); seg('#d-events',v=>{dEvents=v;renderDynamics();});
+
+/* ---------- ROBUSTNESS ---------- */
+let rOut='in';
+function renderRobust(){
+  const R=B.saved.robustness; const half=R.length/2; const rows=(rOut==='in'?R.slice(0,half):R.slice(half));
+  ciChart($('#r-chart'),rows.map(r=>({label:r.test,items:[{name:'pre-election',coef:r.pre_coef,lo:r.pre_coef-1.96*r.pre_se,hi:r.pre_coef+1.96*r.pre_se,p:r.pre_p,color:css('--accent')},{name:'post-election',coef:r.post_coef,lo:r.post_coef-1.96*r.post_se,hi:r.post_coef+1.96*r.post_se,p:r.post_p,color:css('--warm')}]})),{rowH:36,labW:340,labSize:13,xlabel:'Coefficient, pp of GDP (annualised), 95% CI'});
+  const L=B.saved.loo_placebo.filter(r=>r.outcome===(rOut==='in'?'gross_inflows_gdp_w':'gross_outflows_gdp_w'));
+  $('#r-loo').innerHTML=`<table><thead><tr><th>Window</th><th class="n">Baseline</th><th class="n">Leave-one-out range</th><th class="n">Placebo p</th></tr></thead><tbody>`+
+    L.map(r=>`<tr><td>${r.term==='pre'?'Pre-election':'Post-election'}</td><td class="n">${fmt(r.baseline)}</td><td class="n">${fmt(r.loo_min)} to ${fmt(r.loo_max)}</td><td class="n">${fmtP(r.placebo_p_two_sided)}</td></tr>`).join('')+'</tbody></table>';
+}
+seg('#r-outcome',v=>{rOut=v;renderRobust();});
+function renderMT(host, fams){
+  const M=B.saved.multiple_testing.filter(r=>fams.includes(r.family));
+  const lab={elec_exec_pre:'pre-election window',pre_x_m:'× moderator',pre_x_emde:'× EMDE',vix_x_m:'VIX × moderator'};
+  host.innerHTML=`<table><thead><tr><th>Test</th><th class="n">Coef.</th><th class="n">95% CI</th><th class="n">p</th><th class="n">Holm p</th></tr></thead><tbody>`+
+   M.map(r=>`<tr><td>${r.hypothesis} · ${esc(B.labels.outcomes[r.outcome]||r.outcome)} · ${esc(lab[r.term]||r.term)}${r.spec.startsWith('moderation')||r.spec.startsWith('vix')?' ('+esc(r.spec.replace(/^(moderation_|vix_x_)/,'').replace('_2014',''))+')':''}</td><td class="n">${fmt(r.coef)}</td><td class="n">[${fmt(r.ci_low)}, ${fmt(r.ci_high)}]</td><td class="n">${fmtP(r.p_used)}</td><td class="n">${fmtP(r.p_holm)}</td></tr>`).join('')+'</tbody></table>';
+}
+
+/* ---------- REPORT ---------- */
+function renderReport(){
+  const t=B.trends.filter(r=>r.group==='EMDE');
+  lineChart($('#rep-trend'),t.map(r=>r.year),[{name:'FDI',v:t.map(r=>r.fdi),color:css('--accent')},{name:'Portfolio',v:t.map(r=>r.port),color:css('--warm')},{name:'Other investment',v:t.map(r=>r.oi),color:css('--aqua')}],{h:280,xlab:()=>true});
+  eventChart($('#rep-event'),B.events.find(e=>e.outcome==='gross_inflows_gdp_w'&&e.sample==='all'&&e.events==='scheduled').points,{h:320});
+  renderMT($('#rep-conf'),['primary']);
+  const rows=[['EMDE','gross_inflows_gdp_w'],['EMDE','private_inflows_gdp_w'],['all','private_inflows_gdp_w'],['all','gross_inflows_gdp_w']].map(([s,o])=>{
+    const a=find(o,s.toLowerCase(),'imf','cq').estimates.find(e=>e.term==='eq_k0'), b=find(o,s.toLowerCase(),'imf','csq').estimates.find(e=>e.term==='eq_k0');
+    return `<tr><td>${s==='EMDE'?'Emerging & developing':'All economies'} · ${esc(B.labels.outcomes[o])}</td><td class="n">${fmt(a.coef)}</td><td class="n">[${fmt(a.lo)}, ${fmt(a.hi)}]</td><td class="n">${fmtP(a.p)}</td><td class="n">${fmt(b.coef)} (p ${fmtP(b.p)})</td></tr>`;});
+  $('#rep-posthoc').innerHTML=`<table><thead><tr><th>Sample · outcome</th><th class="n">Election quarter</th><th class="n">95% CI</th><th class="n">p</th><th class="n">With country × season FE</th></tr></thead><tbody>${rows.join('')}</tbody></table>`+
+    `<p class="small muted" style="margin-top:8px">Placebo calendars (1,000 draws, EMDE): gross inflows p ${fmtP(B.saved.posthoc_placebo[0].placebo_p_two_sided)}, private inflows p ${fmtP(B.saved.posthoc_placebo[1].placebo_p_two_sided)}.</p>`;
+}
+document.querySelectorAll('[data-jump]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault(); document.getElementById(a.dataset.jump).scrollIntoView({behavior:'smooth',block:'start'});}));
+
+/* ---------- DATA ---------- */
+const SRC=[['IMF Balance of Payments (BPM6), v21','Flows by category and accounting entry','2014–2026Q2'],['IMF World Economic Outlook','GDP, growth, inflation, fiscal, debt','current vintage; 2026 projected'],['World Bank WGI, 2026 release','Six governance dimensions','to 2025'],['World Bank WDI','Reserves, external debt, trade','updated 2026-10-08'],['V-Dem v16','Election years, executive constraints, leader names','to 2025'],['International IDEA Voter Turnout','Election corroboration and history','to 2026'],['Wikipedia national electoral calendars','Exact election dates','2010–2026'],['World Uncertainty Index; GPR; IMF RSUI','Uncertainty, geopolitical risk, unrest','to 2026'],['Chinn–Ito KAOPEN; BIS policy rates; FRED','Capital-account openness, policy rates, VIX and global factors','various']];
+$('#dt-sources').innerHTML='<table><thead><tr><th>Source</th><th>Used for</th><th>Coverage</th></tr></thead><tbody>'+SRC.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td class="small">${r[2]}</td></tr>`).join('')+'</tbody></table><p class="small muted" style="margin-top:8px">All retrieved 11 October 2026. File hashes and vintages are in <code>data/processed/source_register.csv</code>.</p>';
+
+/* ---------- routing ---------- */
+const views=['overview','countries','models','dynamics','robustness','report','data'];
+const rendered={};
+const renderers={overview:renderOverview,countries:renderCountry,models:renderModels,dynamics:renderDynamics,robustness:()=>{renderRobust();renderMT($('#r-mt'),['primary','H3_components','H5_family']);},report:renderReport,data:()=>{}};
+function route(){ let v=location.hash.replace('#',''); if(!views.includes(v)) v='overview';
+  views.forEach(x=>{ $('#v-'+x).hidden=(x!==v); });
+  document.querySelectorAll('#tabs a').forEach(a=>a.setAttribute('aria-current',a.getAttribute('href')==='#'+v?'page':'false'));
+  renderers[v](); rendered[v]=true; }
+window.addEventListener('hashchange',route);
+try{ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',route); }catch(e){}
+new MutationObserver(route).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+route();
+})();
+</script>
