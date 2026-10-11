@@ -27,9 +27,19 @@
 | Rolling ex-ante backtest 2020–2025 | **Completed**: EMDE gross inflows blend RMSE 9.24 vs 9.88 for the long-run average; for AE, nothing beats the average. | `results/tables/rolling_point_summary.csv` |
 | Pre-registered 2026–27 election test | **Registered** (git tag `prereg-2026-elections`). Low power (22% at −2 pp), stated in the registration. | `report/preregistration_2026_elections.md` |
 
+## Crises, policy levers and market prices (added 2026-10-11)
+
+| Item | Status | Where |
+|---|---|---|
+| Crisis and event database, 1,265 events | **Completed**: systemic banking crises (IMF WP/26/94, 29 since 2012); sovereign defaults by creditor type (BoC–BoE 2026: 38 private, 72 official, 20 other private, 13 local currency); currency crises (Laeven–Valencia rule, 64); large IMF financing (Fund Accounts proxy, 164 episodes); inflation above 40% (21); capital-flow restriction changes (844 quarters with 2+ measures). Each row has source, rule and notes. | `data/processed/crisis_events.csv`, `src/cleaning/crisis_events.py` |
+| Policy levers | **Completed**: capital-flow restrictions in/out (Bergant–Fernández–Teoh–Uribe 2025, to 2023; 89% coverage 2015–25); FX intervention (IMF, to 2024Q4; 57%); policy rates (IMF MFS, BIS fill; 45%). | `data/processed/policy_quarterly.parquet` |
+| Market prices | **Completed**: monthly FX vs USD (96%), government bond or T-bill yields and spread over US 10-year (39%, 109 economies); daily FX for 12 currencies (FRED). | `market_monthly.parquet`, `market_daily.parquet` |
+| Analyses (exploratory) | **Completed**: crises do not explain most model surprises; policy-lever associations show reverse causality; no market reaction to elections (monthly or daily); market signals did not improve risk models. | `results/tables/event_attribution*`, `policy_lever_associations.csv`, `market_elections_*.json` |
+| Not obtained | **Blocked**: iMaPP macroprudential database (IMF site 403), MONA programme database, sanctions (GSDB, registration), credit ratings and EMBI spreads (paywalled). | — |
+
 ## Source versions used
 
-IMF BOP v21.0.0 (data to 2026Q2); IMF WEO (DataMapper vintage at retrieval); WDI (2026-10-08); WGI 2026 release (2026-09-25); V-Dem v16 (2026-03-17); IDEA VTD; Wikipedia calendars 2010–2026 (revision IDs in raw JSON); WUI July 2026; GPR (to 2026-09); RSUI (to 2026-05); KAOPEN 2023; BIS WS_CBPOL; FRED. All retrieved 2026-10-11.
+IMF BOP v21.0.0 (data to 2026Q2); IMF WEO (DataMapper vintage at retrieval); WDI (2026-10-08); WGI 2026 release (2026-09-25); V-Dem v16 (2026-03-17); IDEA VTD; Wikipedia calendars 2010–2026 (revision IDs in raw JSON); WUI July 2026; GPR (to 2026-09); RSUI (to 2026-05); KAOPEN 2023; BIS WS_CBPOL; FRED; IMF WP/26/94; BoC–BoE database 2026 (2025 preliminary); IMF FA, WPFXI, MFS_IR, ER; BFTU iBoP-C (GitHub, 2025); FKRSU 2021 update; FRED H.10. All retrieved 2026-10-11.
 
 ## Unresolved issues
 
@@ -44,5 +54,6 @@ IMF BOP v21.0.0 (data to 2026Q2); IMF WEO (DataMapper vintage at retrieval); WDI
 
 1. Run the pre-registered test when BOP data cover 2027Q4 election quarters (mid-2028). Do not regenerate the registration files.
 2. Ingest UNCTAD WIR 2026 annex tables (greenfield announcements vs realised FDI) and BIS LBS cross-border claims. Re-estimate H3 with these.
-3. Build the hand-coded policy-event codebook (investment screening, repatriation rules, capital-flow management measures) with two coders and κ reporting.
-4. Audit the early-election classification against constitutional term lengths (e.g. Constitute Project) and re-run the scheduled-only design.
+3. Identify policy effects with event-specific designs (e.g. capital-control announcements with daily FX; surprise rate decisions). Add iMaPP and EMBI spreads if access is obtained.
+4. Build the hand-coded policy-event codebook (investment screening, repatriation rules, capital-flow management measures) with two coders and κ reporting.
+5. Audit the early-election classification against constitutional term lengths (e.g. Constitute Project) and re-run the scheduled-only design.

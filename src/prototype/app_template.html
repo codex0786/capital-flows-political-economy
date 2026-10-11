@@ -163,6 +163,17 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
   </div>
 
   <div class="panel">
+    <div><span class="eyebrow">1b · Crises, policy and markets</span><h2 style="margin-top:4px">What else was going on</h2></div>
+    <div class="tbl" id="ev-table"></div>
+    <div class="grid g2">
+      <div><h3>Capital-flow restrictions</h3><p class="small muted">Cumulative net tightening measures since 1950 (higher = more restrictive), inflow- and outflow-related. Bergant, Fernández, Teoh & Uribe (2025), from the IMF AREAER; ends 2023.</p><div class="legend" id="pl-ccr-legend"></div><div class="chart" id="pl-ccr"></div></div>
+      <div><h3>FX intervention and policy rate</h3><p class="small muted">FX intervention (% of GDP; positive = central bank buys foreign currency), IMF dataset to 2024Q4. Policy rate, end of quarter.</p><div class="legend" id="pl-fxi-legend"></div><div class="chart" id="pl-fxi"></div></div>
+      <div><h3>Exchange rate against the US dollar</h3><p class="small muted">Local currency per USD, index (first month = 100); up = depreciation. IMF exchange rates.</p><div class="chart" id="mk-fx"></div></div>
+      <div><h3>Government bond yield</h3><p class="small muted" id="mk-yld-note"></p><div class="legend" id="mk-yld-legend"></div><div class="chart" id="mk-yld"></div></div>
+    </div>
+  </div>
+
+  <div class="panel">
     <div><span class="eyebrow">2 · Why it happened</span><h2 style="margin-top:4px">Drivers, year by year</h2></div>
     <div class="narr" id="a-why"></div>
     <div class="legend" id="a-why-legend"></div>
@@ -235,7 +246,7 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
 <!-- RISK MONITOR -->
 <section class="view" id="v-monitor" hidden>
   <div class="panel">
-    <div><h3>Risk monitor: all economies</h3><p class="small muted">Latest flows-at-risk and sudden-stop estimates for the next four quarters, with vulnerability flags. Click a column heading to sort, and a row to open that country's analysis. Probabilities rank risk better than they measure it (rolling AUC 0.74). The ranking is the most reliable part.</p></div>
+    <div><h3>Risk monitor: all economies</h3><p class="small muted">Latest flows-at-risk and sudden-stop estimates for the next four quarters, with vulnerability flags, crisis events active in 2025–26 and the latest 3-month currency move against the USD (+ = depreciation). Click a column heading to sort, and a row to open that country's analysis. Probabilities rank risk better than they measure it (rolling AUC 0.74). The ranking is the most reliable part.</p></div>
     <div class="controls">
       <div class="ctl"><label>Group</label><div class="seg" id="mo-group"><button aria-pressed="true" data-v="all">All</button><button aria-pressed="false" data-v="AE">AE</button><button aria-pressed="false" data-v="EMDE">EMDE</button></div></div>
       <div class="ctl" style="flex:1 1 180px"><label for="mo-find">Find</label><input type="search" id="mo-find" placeholder="Country name"></div>
@@ -266,6 +277,13 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
   <div class="panel"><h3>What moves the downside tail?</h3><p class="small muted">Quantile-regression coefficients for the 5th percentile and the median of next-year flows (standardised by each country's volatility), with 95% country-cluster bootstrap intervals.</p>
     <div class="legend" id="tr-coef-legend"></div><div class="chart" id="tr-coef"></div></div>
   <div class="panel"><div><span class="chip post">Exploratory</span><h3 style="margin-top:8px">Which elections hit inflows hardest? (EMDE)</h3></div><p class="small muted">Election-quarter and post-election effects on gross inflows, split by whether the incumbent lost (V-Dem) and whether the election was early. Specified after the main results; does not count toward the pre-registered test.</p><div class="tbl" id="tr-eh"></div><p class="small" id="tr-eh-note"></p></div>
+  <div class="panel"><div><span class="chip post">Exploratory</span><h3 style="margin-top:8px">Do named crises explain the model's surprises?</h3></div><p class="small muted">Unexplained remainder of the driver model by year, scaled by each country's volatility, in years with and without a named crisis (banking, sovereign default, currency crisis, large IMF financing, inflation above 40%).</p><div class="tbl" id="tr-att"></div><p class="small" id="tr-att-note"></p></div>
+  <div class="panel"><div><span class="chip post">Exploratory</span><h3 style="margin-top:8px">Policy levers and flows</h3></div><p class="small muted">Next-quarter flows after policy actions, with country and quarter fixed effects and lagged fundamentals. Policy reacts to flows, so these are associations, not effects of policy.</p><div class="tbl" id="tr-pol"></div><p class="small" id="tr-pol-note"></p></div>
+  <div class="panel"><div><span class="chip post">Exploratory</span><h3 style="margin-top:8px">Do markets react to elections?</h3></div>
+    <div class="controls"><div class="ctl"><label>Measure</label><div class="seg" id="tr-mk"><button aria-pressed="true" data-v="0">Exchange rate (EMDE)</button><button aria-pressed="false" data-v="2">Bond yield (EMDE)</button><button aria-pressed="false" data-v="1">Exchange rate (AE)</button></div></div></div>
+    <div class="chart" id="tr-mk-chart"></div><p class="small" id="tr-mk-note"></p>
+    <h3 style="margin-top:8px">Daily exchange rates around elections</h3><p class="small muted">Cumulative depreciation beyond the broad US-dollar move, 20 trading days before to 20 after the vote (FRED daily rates, 12 currencies). Band: 95% bootstrap interval.</p>
+    <div class="chart" id="tr-daily"></div><p class="small" id="tr-daily-note"></p></div>
   <div class="panel" id="tr-prereg"></div>
 </section>
 
@@ -472,6 +490,7 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
 <script type="application/json" id="bundle">__BUNDLE__</script>
 <script type="application/json" id="cabundle">__CABUNDLE__</script>
 <script type="application/json" id="riskbundle">__RISKBUNDLE__</script>
+<script type="application/json" id="evbundle">__EVBUNDLE__</script>
 <script>
 (function(){
 const B = JSON.parse(document.getElementById('bundle').textContent);
@@ -545,13 +564,13 @@ function eventChart(host, pts, opt={}){
   const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'event study coefficients'},host);
   let lo=Math.min(...pts.map(p=>p.lo)), hi=Math.max(...pts.map(p=>p.hi)); const pad=(hi-lo)*.08; lo-=pad; hi+=pad;
   const X=k=>m.l+(k+6)/12*(W-m.l-m.r), Y=v=>m.t+(hi-v)/(hi-lo)*(H-m.t-m.b);
-  el('rect',{x:X(-1.5),y:m.t,width:X(0.5)-X(-1.5),height:H-m.t-m.b,fill:css('--surface-2')},svg);
+  if(opt.shade!==false) el('rect',{x:X(-1.5),y:m.t,width:X(0.5)-X(-1.5),height:H-m.t-m.b,fill:css('--surface-2')},svg);
   const g=el('g',{class:'grid'},svg); niceTicks(lo,hi).forEach(t=>{ el('line',{x1:m.l,x2:W-m.r,y1:Y(t),y2:Y(t)},g); const tx=el('text',{x:m.l-8,y:Y(t)+4,'text-anchor':'end'},svg); tx.textContent=fmt(t,t%1?1:0); });
   el('line',{class:'zero',x1:m.l,x2:W-m.r,y1:Y(0),y2:Y(0)},svg);
   el('line',{x1:X(-4),x2:X(-4),y1:m.t,y2:H-m.b,stroke:css('--ref'),'stroke-dasharray':'3 4'},svg);
   const rl=el('text',{x:X(-4)+6,y:m.t+14},svg); rl.textContent='reference';
   for(let k=-6;k<=6;k++){ const t=el('text',{x:X(k),y:H-24,'text-anchor':'middle'},svg); t.textContent=(k>0?'+':'')+k; }
-  const xl=el('text',{x:(m.l+W-m.r)/2,y:H-4,'text-anchor':'middle'},svg); xl.textContent='Quarters relative to election (shaded = pre-registered pre-election window)';
+  const xl=el('text',{x:(m.l+W-m.r)/2,y:H-4,'text-anchor':'middle'},svg); xl.textContent=opt.xlabel||'Quarters relative to election (shaded = pre-registered pre-election window)';
   const col=css('--accent'); let d='';
   pts.forEach((p,i)=>{ d+=(i?'L':'M')+X(p.k)+','+Y(p.coef); });
   el('path',{d,fill:'none',stroke:col,'stroke-width':1.5,opacity:.5},svg);
@@ -559,7 +578,7 @@ function eventChart(host, pts, opt={}){
   pts.forEach(p=>{ if(p.k!==-4) el('line',{x1:X(p.k),x2:X(p.k),y1:Y(p.lo),y2:Y(p.hi),stroke:col,'stroke-width':2.5,'stroke-linecap':'round'},svg);
     el('circle',{cx:X(p.k),cy:Y(p.coef),r:5.5,fill:p.k===-4?css('--ref'):col,stroke:css('--surface'),'stroke-width':2},svg);
     const hit=el('rect',{x:X(p.k)-14,y:m.t,width:28,height:H-m.t-m.b,fill:'transparent'},svg);
-    hit.addEventListener('pointerenter',()=>{ tip.innerHTML=`<b>k = ${p.k}</b><br>${p.k===-4?'reference (0 by construction)':fmt(p.coef)+' ['+fmt(p.lo)+', '+fmt(p.hi)+']'}`; tip.style.left=(X(p.k)/W*100)+'%'; tip.style.top=(Y(p.hi)/H*100)+'%'; tip.style.opacity=1; });
+    hit.addEventListener('pointerenter',()=>{ tip.innerHTML=`<b>${opt.unit||'k'} = ${p.k}</b><br>${p.k===-4?'reference (0 by construction)':fmt(p.coef)+' ['+fmt(p.lo)+', '+fmt(p.hi)+']'}`; tip.style.left=(X(p.k)/W*100)+'%'; tip.style.top=(Y(p.hi)/H*100)+'%'; tip.style.opacity=1; });
     hit.addEventListener('pointerleave',()=>tip.style.opacity=0); });
 }
 
@@ -674,7 +693,7 @@ function renderReport(){
 document.querySelectorAll('[data-jump]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault(); document.getElementById(a.dataset.jump).scrollIntoView({behavior:'smooth',block:'start'});}));
 
 /* ---------- DATA ---------- */
-const SRC=[['IMF Balance of Payments (BPM6), v21','Flows by category and accounting entry','2014–2026Q2'],['IMF World Economic Outlook','GDP, growth, inflation, fiscal, debt','current vintage; 2026 projected'],['World Bank WGI, 2026 release','Six governance dimensions','to 2025'],['World Bank WDI','Reserves, external debt, trade','updated 2026-10-08'],['V-Dem v16','Election years, executive constraints, leader names','to 2025'],['International IDEA Voter Turnout','Election corroboration and history','to 2026'],['Wikipedia national electoral calendars','Exact election dates','2010–2026'],['World Uncertainty Index; GPR; IMF RSUI','Uncertainty, geopolitical risk, unrest','to 2026'],['Chinn–Ito KAOPEN; BIS policy rates; FRED','Capital-account openness, policy rates, VIX and global factors','various']];
+const SRC=[['IMF Balance of Payments (BPM6), v21','Flows by category and accounting entry','2014–2026Q2'],['IMF World Economic Outlook','GDP, growth, inflation, fiscal, debt','current vintage; 2026 projected'],['World Bank WGI, 2026 release','Six governance dimensions','to 2025'],['World Bank WDI','Reserves, external debt, trade','updated 2026-10-08'],['V-Dem v16','Election years, executive constraints, leader names','to 2025'],['International IDEA Voter Turnout','Election corroboration and history','to 2026'],['Wikipedia national electoral calendars','Exact election dates','2010–2026'],['World Uncertainty Index; GPR; IMF RSUI','Uncertainty, geopolitical risk, unrest','to 2026'],['Chinn–Ito KAOPEN; BIS policy rates; FRED','Capital-account openness, policy rates, VIX and global factors','various'],['IMF WP/26/94 (Laeven–Valencia update)','Systemic banking crises','to 2025'],['Bank of Canada / Bank of England default database 2026','Sovereign defaults by creditor type','to 2025 (preliminary)'],['IMF Fund Accounts','IMF lending outstanding','to 2026Q3'],['Bergant, Fernández, Teoh & Uribe (2025); Fernández et al. (2016, 2021 update)','Capital-flow restrictions','to 2023'],['IMF FX intervention dataset','FX intervention','to 2024Q4'],['IMF exchange rates and interest rates','Exchange rates, policy rates, bond and bill yields','to mid-2026'],['FRED H.10','Daily exchange rates, 12 currencies','to Oct 2026']];
 $('#dt-sources').innerHTML='<table><thead><tr><th>Source</th><th>Used for</th><th>Coverage</th></tr></thead><tbody>'+SRC.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td class="small">${r[2]}</td></tr>`).join('')+'</tbody></table><p class="small muted" style="margin-top:8px">All retrieved 11 October 2026. File hashes and vintages are in <code>data/processed/source_register.csv</code>.</p>';
 
 /* ---------- COUNTRY x YEAR ---------- */
@@ -789,8 +808,9 @@ function renderAnalysis(){
   $('#a-happened').innerHTML=d.narrative.happened.map(t=>`<p>${esc(t)}</p>`).join('');
   $('#a-why').innerHTML=d.narrative.why.map(t=>`<p>${esc(t)}</p>`).join('');
   $('#a-outlook').innerHTML=(d.narrative.outlook||[]).map(t=>`<p>${esc(t)}</p>`).join('');
-  $('#a-years').innerHTML=d.narrative.years.map(y=>`<div class="yr"><span class="y">${y.year}</span><span class="dv" style="color:${y.dev<0?'var(--warm)':'var(--accent)'}">${y.dev>=0?'+':''}${fmt(y.dev,1)} pp</span><span>${esc(y.text)}${y.context?`<br><span class="small muted">${esc(y.context)}</span>`:''}</span></div>`).join('');
-  renderAChart(); renderWhy(); renderForecastTable(); renderScenario(); renderRisk(); renderBacktest();
+  $('#a-years').innerHTML=d.narrative.years.map(y=>{ const ne=eventsInYear(iso,y.year);
+    return `<div class="yr"><span class="y">${y.year}</span><span class="dv" style="color:${y.dev<0?'var(--warm)':'var(--accent)'}">${y.dev>=0?'+':''}${fmt(y.dev,1)} pp</span><span>${esc(y.text)}${y.context?`<br><span class="small muted">${esc(y.context)}</span>`:''}${ne.length?`<br><span class="small"><b>Named events:</b> ${ne.map(esc).join('; ')}.</span>`:''}</span></div>`; }).join('');
+  renderAChart(); renderTimeline(); renderWhy(); renderForecastTable(); renderScenario(); renderRisk(); renderBacktest();
 }
 function scenarioDelta(d){
   const z=CA.assumptions.zstats, b=d.loadings, rho=d.rho;
@@ -997,6 +1017,8 @@ function renderBrief(){
   L.push('WHAT HAPPENED'); g.narrative.happened.forEach(t=>L.push('- '+t));
   L.push(''); L.push('WHY'); g.narrative.why.forEach(t=>L.push('- '+t));
   const yrs=g.narrative.years.slice(-3); yrs.forEach(y=>L.push(`- ${y.year}: ${y.text}`));
+  const evs=(EV.events[iso]||[]).filter(e=>MAJOR.includes(e.event_type)&&e.end_year>=2015);
+  if(evs.length){ L.push(''); L.push('NAMED EVENTS SINCE 2015'); evs.forEach(e=>L.push(`- ${e.start}${e.end&&e.end!==e.start?'–'+e.end:''}: ${e.detail} [${e.source.split(',')[0]}]`)); }
   L.push(''); L.push('OUTLOOK (central path)');
   if(g.forecast.length) L.push(`- Gross inflows: ${g.forecast.map(f=>f.quarter+' '+fmt(f.mean,1)).join(', ')} (80% range for ${g.forecast[0].quarter}: ${fmt(g.forecast[0].lo80,1)} to ${fmt(g.forecast[0].hi80,1)}).`);
   if(nt&&nt.forecast.length) L.push(`- Net inflows: ${nt.forecast.map(f=>f.quarter+' '+fmt(f.mean,1)).join(', ')}.`);
@@ -1029,14 +1051,15 @@ function renderMonitor(){
   let rows=Object.entries(R.countries).map(([iso,r])=>{ const v=V.countries[iso]||{buffers:{},indicators:{}}; const c=CA.countries[iso]||{name:iso,group:v.group}; const ew=v.early_warning||{};
     return {iso,name:c.name,group:c.group||v.group,p_net:(r.p_stop||{}).fw_net??null,p_gross:(r.p_stop||{}).fw_gross??null,
       net05:r.net?r.net.quantiles.q05:null,gross50:r.gross_in?r.gross_in.quantiles.q50:null,ews:ew.score??null,
-      gap:v.buffers.reserve_tests_apply===false?null:(v.buffers.gap_pp===0?99:v.buffers.gap_cover),flags:v.flags??null}; })
+      gap:v.buffers.reserve_tests_apply===false?null:(v.buffers.gap_pp===0?99:v.buffers.gap_cover),flags:v.flags??null,
+      crises:activeCrises(iso).length, dep3m:(EV.markets[iso]||{}).dep3m??null}; })
     .filter(x=>(moGroup==='all'||x.group===moGroup)&&(!f||x.name.toLowerCase().includes(f)));
   rows.sort((a,b)=>{ const x=a[moSort.k],y=b[moSort.k]; if(x==null) return 1; if(y==null) return -1; return typeof x==='string'? moSort.dir*x.localeCompare(y) : moSort.dir*(x-y); });
-  const cols=[['name','Economy'],['group','Group'],['p_net','Sudden-stop start (net)'],['p_gross','Sudden-stop start (gross)'],['net05','Net inflows, 5th pct'],['gross50','Gross inflows, median'],['ews','Early-warning score'],['gap','Financing-gap cover'],['flags','Rule-of-thumb flags']];
-  const fm={p_net:x=>Math.round(x*100)+'%',p_gross:x=>Math.round(x*100)+'%',net05:x=>fmt(x,1),gross50:x=>fmt(x,1),ews:x=>Math.round(x*100),gap:x=>x>=99?'no gap':fmt(x,1)+'×'};
+  const cols=[['name','Economy'],['group','Group'],['p_net','Sudden-stop start (net)'],['p_gross','Sudden-stop start (gross)'],['net05','Net inflows, 5th pct'],['gross50','Gross inflows, median'],['ews','Early-warning score'],['gap','Financing-gap cover'],['flags','Rule-of-thumb flags'],['crises','Active crisis events'],['dep3m','Currency, 3-month change']];
+  const fm={dep3m:x=>(x>0?'+':'')+fmt(x,1)+'%',p_net:x=>Math.round(x*100)+'%',p_gross:x=>Math.round(x*100)+'%',net05:x=>fmt(x,1),gross50:x=>fmt(x,1),ews:x=>Math.round(x*100),gap:x=>x>=99?'no gap':fmt(x,1)+'×'};
   $('#mo-table').innerHTML='<thead><tr>'+cols.map(([k,l])=>`<th class="sortable${['name','group'].includes(k)?'':' n'}" data-k="${k}">${l}${moSort.k===k?(moSort.dir<0?' ↓':' ↑'):''}</th>`).join('')+'</tr></thead><tbody>'+
     rows.map(x=>`<tr data-iso="${x.iso}">`+cols.map(([k])=>{ const v_=x[k]; if(k==='name'||k==='group') return `<td>${esc(v_)}</td>`;
-      const txt=v_==null?'–':(fm[k]?fm[k](v_):v_); const warn=(k==='flags'&&v_>=3)||(k==='gap'&&v_!=null&&v_<1)||(k==='ews'&&v_!=null&&v_>=0.6);
+      const txt=v_==null?'–':(fm[k]?fm[k](v_):v_); const warn=(k==='flags'&&v_>=3)||(k==='gap'&&v_!=null&&v_<1)||(k==='ews'&&v_!=null&&v_>=0.6)||(k==='crises'&&v_>=1)||(k==='dep3m'&&v_!=null&&v_>=10);
       return `<td class="n"${warn?' style="color:var(--warm);font-weight:600"':''}>${txt}</td>`; }).join('')+'</tr>').join('')+'</tbody>';
 }
 $('#mo-table').addEventListener('click',e=>{ const th=e.target.closest('th[data-k]'); if(th){ const k=th.dataset.k; moSort={k,dir:moSort.k===k?-moSort.dir:(k==='name'||k==='group'||k==='gap'||k==='net05'?1:-1)}; renderMonitor(); return; }
@@ -1053,14 +1076,14 @@ function renderTrack(){
   const lab={rmse_blend_rt:'Blend (real time)',rmse_model:'Driver model',rmse_mean:'Long-run average',rmse_last4:'Last four quarters'};
   const best=Object.keys(lab).reduce((a,b)=>all[b]<all[a]?b:a);
   $('#tr-table').innerHTML='<table><thead><tr><th>Method</th><th class="n">RMSE 2020–2025</th><th class="n">vs long-run average</th></tr></thead><tbody>'+Object.keys(lab).map(k=>`<tr${k===best?' class="hl"':''}><td>${lab[k]}</td><td class="n">${fmt(all[k],2)}</td><td class="n">${k==='rmse_mean'?'–':((all[k]/all.rmse_mean-1)*100).toFixed(1)+'%'}</td></tr>`).join('')+`</tbody></table><p class="small muted" style="margin-top:6px">${all.forecasts.toLocaleString()} country-quarter forecasts. Highlighted: lowest error.</p>`;
-  const ml={full:'Full quantile model',lean:'Lean quantile model',history:'Country history only',blend:'Blend',blend_cal:'Blend, calibrated tails',blend_cal_group:'Blend, tails calibrated by group'};
+  const ml={full:'Full quantile model',lean:'Lean quantile model',history:'Country history only',blend:'Blend',blend_cal:'Blend, calibrated tails',blend_cal_group:'Blend, tails calibrated by group',lean_market:'Lean model + market signals',blend_market:'Blend + market signals',blend_market_cal:'Blend + market signals, calibrated tails'};
   const cal=R.summary.filter(r=>r.target===trFt&&r.window==='test'&&r.group==='all');
   $('#tr-cal').innerHTML='<table><thead><tr><th>Method</th><th class="n">5th</th><th class="n">10th</th><th class="n">50th</th><th class="n">90th</th><th class="n">95th</th><th class="n">Tail loss (5th)</th></tr></thead><tbody><tr><td class="muted">Nominal</td><td class="n muted">5%</td><td class="n muted">10%</td><td class="n muted">50%</td><td class="n muted">90%</td><td class="n muted">95%</td><td></td></tr>'+
     cal.map(r=>`<tr${r.method===R.selection.far_heldout[trFt]?' class="hl"':''}><td>${ml[r.method]||r.method}</td><td class="n">${(r.cover_q05*100).toFixed(1)}%<br><span class="small muted">[${(r.cover_q05_ci90[0]*100).toFixed(1)}–${(r.cover_q05_ci90[1]*100).toFixed(1)}]</span></td>${['q10','q50','q90','q95'].map(k=>`<td class="n">${(r['cover_'+k]*100).toFixed(1)}%</td>`).join('')}<td class="n">${fmt(r.pinball_q05,3)}</td></tr>`).join('')+'</tbody></table>';
   $('#tr-cal-note').innerHTML=`Highlighted: the method the rule picked on 2019–22 data. In calm 2023–24 its tails were <b>wider than needed</b>: fewer outcomes fell below the 5th percentile than the nominal 5%. Calibration learned from the turbulent 2020–22 period. The live tool uses ${ml[R.selection.far_live[trFt]]}.`;
   const st=R.stop_summary.filter(r=>r.window==='test');
-  const pl={logit:'Logit model',logit_contagion:'Logit + contagion',base:'Typical rate (base)',blend:'Blend of logit and base',blend_contagion:'Blend + contagion'};
-  $('#tr-stop').innerHTML='<table><thead><tr><th>Definition</th><th>Method</th><th class="n">AUC</th><th class="n">Brier</th><th class="n">Episodes</th></tr></thead><tbody>'+st.map(r=>`<tr${r.method===R.selection.stop_heldout[r.def]?' class="hl"':''}><td>${DEF_LABEL[r.def]}</td><td>${pl[r.method]}</td><td class="n">${r.method==='base'?'0.50':fmt(r.auc,3)}</td><td class="n">${fmt(r.brier,4)}</td><td class="n">${r.events}</td></tr>`).join('')+'</tbody></table><p class="small muted" style="margin-top:6px">Highlighted: the method chosen on 2019–22. Adding regional contagion did not improve the held-out results.</p>';
+  const pl={logit:'Logit model',logit_contagion:'Logit + contagion',base:'Typical rate (base)',blend:'Blend of logit and base',blend_contagion:'Blend + contagion',logit_market:'Logit + market signals',blend_market:'Blend + market signals'};
+  $('#tr-stop').innerHTML='<table><thead><tr><th>Definition</th><th>Method</th><th class="n">AUC</th><th class="n">Brier</th><th class="n">Episodes</th></tr></thead><tbody>'+st.map(r=>`<tr${r.method===R.selection.stop_heldout[r.def]?' class="hl"':''}><td>${DEF_LABEL[r.def]}</td><td>${pl[r.method]}</td><td class="n">${r.method==='base'?'0.50':fmt(r.auc,3)}</td><td class="n">${fmt(r.brier,4)}</td><td class="n">${r.events}</td></tr>`).join('')+'</tbody></table><p class="small muted" style="margin-top:6px">Highlighted: the method chosen on 2019–22. Neither regional contagion nor market signals (currency and yield moves) improved the held-out results.</p>';
   const E=V.early_warning.fw_net;
   $('#tr-ew').innerHTML='<table><thead><tr><th>Indicator</th><th class="n">Rule of thumb</th><th class="n">Data-driven threshold</th><th class="n">Noise-to-signal (train)</th><th class="n">Episodes caught (test)</th><th class="n">False alarms (test)</th></tr></thead><tbody>'+
     E.indicators.map(i=>`<tr><td>${esc(i.label)} <span class="muted small">${esc(i.unit)}</span></td><td class="n">${i.rule_of_thumb==null?'–':(i.direction==='low'?'&lt; ':'&gt; ')+fmt(i.rule_of_thumb,0)}</td><td class="n">${i.threshold==null?'–':(i.direction==='low'?'&lt; ':'&gt; ')+fmt(i.threshold,1)}</td><td class="n">${fmt(i.nsr,2)}</td><td class="n">${i.test_hit_rate==null?'–':Math.round(i.test_hit_rate*100)+'%'}</td><td class="n">${i.test_false_alarm_rate==null?'–':Math.round(i.test_false_alarm_rate*100)+'%'}</td></tr>`).join('')+'</tbody></table>';
@@ -1102,10 +1125,61 @@ const GLOSS=[['Gross inflows','New investment and lending into the economy by no
  ['Driver attribution','A split of a country’s deviation from its own average into contributions of modelled factors. Statistical, not causal.']];
 $('#gl-list').innerHTML=GLOSS.map(([t,d])=>`<p><b>${t}.</b> ${d}</p>`).join('');
 
+/* ---------- crises, policy, markets (v3) ---------- */
+const EV=JSON.parse(document.getElementById('evbundle').textContent);
+const EVL={banking_crisis:'Banking crisis',sovereign_default_private:'Sovereign default (private creditors)',official_arrears:'Arrears to official creditors',other_private_arrears:'Arrears to other private creditors',local_currency_default:'Local-currency debt default',currency_crisis:'Currency crisis',imf_financing:'Large IMF financing',high_inflation:'Inflation above 40%',capital_control_tightening:'Capital-flow restrictions tightened',capital_control_easing:'Capital-flow restrictions eased'};
+const MAJOR=['banking_crisis','sovereign_default_private','currency_crisis','imf_financing','high_inflation'];
+function eventsInYear(iso,y){ return (EV.events[iso]||[]).filter(e=>MAJOR.includes(e.event_type)||e.event_type.startsWith('capital_control')).filter(e=>y>=e.start_year&&y<=e.end_year)
+  .map(e=>EVL[e.event_type]+(e.event_type.startsWith('capital_control')?' ('+e.start+')':'')); }
+function activeCrises(iso){ return (EV.events[iso]||[]).filter(e=>MAJOR.includes(e.event_type)&&e.end_year>=2025); }
+function renderTimeline(){
+  const {iso,c}=aData(); const E=(EV.events[iso]||[]).filter(e=>e.end_year>=2014);
+  const major=E.filter(e=>!e.event_type.startsWith('capital_control')); const cc=E.filter(e=>e.event_type.startsWith('capital_control'));
+  const chip=t=>`<span class="status ${['banking_crisis','sovereign_default_private','currency_crisis','high_inflation'].includes(t)?'watch':t==='imf_financing'?'ok':'na'}">${esc(EVL[t]||t)}</span>`;
+  $('#ev-table').innerHTML=(major.length?'<table><thead><tr><th>Event</th><th>Period</th><th>Detail</th><th>Source</th></tr></thead><tbody>'+major.map(e=>`<tr><td>${chip(e.event_type)}</td><td class="mono">${esc(e.start)}${e.end&&e.end!==e.start?'–'+esc(e.end):''}</td><td>${esc(e.detail)}${e.notes?`<br><span class="small muted">${esc(e.notes)}</span>`:''}</td><td class="small muted">${esc(e.source)}</td></tr>`).join('')+'</tbody></table>'
+     :`<p class="muted">No banking, currency or sovereign-debt crisis, large IMF financing or very high inflation is recorded for ${esc(c.name)} since 2014.</p>`)
+    +(cc.length?`<p class="small" style="margin-top:8px"><b>Capital-flow restriction changes (2+ measures in a quarter):</b> ${cc.map(e=>`${e.start} ${e.event_type.endsWith('tightening')?'tightened':'eased'} (${Math.abs(e.detail.match(/(\d+) measures/)?+e.detail.match(/(\d+) measures/)[1]:0)})`).join(' · ')}</p>`:'');
+  const P=EV.policy[iso];
+  if(P){ const show=P.q.map((q,i)=>i).filter(i=>P.q[i]>='2014Q1');
+    const xs=show.map(i=>P.q[i]);
+    lineChart($('#pl-ccr'),xs,[{name:'Inflow-related',v:show.map(i=>P.ccr_in[i]),color:css('--accent')},{name:'Outflow-related',v:show.map(i=>P.ccr_out[i]),color:css('--warm')}],{h:220,xlab:x=>x.endsWith('Q1')&&(+x.slice(0,4))%3===2,xfmt:x=>x});
+    legend($('#pl-ccr-legend'),[{name:'Inflow-related',color:css('--accent')},{name:'Outflow-related',color:css('--warm')}]);
+    lineChart($('#pl-fxi'),xs,[{name:'FX intervention, % of GDP',v:show.map(i=>P.fxi[i]),color:css('--aqua')},{name:'Policy rate, %',v:show.map(i=>P.rate[i]),color:css('--violet')}],{h:220,xlab:x=>x.endsWith('Q1')&&(+x.slice(0,4))%3===2,xfmt:x=>x});
+    legend($('#pl-fxi-legend'),[{name:'FX intervention, % of GDP',color:css('--aqua')},{name:'Policy rate, %'+(P.rate_src?' ('+P.rate_src+')':''),color:css('--violet')}]);
+  } else { $('#pl-ccr').innerHTML=$('#pl-fxi').innerHTML='<p class="muted">No data.</p>'; }
+  const M=EV.markets[iso];
+  if(M){ const idx=M.m.map((m,i)=>i).filter(i=>i%1===0);
+    lineChart($('#mk-fx'),M.m,[{name:'USD price (index)',v:M.fx_idx,color:css('--accent')}],{h:220,xlab:x=>x.endsWith('-01')&&(+x.slice(0,4))%3===2,xfmt:x=>x});
+    const hasY=M.yld.some(v=>v!=null);
+    if(hasY){ lineChart($('#mk-yld'),M.m,[{name:'Yield, %',v:M.yld,color:css('--warm')},{name:'Spread over US 10-year, pp',v:M.spread,color:css('--ref')}],{h:220,xlab:x=>x.endsWith('-01')&&(+x.slice(0,4))%3===2,xfmt:x=>x});
+      legend($('#mk-yld-legend'),[{name:'Yield, %',color:css('--warm')},{name:'Spread over US 10-year, pp',color:css('--ref')}]);
+      $('#mk-yld-note').textContent=`${M.yld_src==='treasury bill'?'Treasury-bill yield (no bond yield published)':'Government bond yield'}, monthly, IMF MFS; spread = yield minus US 10-year Treasury. Local-currency yields include inflation expectations, so spreads are not credit spreads.`; }
+    else { $('#mk-yld').innerHTML='<p class="muted">No government bond or bill yield published in IMF data.</p>'; $('#mk-yld-legend').innerHTML=''; $('#mk-yld-note').textContent=''; }
+  }
+}
+function renderTrackV3(){
+  const A=EV.attribution, S=EV.attribution_summary;
+  $('#tr-att').innerHTML='<table><thead><tr><th>Years with</th><th class="n">Country-years</th><th class="n">Average size of surprise (SD)</th><th class="n">Average direction</th><th class="n">Share among biggest 10% of surprises</th></tr></thead><tbody>'+A.map(r=>`<tr${r.group==='All country-years'?' class="hl"':''}><td>${esc(r.group)}</td><td class="n">${r.n}</td><td class="n">${fmt(r.mean_abs_unexplained,2)}</td><td class="n">${fmt(r.mean_unexplained,2)}</td><td class="n">${Math.round(r.share_largest_decile*100)}%</td></tr>`).join('')+'</tbody></table>';
+  $('#tr-att-note').innerHTML=`Named crises add context to specific years but do not account for most surprises: ${Math.round(S.largest_decile_with_event*100)}% of the biggest surprises fall in crisis years, against ${Math.round(S.base_rate_event_years*100)}% of all years. With country fixed effects, surprises are not significantly larger in crisis years (difference ${fmt(S.fe_abs_all.coef,2)} SD, p = ${fmtP(S.fe_abs_all.p)}). Currency-crisis years are twice as likely to be among the biggest surprises.`;
+  $('#tr-pol').innerHTML='<table><thead><tr><th>Flow</th><th>Policy action</th><th class="n">Coef.</th><th class="n">SE</th><th class="n">p</th><th class="n">Economies</th></tr></thead><tbody>'+EV.policy_assoc.map(r=>`<tr><td>${esc(r.outcome)}</td><td>${esc(r.lever)}</td><td class="n">${fmt(r.coef,2)}</td><td class="n">${fmt(r.se,2)}</td><td class="n">${fmtP(r.p)}</td><td class="n">${r.countries}</td></tr>`).join('')+'</tbody></table>';
+  $('#tr-pol-note').innerHTML='The pattern is what reverse causality predicts. Countries tighten inflow restrictions during surges, so tightening comes before <i>higher</i> inflows. Central banks buy FX when money pours in, so purchases go with higher net inflows. Rate hikes also go with higher inflows, consistent with interest-rate pull but not separable from policy reacting to conditions. Identifying policy effects needs event-specific designs; see the model card.';
+  renderTrackMk();
+  const Dd=EV.mkt_daily; const host=$('#tr-daily');
+  lineChart(host,Dd.days,[{name:'Mean',v:Dd.mean,color:css('--accent')},{name:'95% low',v:Dd.lo,color:css('--ref'),dash:'4 4'},{name:'95% high',v:Dd.hi,color:css('--ref'),dash:'4 4'}],{h:240,xlab:x=>x%5===0,xfmt:x=>'day '+x});
+  $('#tr-daily-note').innerHTML=`${Dd.n} elections in the 12 currencies with daily data. Twenty trading days after the vote the average cumulative move is ${fmt(Dd.mean[Dd.mean.length-1],2)}% (negative = currency strengthened), 95% interval ${fmt(Dd.lo[Dd.lo.length-1],2)} to ${fmt(Dd.hi[Dd.hi.length-1],2)}; random-date placebo p = ${fmtP(Dd.placebo_p_two_sided)}. No reliable election effect on exchange rates.`;
+}
+let trMk=0;
+function renderTrackMk(){
+  const r=EV.mkt_monthly[trMk]; if(!r){ $('#tr-mk-chart').innerHTML=''; return; }
+  eventChart($('#tr-mk-chart'),r.points,{shade:false,unit:'month',xlabel:'Months relative to the election (reference: 4 months before)'});
+  $('#tr-mk-note').innerHTML=`${esc(r.outcome)}, ${r.group}: ${r.countries} economies, country and month fixed effects, 95% intervals clustered by country. Average over the election month and the next two: ${fmt(r.avg_k0_2,2)} (p = ${fmtP(r.avg_k0_2_p)}).`;
+}
+seg('#tr-mk',v=>{trMk=+v;renderTrackMk();});
+
 /* ---------- routing ---------- */
 const views=['analysis','monitor','track','overview','countries','years','models','dynamics','robustness','report','data'];
 const rendered={};
-const renderers={analysis:renderAnalysis,monitor:renderMonitor,track:renderTrack,overview:renderOverview,countries:renderCountry,years:renderYears,models:renderModels,dynamics:renderDynamics,robustness:()=>{renderRobust();renderMT($('#r-mt'),['primary','H3_components','H5_family']);},report:renderReport,data:()=>{}};
+const renderers={analysis:renderAnalysis,monitor:renderMonitor,track:()=>{renderTrack();renderTrackV3();},overview:renderOverview,countries:renderCountry,years:renderYears,models:renderModels,dynamics:renderDynamics,robustness:()=>{renderRobust();renderMT($('#r-mt'),['primary','H3_components','H5_family']);},report:renderReport,data:()=>{}};
 function route(){ let v=location.hash.replace('#',''); if(!views.includes(v)) v='analysis';
   views.forEach(x=>{ $('#v-'+x).hidden=(x!==v); });
   document.querySelectorAll('#tabs a').forEach(a=>a.setAttribute('aria-current',a.getAttribute('href')==='#'+v?'page':'false'));

@@ -261,6 +261,26 @@ Our pre-registered window combined the election quarter with the quarter before.
 
 **Status.** Six post-hoc specifications were estimated. The EMDE k = 0 result survives a Bonferroni factor of 6 (p = 0.006 for gross inflows), the placebo, seasonality fixed effects and the private-flow definition. It remains post-hoc. Confirming it requires an out-of-sample test with the window fixed in advance; 2026 elections are a natural candidate once data are published.
 
+## 16b. Crises, policy levers and market prices (exploratory, added in v3)
+
+**Data.** We built a country-level event database of 1,265 events. It covers:
+* systemic banking crises (IMF WP/26/94);
+* sovereign defaults by creditor type (BoC–BoE 2026);
+* currency crises (Laeven–Valencia rule on annual-average USD rates);
+* large IMF financing (credit outstanding up at least 25% of quota within four quarters; a proxy for disbursing programmes);
+* inflation above 40%;
+* quarters with two or more capital-flow restriction changes (Bergant, Fernández, Teoh & Uribe 2025).
+
+Policy-lever panels add capital-flow restrictions, FX intervention (IMF) and policy rates. Market panels add exchange rates, government yields and spreads over US Treasuries (monthly), plus daily FX for 12 currencies.
+
+**Do named crises explain the model's surprises?** Largely no. Unexplained flow movements, scaled by country volatility, are not significantly larger in crisis years once country fixed effects are included (+0.04 SD, p = 0.11). Of the largest 10% of surprises, 21% fall in crisis years, against a 23% base rate. Currency-crisis years are the exception: they are twice as likely to be among the largest surprises (20% vs 10%).
+
+**Policy levers.** Next-quarter flows rise after inflow-restriction tightening (+0.38 pp, p = 0.03), FX purchases (net flows +0.44 pp, p = 0.001) and rate hikes (gross inflows +0.25 pp, p = 0.003). These signs are what reverse causality predicts: policy responds to surges. They are not estimates of policy effectiveness.
+
+**Markets around elections.** Monthly, EMDE currencies move +0.27% per month against the USD in the election month and the following two months (p = 0.45). EMDE yields move +0.11 pp (p = 0.44). Daily, across 21 elections, the cumulative move 20 trading days after the vote is −0.95% (95% CI −2.42 to 0.42; placebo p = 0.21). Markets show no detectable election reaction, consistent with the null pre-registered flow results.
+
+**Market signals in risk models.** Adding 3-month currency and yield moves did not improve held-out flows-at-risk or sudden-stop prediction (see the model card).
+
 ## 17. Limitations
 
 1. **Power.** Quarterly gross flows are extremely noisy (within-SD ≈ 10–20 pp of GDP annualised), and windows are short. Moderately sized effects, below about 0.1 within-SD, cannot be ruled out.
@@ -268,7 +288,7 @@ Our pre-registered window combined the election quarter with the quarter before.
 3. **Measures not coded:** closeness, polarisation, government-formation delays, coalition changes.
 4. **Official vs private flows.** The confirmatory outcome includes official-sector liabilities. The private measure treats unpublished official instruments as not reported.
 5. **Data vintages.** Only the revised WGI 2026 vintage is available. WEO 2025 values are partly estimates, and 2026 GDP denominators are projections (used only in descriptive 2026 figures).
-6. **Not ingested:** UNCTAD greenfield/M&A data (FDI measured via BOP only) and BIS banking and international debt-securities statistics.
+6. **Not ingested:** UNCTAD greenfield/M&A data (FDI measured via BOP only), BIS banking and international debt-securities statistics, the iMaPP macroprudential database, IMF MONA programme data, sanctions, credit ratings and EMBI spreads. IMF financing is proxied from Fund Accounts; spreads are local-currency yields minus US Treasuries, not credit spreads.
 7. **Policy events.** These are data-derived only. Hand-coded legislative and regulatory events, with a codebook and double coding, were not produced.
 8. **Event studies.** Elections recur, so event windows overlap and the TWFE reference category mixes k = −4 with out-of-window quarters. The stacked design addresses contamination at a heavy cost in precision.
 9. **Leader change** comes from V-Dem end-of-year snapshots and misses short-lived intra-year changes.

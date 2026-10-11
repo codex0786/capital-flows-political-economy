@@ -45,14 +45,17 @@ STOPDEFS = {"fw_gross": "Rapid fall in gross inflows (Forbes–Warnock)",
 FULL = ["vix_z", "fed_z", "d4_ust_z", "d4_usd_z", "mom_z", "L_gdp_growth", "L_inflation_c", "L_ca_gdp",
         "L_public_debt_s", "res_months", "emde", "vix_x_emde", "vix_x_res"]
 LEAN = ["mom_z", "vix_z", "d4_usd_z", "emde", "vix_x_emde"]
+MARKET = ["dep_q", "d_yld_q", "yld_obs"]      # v3: currency depreciation in the quarter; yield change (0 where unobserved) + flag
+LEAN_M = LEAN + MARKET
 LOGIT = ["mom_z", "vix_z", "d4_usd_z", "fed_z", "res_months", "L_ca_gdp", "L_public_debt_s", "emde"]
-QMETHODS = ["full", "lean", "history", "blend", "blend_cal", "blend_cal_group"]
-PMETHODS = ["logit", "logit_contagion", "base", "blend", "blend_contagion"]
+QMETHODS = ["full", "lean", "history", "blend", "blend_cal", "blend_cal_group", "lean_market", "blend_market", "blend_market_cal"]
+PMETHODS = ["logit", "logit_contagion", "base", "blend", "blend_contagion", "logit_market", "blend_market"]
 LABELS = {"vix_z": "Global risk (VIX)", "fed_z": "US policy rate", "d4_ust_z": "US 10-year yield, 1-year change",
           "d4_usd_z": "US dollar, 1-year change", "mom_z": "Recent flows (last 4 quarters)", "L_gdp_growth": "GDP growth (last year)",
           "L_inflation_c": "Inflation (last year)", "L_ca_gdp": "Current account (last year)", "L_public_debt_s": "Public debt (last year, /100)",
           "res_months": "Reserves, months of imports", "emde": "Emerging/developing economy", "vix_x_emde": "VIX × EMDE",
-          "vix_x_res": "VIX × reserves", "in": "Currently in a sudden stop", "peer": "Regional peers in a sudden stop (contagion)"}
+          "vix_x_res": "VIX × reserves", "in": "Currently in a sudden stop", "peer": "Regional peers in a sudden stop (contagion)",
+          "dep_q": "Currency depreciation in the quarter (%)", "d_yld_q": "Change in government yield (pp)", "yld_obs": "Yield observed"}
 
 
 def qo(s):
@@ -108,12 +111,31 @@ def build() -> pd.DataFrame:
     Q["res_months"] = Q.groupby("iso3").L_reserves_months.transform(lambda s: s.ffill()).clip(0, 24)
     Q["vix_x_emde"] = Q.vix_z * Q.emde
     Q["year"] = Q.quarter.str[:4].astype(int)
+    Q = add_market(Q)
     for d in STOPDEFS:   # contagion: share of OTHER economies in the region in an episode at t
         col = f"in_{d}"
         tot = Q.groupby(["region", "quarter"])[col].transform("sum")
         cnt = Q.groupby(["region", "quarter"])[col].transform("count")
         own = Q[col].fillna(0)
         Q[f"peer_{d}"] = (tot - own) / (cnt - Q[col].notna().astype(int)).replace(0, np.nan)
+    return Q
+
+
+def add_market(Q):
+    """Quarter-end market signals known at the forecast origin (v3)."""
+    p = PROCESSED / "market_monthly.parquet"
+    if not p.exists():
+        Q["dep_q"], Q["d_yld_q"], Q["yld_obs"] = np.nan, 0.0, 0.0
+        return Q
+    M = pd.read_parquet(p)
+    M["quarter"] = pd.PeriodIndex(M.month, freq="M").asfreq("Q").astype(str)
+    q = M.sort_values("month").groupby(["iso3", "quarter"]).agg(fx=("fx", "last"), yld=("yld", "last")).reset_index().sort_values(["iso3", "quarter"])
+    q["dep_q"] = (100 * (q.fx / q.groupby("iso3").fx.shift() - 1)).clip(-20, 60)
+    q["d_yld_q"] = q.groupby("iso3").yld.diff().clip(-10, 10)
+    Q = Q.merge(q[["iso3", "quarter", "dep_q", "d_yld_q"]], on=["iso3", "quarter"], how="left")
+    Q["yld_obs"] = Q.d_yld_q.notna().astype(float)
+    Q["d_yld_q"] = Q.d_yld_q.fillna(0.0)
+    Q["dep_q"] = Q.dep_q.fillna(0.0)        # exchange rates cover nearly all economies; missing = no change
     return Q
 
 
@@ -235,12 +257,15 @@ def rolling(Q):
             te = test.dropna(subset=[f"fwd4_{k}"])
             mf, _ = fit_q(train, k, FULL)
             ml, _ = fit_q(train, k, LEAN)
+            mm, _ = fit_q(train, k, LEAN_M)
             pf, pl = predict_q(mf, train, te, k), predict_q(ml, train, te, k)
+            pm = predict_q(mm, train, te, k)
             hq = history_q(train, k)
             ph = pl.copy()
             for t in TAUS:
                 ph[qk(t)] = ph.iso3.map(hq[t])
-            for m, pr in (("full", pf), ("lean", pl), ("history", ph), ("blend", blend(pl, hq))):
+            for m, pr in (("full", pf), ("lean", pl), ("history", ph), ("blend", blend(pl, hq)),
+                          ("lean_market", pm), ("blend_market", blend(pm, hq))):
                 for _, r in pr.iterrows():
                     qrows.append({"target": k, "origin": o, "method": m, "iso3": r.iso3, "group": r.country_group,
                                   "y": r[f"fwd4_{k}"], "sd": r.sd, **{qk(t): r[qk(t)] for t in TAUS}})
@@ -248,21 +273,25 @@ def rolling(Q):
             tr = standardise(train, train, k)
             te = standardise(train, test.dropna(subset=[f"fwd_{d}"]), k)
             l0, l1 = fit_logit(tr, d, logit_cols(d, False)), fit_logit(tr, d, logit_cols(d, True))
-            p0, p1 = predict_logit(l0, te), predict_logit(l1, te)
+            l2 = fit_logit(tr, d, logit_cols(d, False) + MARKET)
+            p0, p1, p2 = predict_logit(l0, te), predict_logit(l1, te), predict_logit(l2, te)
             for i, r in te.iterrows():
                 prows.append({"def": d, "origin": o, "iso3": r.iso3, "group": r.country_group, "y": r[f"fwd_{d}"],
-                              "p_logit": p0[i], "p_logit_contagion": p1[i], "p_base": l0["base"],
-                              "fitted": l0.get("cols") is not None and l1.get("cols") is not None})
+                              "p_logit": p0[i], "p_logit_contagion": p1[i], "p_logit_market": p2[i], "p_base": l0["base"],
+                              "fitted": all(x.get("cols") is not None for x in (l0, l1, l2))})
         log.info("origin %s done", o)
     E = pd.DataFrame(qrows)
     cal = []
     for k in TARGETS:
         b = E[(E.target == k) & (E.method == "blend")]
         cal += [calibrate(b, False).assign(method="blend_cal"), calibrate(b, True).assign(method="blend_cal_group")]
+        bm = E[(E.target == k) & (E.method == "blend_market")]
+        cal += [calibrate(bm, False).assign(method="blend_market_cal")]
     E = pd.concat([E] + cal, ignore_index=True)
     P = pd.DataFrame(prows)
     P["p_blend"] = 0.5 * P.p_logit + 0.5 * P.p_base
     P["p_blend_contagion"] = 0.5 * P.p_logit_contagion + 0.5 * P.p_base
+    P["p_blend_market"] = 0.5 * P.p_logit_market + 0.5 * P.p_base
     return E, P
 
 
@@ -343,13 +372,17 @@ def run():
     train = Q[(Q.quarter >= "2015Q1") & (Q.qo <= end - 4)]
     out, coefs = {}, {}
     for k in TARGETS:
-        ml, _ = fit_q(train, k, LEAN)
+        use_m = "market" in choice[k]
+        ml, _ = fit_q(train, k, LEAN_M if use_m else LEAN)
         mf, d_f = fit_q(train, k, FULL)
         hq = history_q(train, k)
         lt = Q.dropna(subset=[f"back4_{k}", "vix_z"]).sort_values("qo").groupby("iso3").tail(1)
+        if use_m:
+            lt = lt.copy()
+            lt["dep_q"] = lt.dep_q.fillna(0.0)
         cur = blend(predict_q(ml, train, lt, k), hq)
-        if choice[k].startswith("blend_cal"):
-            Eb = E[(E.target == k) & (E.method == "blend")].dropna(subset=["y"])
+        if choice[k].endswith("_cal") or choice[k] == "blend_cal_group":
+            Eb = E[(E.target == k) & (E.method == ("blend_market" if use_m else "blend"))].dropna(subset=["y"])
             for t in TAIL:
                 if choice[k] == "blend_cal_group":
                     for grp in ("AE", "EMDE"):
@@ -384,9 +417,10 @@ def run():
     stop_coefs, base_rates = {}, {}
     for d, k in STOP_TARGET.items():
         tr = standardise(train, train, k)
-        lg = fit_logit(tr, d, logit_cols(d, pchoice[d].endswith("contagion")))
+        lg = fit_logit(tr, d, logit_cols(d, pchoice[d].endswith("contagion")) + (MARKET if pchoice[d].endswith("market") else []))
         base_rates[d] = round(lg["base"], 3)
         lt = standardise(train, Q.dropna(subset=[f"back4_{k}", "vix_z"]).sort_values("qo").groupby("iso3").tail(1), k)
+        lt["dep_q"] = lt.dep_q.fillna(0.0)
         p = predict_logit(lg, lt)
         if pchoice[d].startswith("blend"):
             p = 0.5 * p + 0.5 * lg["base"]
@@ -395,7 +429,7 @@ def run():
         for iso, v in zip(lt.iso3, p):
             out.setdefault(iso, {}).setdefault("p_stop", {})[d] = round(float(v), 3)
         if lg.get("cols"):
-            lab = lambda c: LABELS["in"] if c.startswith("in_") else LABELS["peer"] if c.startswith("peer_") else LABELS[c]
+            lab = lambda c: LABELS["in"] if c.startswith("in_") else LABELS["peer"] if c.startswith("peer_") else LABELS.get(c, c)
             stop_coefs[d] = [{"variable": c, "label": lab(c), "coef": round(float(lg["model"].params[c]), 3),
                               "p": round(float(lg["model"].pvalues[c]), 3)} for c in lg["cols"]]
     res = {"countries": out, "coefficients": coefs, "stop_coefficients": stop_coefs, "base_rates": base_rates,

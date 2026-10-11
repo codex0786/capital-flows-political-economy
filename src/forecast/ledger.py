@@ -122,14 +122,14 @@ shared only with appropriate access controls.
 Share of outcomes below the 5th and 95th percentiles (nominal 5% and 95%), with 90% bootstrap interval.
 | Target | Method | Below 5th pct [90% CI] | Below 95th pct | 5th-pct loss |
 |---|---|---|---|---|
-{chr(10).join(far_row(k, m) for k in ("gross_in", "net") for m in ("history", "blend", "blend_cal"))}
+{chr(10).join(far_row(k, m) for k in ("gross_in", "net") for m in ("history", "blend", "blend_cal", "blend_market", "blend_market_cal"))}
 
 Live method: gross inflows `{sel['far_live']['gross_in']}`, net flows `{sel['far_live']['net']}`.
 
 ### Sudden-stop starts, held-out test
 | Definition | Method | AUC | Brier | Episodes |
 |---|---|---|---|---|
-{chr(10).join(st_row(d, m) for d in ("fw_gross", "fw_net") for m in ("base", "logit", "blend", "logit_contagion"))}
+{chr(10).join(st_row(d, m) for d in ("fw_gross", "fw_net") for m in ("base", "logit", "blend", "logit_contagion", "logit_market"))}
 
 Live method: gross `{sel['stop_live']['fw_gross']}`, net `{sel['stop_live']['fw_net']}`.
 
@@ -144,13 +144,17 @@ Live method: gross `{sel['stop_live']['fw_gross']}`, net `{sel['stop_live']['fw_
   * Without calibration, net-flow tails were too narrow.
   * Expect conservative ranges in calm periods.
 * **Sudden-stop probabilities rank risk better than they measure it.** The gross-definition model ranked poorly in 2019–22 (AUC 0.63) but well in 2023–24 (0.81).
-* **Regional contagion did not improve prediction** in the held-out test.
+* **Regional contagion and market signals did not improve prediction** in the held-out test. Market signals are 3-month currency depreciation and yield change; yields exist for only 39% of country-months.
 * **Rule-of-thumb thresholds did not predict sudden stops** in this sample (AUC below 0.55). The data-driven score is only moderately better.
 * **Data gaps and freshness:**
   * The real-exchange-rate driver covers 57% of observations and the rate gap 49%; gaps are filled with each country's average.
   * Upcoming election dates are from Wikipedia calendars, not yet corroborated.
   * The forecast quarter in progress is not observed.
-* **Not covered:** policy responses (FX intervention, capital-flow measures), crises/defaults/sanctions, market prices.
+* **Crises, policy and markets (added v3) are context, not model inputs** (apart from the market-signal variants above).
+  * Named crises do not explain most model surprises (21% of the largest 10% of surprises fall in crisis years vs 23% of all years).
+  * Policy-lever associations reflect policy reacting to flows (reverse causality); they are not policy effects.
+  * Bond spreads are local-currency yields minus US Treasuries, not EMBI credit spreads; daily FX covers 12 currencies.
+* **Not covered:** macroprudential measures (iMaPP), IMF programme conditionality (MONA), sanctions, credit ratings and EMBI spreads. IMF financing is a proxy from IMF credit outstanding.
 
 ## Change control
 Every live forecast is stored in `results/forecast_ledger/ledger.csv`. Method-selection changes are logged in `report/protocol_changelog.md`.

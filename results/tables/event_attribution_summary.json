@@ -1,0 +1,25 @@
+{
+ "scale": "unexplained remainder divided by the country's residual SD",
+ "largest_decile_with_event": 0.211864406779661,
+ "base_rate_event_years": 0.23194562446898895,
+ "fe_abs_all": {
+  "coef": 0.041,
+  "se": 0.025,
+  "p": 0.1123
+ },
+ "fe_signed_all": {
+  "coef": -0.001,
+  "se": 0.055,
+  "p": 0.9821
+ },
+ "fe_abs_EMDE": {
+  "coef": 0.038,
+  "se": 0.027,
+  "p": 0.1584
+ },
+ "fe_signed_EMDE": {
+  "coef": -0.01,
+  "se": 0.056,
+  "p": 0.8564
+ }
+}

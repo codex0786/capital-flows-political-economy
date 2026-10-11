@@ -1,0 +1,13 @@
+outcome,lever,coef,se,p,nobs,countries,status
+Gross inflows,"Inflow restrictions tightened (measures, t−1)",0.381,0.176,0.0325,3934,108,EXPLORATORY: policy is endogenous to flows
+Gross inflows,"Outflow restrictions tightened (measures, t−1)",0.052,0.056,0.3609,3934,108,EXPLORATORY: policy is endogenous to flows
+Gross inflows,"FX intervention, purchases + (% of GDP, t−1)",0.296,0.229,0.2005,3345,85,EXPLORATORY: policy is endogenous to flows
+Gross inflows,"Policy-rate change (pp, t−1)",0.254,0.081,0.0027,2765,67,EXPLORATORY: policy is endogenous to flows
+Gross outflows,"Inflow restrictions tightened (measures, t−1)",0.323,0.206,0.1198,3937,108,EXPLORATORY: policy is endogenous to flows
+Gross outflows,"Outflow restrictions tightened (measures, t−1)",0.083,0.056,0.1389,3937,108,EXPLORATORY: policy is endogenous to flows
+Gross outflows,"FX intervention, purchases + (% of GDP, t−1)",-0.234,0.213,0.2745,3340,85,EXPLORATORY: policy is endogenous to flows
+Gross outflows,"Policy-rate change (pp, t−1)",0.086,0.065,0.1888,2765,67,EXPLORATORY: policy is endogenous to flows
+Net flows,"Inflow restrictions tightened (measures, t−1)",0.163,0.127,0.2042,3929,108,EXPLORATORY: policy is endogenous to flows
+Net flows,"Outflow restrictions tightened (measures, t−1)",-0.035,0.03,0.2442,3929,108,EXPLORATORY: policy is endogenous to flows
+Net flows,"FX intervention, purchases + (% of GDP, t−1)",0.437,0.131,0.0013,3340,85,EXPLORATORY: policy is endogenous to flows
+Net flows,"Policy-rate change (pp, t−1)",0.192,0.076,0.0136,2765,67,EXPLORATORY: policy is endogenous to flows

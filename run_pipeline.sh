@@ -10,6 +10,7 @@ $PY -m src.ingest.imf_bop A Q
 $PY -c "from src.ingest.imf_bop import download_official_oi; download_official_oi('Q')"
 $PY -m src.ingest.macro_sources weo wb fred unc bis idea vdem ctot_eer
 $PY -m src.ingest.wikipedia_calendar
+$PY -m src.ingest.events_policy_markets crises policy markets
 
 echo "== 2. Parse raw -> interim (one process per step; V-Dem needs ~2 GB RAM)"
 for s in meta bop_a bop_q weo wdi wgi vdem idea wui gpr rsui kaopen policy fred; do
@@ -37,6 +38,11 @@ $PY -m src.literature.build_literature
 $PY -m src.visualisation.tables
 $PY -m src.visualisation.figures
 
+
+echo "== 7b. Crisis/event database, policy levers and market prices"
+$PY -m src.cleaning.crisis_events
+$PY -m src.cleaning.policy_market_panels
+$PY -m src.econometrics.events_analysis
 
 echo "== 8. Interactive prototype"
 $PY -m src.forecast.country_model

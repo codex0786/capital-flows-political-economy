@@ -1,0 +1,8 @@
+group,n,mean_abs_unexplained,mean_unexplained,share_largest_decile
+All country-years,1177,0.353,0.0,0.1
+Systemic banking crisis,40,0.432,-0.144,0.125
+Default to private creditors,65,0.356,-0.024,0.092
+Currency crisis,35,0.458,-0.065,0.2
+Large IMF financing,193,0.309,0.044,0.057
+Inflation above 40%,28,0.429,-0.064,0.179
+No crisis event,904,0.357,-0.002,0.103

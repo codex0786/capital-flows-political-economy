@@ -393,3 +393,51 @@ If you are unsure how to get the access you need, contact
 2026-10-11 19:36:18,695 country_model INFO gross_out EMDE backtest {'countries': 75, 'quarters': '2024Q1–2025Q4', 'weights': {'model': 0.0, 'last4': 1.0, 'mean': 0.0, 'election_overlay': 0.0}, 'rmse_model': 8.96, 'rmse_mean': 9.33, 'rmse_last4': 6.65, 'rmse_comb': 6.65, 'rmse_best_without_election_overlay': 6.65, 'share_comb_beats_mean': 0.57, 'coverage80': 0.8}
 2026-10-11 19:36:20,550 country_model INFO net AE backtest {'countries': 33, 'quarters': '2024Q1–2025Q4', 'weights': {'model': 0.25, 'last4': 0.25, 'mean': 0.5, 'election_overlay': 0.0}, 'rmse_model': 6.74, 'rmse_mean': 6.82, 'rmse_last4': 7.15, 'rmse_comb': 6.5, 'rmse_best_without_election_overlay': 6.5, 'share_comb_beats_mean': 0.55, 'coverage80': 0.8}
 2026-10-11 19:36:21,780 country_model INFO net EMDE backtest {'countries': 75, 'quarters': '2024Q1–2025Q4', 'weights': {'model': 0.25, 'last4': 0.75, 'mean': 0.0, 'election_overlay': 1.0}, 'rmse_model': 6.53, 'rmse_mean': 7.21, 'rmse_last4': 6.11, 'rmse_comb': 6.06, 'rmse_best_without_election_overlay': 6.06, 'share_comb_beats_mean': 0.6, 'coverage80': 0.8}
+2026-10-11 19:46:41,564 fetch INFO fetched (curl) BoC–BoE Sovereign Default Database (2026 edition) -> BoC-BoE-Database-2026.xlsx (1399424 bytes)
+2026-10-11 19:46:42,673 fetch INFO fetched (curl) IMF WP/26/94 Systemic Banking Crises Database 1970–2025 -> wpiea2026094.pdf (2340704 bytes)
+2026-10-11 19:47:43,399 crisis_events INFO banking: unmapped names ['Republic of Congo']
+2026-10-11 19:48:33,953 fetch INFO fetched IMF Fund Accounts (IMF.STA:FA) -> fa_q.csv (59615243 bytes)
+2026-10-11 19:48:51,379 fetch INFO fetched (curl) Fernández et al. capital control measures, 2021 update -> FKRSU_2021.xlsx (4601726 bytes)
+2026-10-11 19:50:16,022 fetch INFO fetched Bergant, Fernández, Teoh & Uribe (2025) cross-border flow restrictions -> BFTU_iBoPC.xlsx (15819372 bytes)
+2026-10-11 19:51:31,953 fetch INFO fetched Bergant, Fernández, Teoh & Uribe (2025) cross-border flow restrictions -> FKRSU_LLM.xlsx (1180343 bytes)
+2026-10-11 19:52:08,166 fetch INFO fetched IMF FX intervention dataset (IMF.STA:WPFXI) -> fxi_q.csv (13478426 bytes)
+2026-10-11 19:52:21,692 fetch INFO fetched IMF MFS interest rates (IMF.STA:MFS_IR) -> ir_m.csv (6144602 bytes)
+2026-10-11 19:54:14,959 fetch INFO fetched IMF exchange rates (IMF.STA:ER) -> er_m.csv (27518390 bytes)
+2026-10-11 19:54:15,820 fetch INFO fetched (curl) FRED H.10 daily exchange rates -> DEXBZUS.csv (147229 bytes)
+2026-10-11 19:54:16,321 fetch INFO fetched (curl) FRED H.10 daily exchange rates -> DEXMXUS.csv (158629 bytes)
+2026-10-11 19:54:16,846 fetch INFO fetched (curl) FRED H.10 daily exchange rates -> DEXINUS.csv (260037 bytes)
+2026-10-11 19:54:17,325 fetch INFO fetched (curl) FRED H.10 daily exchange rates -> DEXSFUS.csv (220292 bytes)
+2026-10-11 19:54:17,821 fetch INFO fetched (curl) FRED H.10 daily exchange rates -> DEXKOUS.csv (217256 bytes)
+2026-10-11 19:54:18,401 fetch INFO fetched (curl) FRED H.10 daily exchange rates -> DEXTHUS.csv (223057 bytes)
+2026-10-11 19:54:19,077 fetch INFO fetched (curl) FRED H.10 daily exchange rates -> DEXMAUS.csv (258319 bytes)
+2026-10-11 19:54:19,553 fetch INFO fetched (curl) FRED H.10 daily exchange rates -> DEXCHUS.csv (211783 bytes)
+2026-10-11 19:54:20,036 fetch INFO fetched (curl) FRED H.10 daily exchange rates -> DEXTAUS.csv (208123 bytes)
+2026-10-11 19:54:20,727 fetch INFO fetched (curl) FRED H.10 daily exchange rates -> DEXSLUS.csv (264414 bytes)
+2026-10-11 19:54:21,260 fetch INFO fetched (curl) FRED H.10 daily exchange rates -> DEXHKUS.csv (212143 bytes)
+2026-10-11 19:54:21,940 fetch INFO fetched (curl) FRED H.10 daily exchange rates -> DEXSIUS.csv (212137 bytes)
+2026-10-11 19:54:36,222 crisis_events INFO crisis events: {'capital_control_easing': 555, 'capital_control_tightening': 289, 'imf_financing': 173, 'official_arrears': 72, 'currency_crisis': 64, 'sovereign_default_private': 38, 'banking_crisis': 29, 'high_inflation': 21, 'other_private_arrears': 20, 'local_currency_default': 13}
+2026-10-11 19:55:00,077 crisis_events INFO crisis events: {'capital_control_easing': 555, 'capital_control_tightening': 289, 'imf_financing': 173, 'official_arrears': 72, 'currency_crisis': 64, 'sovereign_default_private': 38, 'banking_crisis': 29, 'high_inflation': 21, 'other_private_arrears': 20, 'local_currency_default': 13}
+2026-10-11 19:55:45,331 risk INFO origin 2019Q4 done
+2026-10-11 19:55:46,291 risk INFO origin 2020Q1 done
+2026-10-11 19:55:47,479 risk INFO origin 2020Q2 done
+2026-10-11 19:55:48,491 risk INFO origin 2020Q3 done
+2026-10-11 19:55:50,020 risk INFO origin 2020Q4 done
+2026-10-11 19:55:51,003 risk INFO origin 2021Q1 done
+2026-10-11 19:55:52,235 risk INFO origin 2021Q2 done
+2026-10-11 19:55:53,155 risk INFO origin 2021Q3 done
+2026-10-11 19:55:54,082 risk INFO origin 2021Q4 done
+2026-10-11 19:55:55,309 risk INFO origin 2022Q1 done
+2026-10-11 19:55:56,525 risk INFO origin 2022Q2 done
+2026-10-11 19:55:57,800 risk INFO origin 2022Q3 done
+2026-10-11 19:55:58,953 risk INFO origin 2022Q4 done
+2026-10-11 19:56:00,157 risk INFO origin 2023Q1 done
+2026-10-11 19:56:01,072 risk INFO origin 2023Q2 done
+2026-10-11 19:56:02,262 risk INFO origin 2023Q3 done
+2026-10-11 19:56:03,606 risk INFO origin 2023Q4 done
+2026-10-11 19:56:05,015 risk INFO origin 2024Q1 done
+2026-10-11 19:56:06,222 risk INFO origin 2024Q2 done
+2026-10-11 19:56:07,786 risk INFO origin 2024Q3 done
+2026-10-11 19:56:09,042 risk INFO origin 2024Q4 done
+2026-10-11 19:56:25,956 risk INFO live FaR {'gross_in': 'blend_cal', 'net': 'blend_cal'} stop {'fw_gross': 'blend_contagion', 'fw_net': 'blend'}; held-out-selected FaR {'gross_in': 'blend_market_cal', 'net': 'blend_cal'} stop {'fw_gross': 'base', 'fw_net': 'blend'}
+2026-10-11 20:01:03,025 crisis_events INFO crisis events: {'capital_control_easing': 555, 'capital_control_tightening': 289, 'imf_financing': 173, 'official_arrears': 72, 'currency_crisis': 64, 'sovereign_default_private': 38, 'banking_crisis': 29, 'high_inflation': 21, 'other_private_arrears': 20, 'local_currency_default': 13}
+2026-10-11 20:01:50,309 crisis_events INFO crisis events: {'capital_control_easing': 555, 'capital_control_tightening': 289, 'imf_financing': 164, 'official_arrears': 72, 'currency_crisis': 64, 'sovereign_default_private': 38, 'banking_crisis': 29, 'high_inflation': 21, 'other_private_arrears': 20, 'local_currency_default': 13}
