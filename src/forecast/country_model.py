@@ -527,3 +527,77 @@ def run():
 if __name__ == "__main__":
     r = run()
     print(pd.read_csv(RESULTS / "tables" / "country_model_backtest.csv").to_string(index=False))
+
+
+# ------------------------------------------------------------------------------------- rolling backtest
+ORIGINS = ["2019Q4", "2020Q4", "2021Q4", "2022Q4", "2023Q4", "2024Q4"]
+
+
+def rolling_point_backtest():
+    """Ex-ante rolling evaluation of the point forecasts, origins 2019Q4..2024Q4, 4 quarters ahead.
+
+    At each origin the group models are re-estimated on data up to the origin. Global factors are frozen
+    at their origin values (levels held, changes set to zero), as a forecaster would have had to do;
+    lagged domestic fundamentals and election dates are those known for the forecast quarters.
+    Blend weights at each origin are chosen from the errors of earlier origins only (real time);
+    the first origin uses 50% recent level / 50% long-run average.
+    """
+    Q, aux = build_data()
+    zs = aux["zstats"]
+    rows = []
+    for k in OUTCOMES:
+        y = f"y_{k}"
+        for gname in ["AE", "EMDE"]:
+            for o in ORIGINS:
+                oo = pd.Period(o, freq="Q").ordinal
+                train = Q[(Q.quarter >= "2015Q1") & (Q.qo <= oo) & (Q.country_group == gname)]
+                grp = estimate_group(train, k)
+                params = country_params(train, k, grp, shrink_loadings(train, k, grp))
+                for iso, p in params.items():
+                    hist = train[train.iso3 == iso][y].dropna()
+                    last = Q[(Q.iso3 == iso) & (Q.qo == oo)]
+                    drv = Q[(Q.iso3 == iso) & (Q.qo > oo) & (Q.qo <= oo + 4)].sort_values("qo").copy()
+                    if last.empty or pd.isna(last[y].iloc[0]) or drv.empty or hist.empty:
+                        continue
+                    for c in GLOBAL:   # freeze global factors at the origin
+                        drv[c] = last[c].iloc[0] if c in ("vix", "fed_funds") else (0 - zs[c][0]) / zs[c][1]
+                    ylag = float(last[y].iloc[0])
+                    for h, (_, r) in enumerate(drv.iterrows(), start=1):
+                        x = {c: (p["means"][c] if pd.isna(r[c]) else r[c]) for c in GLOBAL + DOMESTIC + POLITICAL}
+                        dev = sum(p["b"][c] * (x[c] - p["means"][c]) for c in x)
+                        dev += p["b"][f"lag_{k}"] * (ylag - p["means"][f"lag_{k}"])
+                        yhat = p["means"][y] + dev
+                        elec = sum(p["b"][c] * (x[c] - p["means"][c]) for c in POLITICAL)
+                        rows.append({"outcome": k, "group": gname, "origin": o, "iso3": iso, "h": h, "quarter": r.quarter,
+                                     "actual": r[y], "model": yhat, "mean": hist.mean(), "last4": hist.tail(4).mean(), "elec": elec})
+                        ylag = yhat
+    E = pd.DataFrame(rows).dropna(subset=["actual"])
+    # real-time blend weights
+    out = []
+    for (k, gname), G in E.groupby(["outcome", "group"]):
+        for o in ORIGINS:
+            cur = G[G.origin == o].copy()
+            past = G[G.origin < o]
+            past = past[past.quarter <= o]   # outcomes known by the origin (YYYYQn strings sort chronologically)
+            if len(past) < 50:
+                w, e = (0.0, 0.5, 0.5), 0.0
+            else:
+                cands = [(w_, e_) for w_ in WGRID for e_ in (0.0, 1.0)]
+                f = lambda w_, e_, d: w_[0]*d.model + w_[1]*d.last4 + w_[2]*d["mean"] + e_*(1 - w_[0])*d.elec
+                w, e = min(cands, key=lambda c_: np.sqrt(((past.actual - f(*c_, past)) ** 2).mean()))
+            cur["blend_rt"] = w[0]*cur.model + w[1]*cur.last4 + w[2]*cur["mean"] + e*(1 - w[0])*cur.elec
+            cur["w_model"], cur["w_last4"], cur["w_mean"], cur["w_elec"] = w[0], w[1], w[2], e
+            out.append(cur)
+    E = pd.concat(out)
+    E.to_csv(RESULTS / "tables" / "rolling_point_forecasts.csv", index=False)
+    rm = lambda d, c: float(np.sqrt(((d.actual - d[c]) ** 2).mean()))
+    S = []
+    for (k, gname, o), d in E.groupby(["outcome", "group", "origin"]):
+        S.append({"outcome": k, "group": gname, "origin": o, "target_year": int(o[:4]) + 1, "forecasts": len(d),
+                  **{f"rmse_{c}": round(rm(d, c), 2) for c in ["model", "mean", "last4", "blend_rt"]}})
+    for (k, gname), d in E.groupby(["outcome", "group"]):
+        S.append({"outcome": k, "group": gname, "origin": "all", "target_year": "2020–2025", "forecasts": len(d),
+                  **{f"rmse_{c}": round(rm(d, c), 2) for c in ["model", "mean", "last4", "blend_rt"]}})
+    S = pd.DataFrame(S)
+    S.to_csv(RESULTS / "tables" / "rolling_point_summary.csv", index=False)
+    return S

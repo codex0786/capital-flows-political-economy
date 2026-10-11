@@ -1,0 +1,16 @@
+window,method,forecasts,events,auc,brier
+All origins 2019Q4–2024Q4,logit,2226,373,0.743,0.1445
+All origins 2019Q4–2024Q4,base,2226,373,0.5,0.1412
+All origins 2019Q4–2024Q4,blend,2226,373,0.735,0.1276
+Origins before 2020 shock (2019Q4–2020Q3),logit,417,63,0.681,0.1707
+Origins before 2020 shock (2019Q4–2020Q3),base,417,63,0.5,0.1284
+Origins before 2020 shock (2019Q4–2020Q3),blend,417,63,0.681,0.1263
+Origins before 2022 tightening (2021Q4–2022Q3),logit,432,111,0.756,0.1667
+Origins before 2022 tightening (2021Q4–2022Q3),base,432,111,0.5,0.2038
+Origins before 2022 tightening (2021Q4–2022Q3),blend,432,111,0.754,0.1765
+Advanced economies,logit,693,120,0.726,0.1396
+Advanced economies,base,693,120,0.5,0.1452
+Advanced economies,blend,693,120,0.715,0.1297
+Emerging & developing,logit,1533,253,0.749,0.1467
+Emerging & developing,base,1533,253,0.5,0.1394
+Emerging & developing,blend,1533,253,0.743,0.1267

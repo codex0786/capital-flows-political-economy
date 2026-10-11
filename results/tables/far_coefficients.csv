@@ -1,0 +1,14 @@
+variable,label,q05,q05_lo,q05_hi,q50,q50_lo,q50_hi,logit,logit_p
+vix_z,Global risk (VIX),0.003,-0.076,0.094,0.057,0.003,0.118,0.167,0.36
+fed_z,US policy rate,-0.009,-0.087,0.068,0.022,-0.013,0.061,-0.038,0.776
+d4_ust_z,"US 10-year yield, 1-year change",0.011,-0.051,0.049,-0.052,-0.081,-0.023,0.109,0.235
+d4_usd_z,"US dollar, 1-year change",-0.096,-0.139,-0.04,-0.046,-0.075,-0.025,0.185,0.153
+mom_z,Recent inflows (last 4 quarters),0.171,0.055,0.258,0.233,0.175,0.294,1.74,0.0
+L_gdp_growth,GDP growth (last year),-0.004,-0.019,0.006,-0.012,-0.017,-0.005,0.043,0.056
+L_inflation_c,Inflation (last year),-0.003,-0.009,0.005,-0.004,-0.009,-0.0,-0.025,0.117
+L_ca_gdp,Current account (last year),0.003,-0.008,0.008,-0.002,-0.007,0.0,-0.011,0.413
+L_public_debt_s,"Public debt (last year, /100)",0.083,-0.098,0.234,0.007,-0.056,0.075,-0.276,0.306
+res_months,"Reserves, months of imports",-0.005,-0.02,0.008,-0.001,-0.007,0.006,-0.004,0.864
+emde,Emerging/developing economy,-0.062,-0.213,0.061,-0.046,-0.104,0.017,0.099,0.663
+vix_x_emde,VIX × EMDE,0.04,-0.078,0.119,-0.038,-0.111,0.021,-0.158,0.392
+vix_x_res,VIX × reserves,-0.004,-0.012,0.006,-0.001,-0.009,0.01,0.043,0.012

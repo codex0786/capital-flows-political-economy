@@ -1,0 +1,230 @@
+{
+ "title": "Out-of-sample test of the election-quarter decline in EMDE gross capital inflows",
+ "freeze_date": "2026-10-11",
+ "hypothesis": "In emerging and developing economies, gross capital inflows (annualised % of GDP) are lower in the quarter of an executive-relevant national election than in other quarters.",
+ "direction": "one-sided, coefficient < 0",
+ "prior_estimate": {
+  "coef": -2.15,
+  "se": 0.65,
+  "source": "post-hoc analysis on 2015Q1-2025Q4 (results/tables/posthoc_imf_alignment.csv)"
+ },
+ "sample_rule": "Economies in the quarterly sample classified EMDE under the pre-euro classification (country_metadata.country_group_alt_pre_euro).",
+ "election_rule": "Executive-relevant national contests (presidential where V-Dem v2x_ex_direlect >= 0.5 in the latest V-Dem year, else lower-house) whose first round falls in 2026Q3-2027Q4 and whose BOP quarter was unpublished on the freeze date. Dates from the Wikipedia national electoral calendar; at analysis time each must be confirmed by a second source (International IDEA or the national election authority). Elections cancelled or postponed out of the window are dropped and reported. Elections moved into the window are not added.",
+ "qualifying_elections_primary": [
+  {
+   "iso3": "ZMB",
+   "country": "Zambia",
+   "type": "presidential",
+   "date": "2026-08-13",
+   "quarter": "2026Q3"
+  },
+  {
+   "iso3": "MAR",
+   "country": "Morocco",
+   "type": "parliamentary",
+   "date": "2026-09-23",
+   "quarter": "2026Q3"
+  },
+  {
+   "iso3": "BRA",
+   "country": "Brazil",
+   "type": "presidential",
+   "date": "2026-10-04",
+   "quarter": "2026Q4"
+  },
+  {
+   "iso3": "BIH",
+   "country": "Bosnia and Herzegovina",
+   "type": "parliamentary",
+   "date": "2026-10-04",
+   "quarter": "2026Q4"
+  },
+  {
+   "iso3": "SRB",
+   "country": "Serbia",
+   "type": "parliamentary",
+   "date": "2026-10-25",
+   "quarter": "2026Q4"
+  },
+  {
+   "iso3": "NGA",
+   "country": "Nigeria",
+   "type": "presidential",
+   "date": "2027-01-16",
+   "quarter": "2027Q1"
+  },
+  {
+   "iso3": "KGZ",
+   "country": "Kyrgyz Republic",
+   "type": "presidential",
+   "date": "2027-01-27",
+   "quarter": "2027Q1"
+  },
+  {
+   "iso3": "SLV",
+   "country": "El Salvador",
+   "type": "presidential",
+   "date": "2027-02-28",
+   "quarter": "2027Q1"
+  },
+  {
+   "iso3": "BDI",
+   "country": "Burundi",
+   "type": "presidential",
+   "date": "2027-05-03",
+   "quarter": "2027Q2"
+  },
+  {
+   "iso3": "GTM",
+   "country": "Guatemala",
+   "type": "presidential",
+   "date": "2027-06-27",
+   "quarter": "2027Q2"
+  },
+  {
+   "iso3": "AGO",
+   "country": "Angola",
+   "type": "parliamentary",
+   "date": "2027-08-24",
+   "quarter": "2027Q3"
+  },
+  {
+   "iso3": "PNG",
+   "country": "Papua New Guinea",
+   "type": "parliamentary",
+   "date": "2027-10-24",
+   "quarter": "2027Q4"
+  },
+  {
+   "iso3": "POL",
+   "country": "Poland",
+   "type": "parliamentary",
+   "date": "2027-10-24",
+   "quarter": "2027Q4"
+  },
+  {
+   "iso3": "TJK",
+   "country": "Tajikistan",
+   "type": "presidential",
+   "date": "2027-10-24",
+   "quarter": "2027Q4"
+  },
+  {
+   "iso3": "ARG",
+   "country": "Argentina",
+   "type": "presidential",
+   "date": "2027-10-24",
+   "quarter": "2027Q4"
+  }
+ ],
+ "qualifying_elections_secondary": [
+  {
+   "iso3": "UGA",
+   "country": "Uganda",
+   "type": "presidential",
+   "date": "2026-01-15",
+   "quarter": "2026Q1"
+  },
+  {
+   "iso3": "CRI",
+   "country": "Costa Rica",
+   "type": "presidential",
+   "date": "2026-02-01",
+   "quarter": "2026Q1"
+  },
+  {
+   "iso3": "THA",
+   "country": "Thailand",
+   "type": "parliamentary",
+   "date": "2026-02-08",
+   "quarter": "2026Q1"
+  },
+  {
+   "iso3": "BGD",
+   "country": "Bangladesh",
+   "type": "parliamentary",
+   "date": "2026-02-12",
+   "quarter": "2026Q1"
+  },
+  {
+   "iso3": "LAO",
+   "country": "Lao PDR",
+   "type": "parliamentary",
+   "date": "2026-02-22",
+   "quarter": "2026Q1"
+  },
+  {
+   "iso3": "NPL",
+   "country": "Nepal",
+   "type": "parliamentary",
+   "date": "2026-03-05",
+   "quarter": "2026Q1"
+  },
+  {
+   "iso3": "VNM",
+   "country": "Viet Nam",
+   "type": "parliamentary",
+   "date": "2026-03-15",
+   "quarter": "2026Q1"
+  },
+  {
+   "iso3": "HUN",
+   "country": "Hungary",
+   "type": "parliamentary",
+   "date": "2026-04-12",
+   "quarter": "2026Q2"
+  },
+  {
+   "iso3": "BGR",
+   "country": "Bulgaria",
+   "type": "parliamentary",
+   "date": "2026-04-19",
+   "quarter": "2026Q2"
+  },
+  {
+   "iso3": "COL",
+   "country": "Colombia",
+   "type": "presidential",
+   "date": "2026-05-31",
+   "quarter": "2026Q2"
+  }
+ ],
+ "outcome": {
+  "variable": "gross inflows = (D_F + P_F + O_F, L_NIL_T) * 4 / annual GDP (IMF WEO NGDPD) * 100",
+  "winsorisation_bounds_frozen": [
+   -34.1684,
+   105.0425
+  ],
+  "source": "IMF BOP (IMF.STA:BOP), retrieved fresh at analysis time; vintage recorded"
+ },
+ "primary_specification": "Panel 2015Q1-2027Q4, EMDE sample. y_it = country FE + quarter FE + b_old*E_old + b_new*E_new + pre12 + post12 + lagged-year controls (growth, inflation, CA, fiscal balance, public debt, log GDP per capita). E_old = election quarter for 2015-2025 elections; E_new = election quarter for the primary qualifying elections. Pre/post windows (1-2 quarters) for all elections. SEs clustered by country.",
+ "primary_statistic": "b_new, one-sided p-value from the country-clustered t statistic (G-1 df)",
+ "decision_rule": "Confirmed if b_new < 0 with one-sided p < 0.05. Otherwise reported as not confirmed, with the estimate and 90% CI. Either way the result is published.",
+ "secondary_analyses": [
+  "Wild cluster bootstrap p-value for b_new (999 Rademacher draws, seed 20261011)",
+  "Prediction-error test: mean residual in qualifying election quarters from the frozen 2015-2025 EMDE model (no re-estimation), one-sided t test",
+  "Private gross inflows (official OI liabilities and SDR removed)",
+  "Pooled test (pre-specified, reported alongside the primary): primary set plus the 2026Q1-Q2 secondary set, whose BOP data were published by the freeze date but were not analysed for this question. Same specification and decision rule; reported as secondary because the data existed at registration."
+ ],
+ "power": {
+  "n_elections_historical": 188,
+  "n_elections_primary": 15,
+  "expected_se": 2.301,
+  "power_one_sided_5pct": {
+   "-1.0": 0.11,
+   "-2.0": 0.22,
+   "-3.0": 0.37
+  },
+  "n_elections_pooled": 25,
+  "expected_se_pooled": 1.782,
+  "power_pooled_one_sided_5pct": {
+   "-1.0": 0.14,
+   "-2.0": 0.3,
+   "-3.0": 0.52
+  },
+  "elections_needed_for_80pct_power_at_minus2": 123,
+  "note": "Approximation: historical SE scaled by sqrt(n_old/n_new). Low power means a null result would be weak evidence against the effect."
+ },
+ "timing": "Analysis runs once BOP data cover the 2027Q4 election quarter for at least 80% of qualifying economies (expected around mid-2028), and no later than 2028-09-30. An interim look at elections through 2027Q2 may be published but is labelled interim and does not change the decision rule.",
+ "deviations": "Any deviation will be logged in report/protocol_changelog.md with date and reason, before the analysis is run."
+}
