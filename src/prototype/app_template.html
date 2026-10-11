@@ -122,6 +122,12 @@ input[type=search]{font:15px var(--f-ui);color:var(--fg);background:var(--surfac
 .btn{font:500 13px var(--f-ui);background:var(--surface);color:var(--fg-2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer}
 .btn:hover{color:var(--fg)}
 details summary{cursor:pointer;color:var(--accent);font:500 13px var(--f-ui)}
+.status{display:inline-block;font:500 11px/1 var(--f-mono);text-transform:uppercase;letter-spacing:.05em;padding:4px 7px;border-radius:999px}
+.status.ok{background:var(--accent-soft);color:var(--accent)} .status.watch{background:var(--warm-soft);color:var(--warm)} .status.na{background:var(--surface-2);color:var(--fg-3)}
+.bignum{font:600 44px/1 var(--f-display);color:var(--ink);font-variant-numeric:tabular-nums}
+.monitor td,.monitor th{font-size:13px;padding:6px 8px;white-space:nowrap}
+.monitor tbody tr{cursor:pointer} .monitor tbody tr:hover td{background:var(--surface-2)}
+th.sortable{cursor:pointer;color:var(--accent)}
 footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);font-size:13px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -132,7 +138,7 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
   <p class="lede">Pick an economy to see what happened to its capital flows since 2015, which forces were behind it, and where flows are likely to go over the next year. The other tabs hold the cross-country study behind the analysis.</p>
 </header>
 <nav class="tabs" aria-label="Sections"><div class="wrap" id="tabs">
-  <a href="#analysis">Country analysis</a><a href="#overview">Overview</a><a href="#countries">Countries</a><a href="#years">Country × year</a><a href="#models">Model lab</a><a href="#dynamics">Dynamics</a><a href="#robustness">Robustness</a><a href="#report">Report</a><a href="#data">Data &amp; methods</a>
+  <a href="#analysis">Country analysis</a><a href="#monitor">Risk monitor</a><a href="#track">Track record</a><a href="#overview">Overview</a><a href="#countries">Countries</a><a href="#years">Country × year</a><a href="#models">Model lab</a><a href="#dynamics">Dynamics</a><a href="#robustness">Robustness</a><a href="#report">Report</a><a href="#data">Data &amp; methods</a>
 </div></nav>
 
 <main class="wrap">
@@ -185,12 +191,61 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
   </div>
 
   <div class="panel">
-    <div><span class="eyebrow">4 · How reliable is the forecast?</span><h2 style="margin-top:4px">2024–25 backtest</h2></div>
+    <div><span class="eyebrow">4 · Risk and buffers</span><h2 style="margin-top:4px">How bad could it get, and can the country absorb it?</h2></div>
+    <div class="grid g2">
+      <div class="panel" style="background:var(--surface-2);border:0"><h3>Flows at risk</h3><div class="narr" id="r-far-text"></div></div>
+      <div class="panel" style="background:var(--surface-2);border:0"><h3>Sudden-stop probability, next four quarters</h3><div id="r-stop"></div></div>
+    </div>
+    <div class="legend" id="r-far-legend"></div>
+    <div class="chart" id="r-far-chart"></div>
+    <p class="small muted">Left: the realised average of gross inflows over each following four quarters (annualised % of GDP). Right: the forecast distribution for the next four quarters, with the 5th–95th, 10th–90th and 25th–75th percentile ranges and the median. Tails are calibrated in real time. In the 2019–24 rolling test, 5.2% of outcomes fell below the 5th percentile.</p>
+    <h3 style="margin-top:6px">Vulnerability indicators</h3>
+    <div class="tbl" id="r-vul"></div>
+    <h3 style="margin-top:6px">Buffer stress tests</h3>
+    <div class="tbl" id="r-buf"></div>
+    <p class="small muted" id="r-vul-note"></p>
+  </div>
+
+  <div class="panel">
+    <div><span class="eyebrow">5 · How reliable is the forecast?</span><h2 style="margin-top:4px">2024–25 backtest</h2></div>
     <p class="small muted">The model was re-estimated with data to 2023Q4 and asked to forecast 2024Q1–2025Q4, then compared with what happened.</p>
     <div class="legend" id="a-bt-legend"></div>
     <div class="chart" id="a-bt-chart"></div>
     <div class="tbl" id="a-bt-table"></div>
   </div>
+</section>
+
+<!-- RISK MONITOR -->
+<section class="view" id="v-monitor" hidden>
+  <div class="panel">
+    <div><h3>Risk monitor: all economies</h3><p class="small muted">Latest flows-at-risk and sudden-stop estimates for the next four quarters, with vulnerability flags. Click a column heading to sort, and a row to open that country's analysis. Probabilities rank risk better than they measure it (rolling AUC 0.74). The ranking is the most reliable part.</p></div>
+    <div class="controls">
+      <div class="ctl"><label>Group</label><div class="seg" id="mo-group"><button aria-pressed="true" data-v="all">All</button><button aria-pressed="false" data-v="AE">AE</button><button aria-pressed="false" data-v="EMDE">EMDE</button></div></div>
+      <div class="ctl" style="flex:1 1 180px"><label for="mo-find">Find</label><input type="search" id="mo-find" placeholder="Country name"></div>
+    </div>
+    <div class="hmwrap"><table class="monitor" id="mo-table"></table></div>
+  </div>
+</section>
+
+<!-- TRACK RECORD -->
+<section class="view" id="v-track" hidden>
+  <div class="panel">
+    <div><h3>Point forecasts: real-time rolling test, 2020–2025</h3><p class="small muted">Forecasts made at the end of each year from 2019 to 2024 for the next four quarters. Global factors are frozen at the forecast date. Blend weights are chosen using only earlier years. Lower is better (RMSE, pp of GDP annualised).</p></div>
+    <div class="controls">
+      <div class="ctl"><label>Flow</label><div class="seg" id="tr-out"><button aria-pressed="true" data-v="gross_in">Gross inflows</button><button aria-pressed="false" data-v="gross_out">Gross outflows</button><button aria-pressed="false" data-v="net">Net flows</button></div></div>
+      <div class="ctl"><label>Group</label><div class="seg" id="tr-grp"><button aria-pressed="true" data-v="EMDE">EMDE</button><button aria-pressed="false" data-v="AE">AE</button></div></div>
+    </div>
+    <div class="legend" id="tr-legend"></div>
+    <div class="chart" id="tr-chart"></div>
+    <div class="tbl" id="tr-table"></div>
+  </div>
+  <div class="grid g2">
+    <div class="panel"><h3>Flows-at-risk calibration</h3><p class="small muted">Share of outcomes below each predicted percentile, 2,250 country forecasts made 2019Q4–2024Q4. A well-calibrated forecast matches the nominal share.</p><div class="tbl" id="tr-cal"></div></div>
+    <div class="panel"><h3>Sudden-stop probabilities</h3><p class="small muted">AUC: how well probabilities rank countries that did and did not have a sudden stop (0.5 = chance, 1 = perfect). Brier: overall probability error (lower is better).</p><div class="tbl" id="tr-stop"></div></div>
+  </div>
+  <div class="panel"><h3>What moves the downside tail?</h3><p class="small muted">Quantile-regression coefficients for the 5th percentile (downside tail) and the median of next-year inflows, standardised by country volatility. 95% intervals from a country-cluster bootstrap. A factor that matters more at the 5th percentile than at the median mainly raises tail risk.</p>
+    <div class="legend" id="tr-coef-legend"></div><div class="chart" id="tr-coef"></div></div>
+  <div class="panel" id="tr-prereg"></div>
 </section>
 
 <!-- OVERVIEW -->
@@ -393,6 +448,7 @@ footer{border-top:1px solid var(--line);padding-block:20px;color:var(--fg-3);fon
 
 <script type="application/json" id="bundle">__BUNDLE__</script>
 <script type="application/json" id="cabundle">__CABUNDLE__</script>
+<script type="application/json" id="riskbundle">__RISKBUNDLE__</script>
 <script>
 (function(){
 const B = JSON.parse(document.getElementById('bundle').textContent);
@@ -711,7 +767,7 @@ function renderAnalysis(){
   $('#a-why').innerHTML=d.narrative.why.map(t=>`<p>${esc(t)}</p>`).join('');
   $('#a-outlook').innerHTML=(d.narrative.outlook||[]).map(t=>`<p>${esc(t)}</p>`).join('');
   $('#a-years').innerHTML=d.narrative.years.map(y=>`<div class="yr"><span class="y">${y.year}</span><span class="dv" style="color:${y.dev<0?'var(--warm)':'var(--accent)'}">${y.dev>=0?'+':''}${fmt(y.dev,1)} pp</span><span>${esc(y.text)}${y.context?`<br><span class="small muted">${esc(y.context)}</span>`:''}</span></div>`).join('');
-  renderAChart(); renderWhy(); renderForecastTable(); renderScenario(); renderBacktest();
+  renderAChart(); renderWhy(); renderForecastTable(); renderScenario(); renderRisk(); renderBacktest();
 }
 function scenarioDelta(d){
   const z=CA.assumptions.zstats, b=d.loadings, rho=d.rho;
@@ -816,10 +872,98 @@ function renderBacktest(){
 }
 $('#a-country').addEventListener('change',renderAnalysis); seg('#a-outcome',v=>{aOut=v;renderAnalysis();});
 
+/* ---------- RISK (country section, monitor, track record) ---------- */
+const RB=JSON.parse(document.getElementById('riskbundle').textContent);
+const R=RB.risk, V=RB.vul;
+function renderRisk(){
+  const {iso,c}=aData(); const r=R.countries[iso], v=V.countries[iso];
+  if(!r){ $('#r-far-text').innerHTML='<p class="muted">Not enough recent data for a flows-at-risk estimate.</p>'; $('#r-far-chart').innerHTML=''; }
+  else {
+    const q=r.quantiles; const gdpNote=v&&v.buffers.far_shortfall_usd_bn!=null?` That is a shortfall of about <b>US$${fmt(v.buffers.far_shortfall_usd_bn,1)} bn</b> a year against the country's average.`:'';
+    $('#r-far-text').innerHTML=`<p>For ${r.horizon}, the median forecast for average gross inflows is <b>${fmt(q.q50,1)}%</b> of GDP (2015–25 average: ${fmt(r.mu,1)}%).</p>
+      <p>There is a <b>1-in-20 chance</b> they average below <b>${fmt(q.q05,1)}%</b>, and a 1-in-10 chance below ${fmt(q.q10,1)}%.${gdpNote}</p>`;
+    const host=$('#r-far-chart'); host.innerHTML=''; const W=1100,H=300,m={l:48,r:20,t:14,b:30};
+    const hist=r.hist; const n=hist.length; const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Flows at risk'},host);
+    const vals=[...hist.map(h=>h.fwd4),q.q05,q.q95,r.mu]; let lo=Math.min(0,...vals),hi=Math.max(0,...vals); const pad=(hi-lo)*.06; lo-=pad; hi+=pad;
+    const Y=v_=>m.t+(hi-v_)/(hi-lo)*(H-m.t-m.b); const plotW=W-m.l-m.r-160; const X=i=>m.l+i/(Math.max(n-1,1))*plotW;
+    const g=el('g',{class:'grid'},svg); niceTicks(lo,hi).forEach(t=>{el('line',{x1:m.l,x2:W-m.r,y1:Y(t),y2:Y(t)},g); const tx=el('text',{x:m.l-8,y:Y(t)+4,'text-anchor':'end'},svg); tx.textContent=fmt(t,0);});
+    el('line',{class:'zero',x1:m.l,x2:W-m.r,y1:Y(0),y2:Y(0)},svg);
+    el('line',{x1:m.l,x2:W-m.r,y1:Y(r.mu),y2:Y(r.mu),stroke:css('--ref'),'stroke-dasharray':'4 4'},svg);
+    let p=''; hist.forEach((h,i)=>{p+=(i?'L':'M')+X(i)+','+Y(h.fwd4);}); el('path',{d:p,fill:'none',stroke:css('--accent'),'stroke-width':2},svg);
+    hist.forEach((h,i)=>{ if(h.quarter.endsWith('Q1')&&(+h.quarter.slice(0,4))%2===1){ const t=el('text',{x:X(i),y:H-10,'text-anchor':'middle'},svg); t.textContent=h.quarter.slice(0,4);} });
+    const bx=m.l+plotW+80, bw=56;
+    [[q.q05,q.q95,0.18],[q.q10,q.q90,0.3],[q.q25,q.q75,0.5]].forEach(([a,b,op])=>el('rect',{x:bx-bw/2,y:Y(b),width:bw,height:Math.max(1,Y(a)-Y(b)),fill:css('--accent'),opacity:op,rx:3},svg));
+    el('line',{x1:bx-bw/2-4,x2:bx+bw/2+4,y1:Y(q.q50),y2:Y(q.q50),stroke:css('--ink'),'stroke-width':2.5},svg);
+    el('line',{x1:bx-bw/2-8,x2:bx+bw/2+8,y1:Y(q.q05),y2:Y(q.q05),stroke:css('--warm'),'stroke-width':2.5},svg);
+    const t1=el('text',{x:bx,y:H-10,'text-anchor':'middle'},svg); t1.textContent='Next 4 quarters';
+    const t2=el('text',{x:bx+bw/2+12,y:Y(q.q05)+4},svg); t2.textContent='5th pct'; t2.setAttribute('style',`fill:${css('--warm')}`);
+    legend($('#r-far-legend'),[{name:'Realised next-4-quarter average',color:css('--accent')},{name:'2015–25 average',color:css('--ref'),dash:1},{name:'5th percentile (1-in-20 downside)',color:css('--warm')}]);
+    const all=Object.values(R.countries).map(x=>x.p_stop).sort((a,b)=>a-b); const rank=all.filter(x=>x<=r.p_stop).length/all.length;
+    $('#r-stop').innerHTML=`<span class="bignum">${Math.round(r.p_stop*100)}%</span><p>chance of at least one sudden-stop quarter in ${r.horizon}. The average across economies is ${Math.round(R.base_rate_stop*100)}%; this economy ranks higher than ${Math.round(rank*100)}% of the ${all.length} economies covered.</p><p class="small muted">Sudden stop: gross inflows fall more than two standard deviations below their recent norm (Forbes–Warnock style). The probability blends a logit model with the base rate, which was best calibrated in the 2019–24 rolling test (AUC 0.74).</p>`;
+  }
+  if(v){
+    const order=['reserves_months','st_debt_reserves','ext_debt_gdp','ca_gdp','public_debt_gdp','inflation'];
+    $('#r-vul').innerHTML='<table><thead><tr><th>Indicator</th><th class="n">Value</th><th class="n">Year</th><th class="n">Threshold</th><th>Status</th><th>Rule of thumb</th></tr></thead><tbody>'+
+      order.map(k=>{ const d=v.indicators[k], rl=V.rules[k]; const st=d.status; return `<tr><td>${esc(rl.label)} <span class="muted small">${esc(rl.unit)}</span></td><td class="n">${d.value==null?'–':fmt(d.value,1)}</td><td class="n">${d.year||'–'}</td><td class="n">${rl.dir==='below'?'&lt; ':'&gt; '}${fmt(d.threshold,0)}</td><td>${st==null?'<span class="status na">no data</span>':st==='watch'?'<span class="status watch">Watch</span>':st==='n/a'?'<span class="status na">n/a</span>':'<span class="status ok">OK</span>'}</td><td class="small muted">${esc(rl.rule)}</td></tr>`; }).join('')+'</tbody></table>';
+    const b=v.buffers; const cov=(x,lab)=>x==null?'–':`${fmt(x,1)}×`;
+    const ok=x=>x==null?'<span class="status na">no data</span>':x>=1?'<span class="status ok">Covered</span>':'<span class="status watch">Not covered</span>';
+    $('#r-buf').innerHTML=`<table><thead><tr><th>Test</th><th class="n">Reserves cover</th><th>Result</th><th>What it means</th></tr></thead><tbody>
+      <tr><td>Short-term debt + current-account deficit</td><td class="n">${cov(b.greenspan_guidotti_cover)}</td><td>${ok(b.greenspan_guidotti_cover)}</td><td class="small">Can reserves pay a year of maturing short-term external debt plus the current-account gap without new financing?</td></tr>
+      <tr><td>1-in-20 flows-at-risk shortfall${b.far_shortfall_usd_bn!=null?` (US$${fmt(b.far_shortfall_usd_bn,1)} bn)`:''}</td><td class="n">${cov(b.far_cover)}</td><td>${ok(b.far_cover)}</td><td class="small">Can reserves offset a year of inflows at the 5th-percentile forecast instead of the average?</td></tr>
+      <tr><td>Worst year since 2015${b.worst_shortfall_usd_bn!=null?` (US$${fmt(b.worst_shortfall_usd_bn,1)} bn)`:''}</td><td class="n">${cov(b.worst_cover)}</td><td>${ok(b.worst_cover)}</td><td class="small">Could reserves absorb a repeat of this economy's worst 4-quarter inflow shortfall?</td></tr></tbody></table>`;
+    $('#r-vul-note').innerHTML=(v.reserve_note?`<b>${esc(v.reserve_note)}</b> `:'')+`Reserves US$${fmt(b.reserves_usd_bn,1)} bn (${b.reserves_year||'–'}). Thresholds are conventional rules of thumb, not IMF assessments; the IMF reserve-adequacy (ARA) metric is not computed here. External-debt indicators come from the World Bank's debtor reporting and are blank for most advanced economies.`;
+  }
+}
+let moGroup='all', moSort={k:'p_stop',dir:-1};
+function renderMonitor(){
+  const f=$('#mo-find').value.trim().toLowerCase();
+  let rows=Object.entries(R.countries).map(([iso,r])=>{ const v=V.countries[iso]||{}; const c=CA.countries[iso]||{name:iso,group:v.group};
+    return {iso,name:c.name,group:c.group||v.group,p_stop:r.p_stop,q05:r.quantiles.q05,q50:r.quantiles.q50,mu:r.mu,short:r.mu-r.quantiles.q05,flags:v.flags??null,far_cover:v.buffers?v.buffers.far_cover:null,gg:v.buffers?v.buffers.greenspan_guidotti_cover:null,res:v.indicators?v.indicators.reserves_months.value:null}; })
+    .filter(x=>(moGroup==='all'||x.group===moGroup)&&(!f||x.name.toLowerCase().includes(f)));
+  rows.sort((a,b)=>{ const x=a[moSort.k],y=b[moSort.k]; if(x==null) return 1; if(y==null) return -1; return typeof x==='string'? moSort.dir*x.localeCompare(y) : moSort.dir*(x-y); });
+  const cols=[['name','Economy'],['group','Group'],['p_stop','Sudden-stop prob.'],['q50','Median forecast'],['q05','5th percentile'],['short','Downside vs average'],['flags','Vulnerability flags'],['gg','ST debt+CA cover'],['far_cover','FaR cover']];
+  const fm={p_stop:x=>Math.round(x*100)+'%',q50:x=>fmt(x,1),q05:x=>fmt(x,1),short:x=>fmt(-x,1),gg:x=>fmt(x,1)+'×',far_cover:x=>fmt(x,1)+'×'};
+  $('#mo-table').innerHTML='<thead><tr>'+cols.map(([k,l])=>`<th class="sortable${['name','group'].includes(k)?'':' n'}" data-k="${k}">${l}${moSort.k===k?(moSort.dir<0?' ↓':' ↑'):''}</th>`).join('')+'</tr></thead><tbody>'+
+    rows.map(x=>`<tr data-iso="${x.iso}">`+cols.map(([k])=>{ const v_=x[k]; if(k==='name'||k==='group') return `<td>${esc(v_)}</td>`;
+      let cls='n'; if(k==='flags'&&v_>=3) cls+=' ' ; const txt=v_==null?'–':(fm[k]?fm[k](v_):v_);
+      const warn=(k==='flags'&&v_>=3)||(k==='gg'&&v_!=null&&v_<1)||(k==='far_cover'&&v_!=null&&v_<1);
+      return `<td class="${cls}"${warn?' style="color:var(--warm);font-weight:600"':''}>${txt}</td>`; }).join('')+'</tr>').join('')+'</tbody>';
+}
+$('#mo-table').addEventListener('click',e=>{ const th=e.target.closest('th[data-k]'); if(th){ const k=th.dataset.k; moSort={k,dir:moSort.k===k?-moSort.dir:(k==='name'||k==='group'?1:-1)}; renderMonitor(); return; }
+  const tr=e.target.closest('tr[data-iso]'); if(tr&&CA.countries[tr.dataset.iso]){ $('#a-country').value=tr.dataset.iso; location.hash='analysis'; } });
+$('#mo-find').addEventListener('input',renderMonitor); seg('#mo-group',v=>{moGroup=v;renderMonitor();});
+let trOut='gross_in', trGrp='EMDE';
+function renderTrack(){
+  const rp=RB.rolling_point.filter(r=>r.outcome===trOut&&r.group===trGrp&&r.origin!=='all').sort((a,b)=>a.target_year-b.target_year);
+  const s=[{name:'Blend (real time)',v:rp.map(r=>r.rmse_blend_rt),color:css('--accent')},{name:'Driver model',v:rp.map(r=>r.rmse_model),color:css('--violet')},{name:'Long-run average',v:rp.map(r=>r.rmse_mean),color:css('--ref')},{name:'Last four quarters',v:rp.map(r=>r.rmse_last4),color:css('--warm'),dash:'5 4'}];
+  legend($('#tr-legend'),s); lineChart($('#tr-chart'),rp.map(r=>r.target_year),s,{h:260,xlab:()=>true,xfmt:x=>'Forecast for '+x});
+  const all=RB.rolling_point.find(r=>r.outcome===trOut&&r.group===trGrp&&r.origin==='all');
+  const best=['rmse_blend_rt','rmse_model','rmse_mean','rmse_last4'].reduce((a,b)=>all[b]<all[a]?b:a);
+  const lab={rmse_blend_rt:'Blend (real time)',rmse_model:'Driver model',rmse_mean:'Long-run average',rmse_last4:'Last four quarters'};
+  $('#tr-table').innerHTML='<table><thead><tr><th>Method</th><th class="n">RMSE 2020–2025</th><th class="n">vs long-run average</th></tr></thead><tbody>'+Object.keys(lab).map(k=>`<tr${k===best?' class="hl"':''}><td>${lab[k]}</td><td class="n">${fmt(all[k],2)}</td><td class="n">${k==='rmse_mean'?'–':((all[k]/all.rmse_mean-1)*100).toFixed(1)+'%'}</td></tr>`).join('')+`</tbody></table><p class="small muted" style="margin-top:6px">${all.forecasts.toLocaleString()} country-quarter forecasts. Highlighted: lowest error.</p>`;
+  const cal=R.rolling.filter(r=>r.window.startsWith('All'));
+  const ml={full:'Full model',lean:'Lean model',history:'Country history only',blend:'Blend',blend_calibrated:'Blend, calibrated tails (used)'};
+  $('#tr-cal').innerHTML='<table><thead><tr><th>Method</th><th class="n">5th</th><th class="n">10th</th><th class="n">50th</th><th class="n">90th</th><th class="n">95th</th><th class="n">Tail loss (5th)</th></tr></thead><tbody><tr><td class="muted">Nominal</td><td class="n muted">5%</td><td class="n muted">10%</td><td class="n muted">50%</td><td class="n muted">90%</td><td class="n muted">95%</td><td></td></tr>'+
+    cal.map(r=>`<tr${r.method===R.method_q?' class="hl"':''}><td>${ml[r.method]||r.method}</td>${['q05','q10','q50','q90','q95'].map(k=>`<td class="n">${(r['cover_'+k]*100).toFixed(1)}%</td>`).join('')}<td class="n">${fmt(r.pinball_q05,3)}</td></tr>`).join('')+'</tbody></table>';
+  const st=R.rolling_stop.filter(r=>!r.window.startsWith('Advanced')&&!r.window.startsWith('Emerging'));
+  const pl={logit:'Logit model',base:'Base rate',blend:'Blend (used)'};
+  $('#tr-stop').innerHTML='<table><thead><tr><th>Window</th><th>Method</th><th class="n">AUC</th><th class="n">Brier</th></tr></thead><tbody>'+st.map(r=>`<tr${r.method===R.method_p&&r.window.startsWith('All')?' class="hl"':''}><td class="small">${esc(r.window)}</td><td>${pl[r.method]}</td><td class="n">${r.method==='base'?'0.50':fmt(r.auc,3)}</td><td class="n">${fmt(r.brier,4)}</td></tr>`).join('')+'</tbody></table>';
+  const co=R.coefficients.filter(x=>!['emde','vix_x_emde'].includes(x.variable));
+  ciChart($('#tr-coef'),co.map(x=>({label:x.label,items:[{name:'5th percentile',coef:x.q05,lo:x.q05_lo,hi:x.q05_hi,color:css('--warm')},{name:'median',coef:x.q50,lo:x.q50,hi:x.q50,color:css('--accent')}]})),{rowH:34,labW:320,labSize:13,xlabel:'Effect on standardised next-year inflows'});
+  legend($('#tr-coef-legend'),[{name:'5th percentile (with 95% bootstrap interval)',color:css('--warm')},{name:'Median (point estimate)',color:css('--accent')}]);
+  const P=RB.prereg; const pw=P.power;
+  $('#tr-prereg').innerHTML=`<div><span class="chip conf">Pre-registered · frozen ${P.freeze_date}</span><h3 style="margin-top:8px">Next test: does the EMDE election-quarter drop hold in new elections?</h3></div>
+   <p>${esc(P.hypothesis)} The post-hoc estimate to beat is ${fmt(P.prior_estimate.coef)} pp (SE ${fmt(P.prior_estimate.se)}). <b>Decision rule:</b> ${esc(P.decision_rule)}</p>
+   <div class="tbl"><table><thead><tr><th>Economy</th><th>Contest</th><th>Date</th><th>Quarter</th></tr></thead><tbody>${P.qualifying_elections_primary.map(e=>`<tr><td>${esc(e.country)}</td><td>${e.type}</td><td class="mono">${e.date}</td><td class="mono">${e.quarter}</td></tr>`).join('')}</tbody></table></div>
+   <p class="small">Power is low: ${Math.round(pw.power_one_sided_5pct['-2.0']*100)}% for a true −2 pp effect with ${pw.n_elections_primary} elections (${Math.round(pw.power_pooled_one_sided_5pct['-2.0']*100)}% if the ${pw.n_elections_pooled - pw.n_elections_primary} early-2026 elections are pooled). About ${pw.elections_needed_for_80pct_power_at_minus2} elections would be needed for 80% power. A non-confirmed result will therefore be reported as inconclusive. ${esc(P.timing)}</p>
+   <p class="small muted">Full registration: <code>report/preregistration_2026_elections.md</code> · spec hash in the document · git tag <code>prereg-2026-elections</code>.</p>`;
+}
+seg('#tr-out',v=>{trOut=v;renderTrack();}); seg('#tr-grp',v=>{trGrp=v;renderTrack();});
+
 /* ---------- routing ---------- */
-const views=['analysis','overview','countries','years','models','dynamics','robustness','report','data'];
+const views=['analysis','monitor','track','overview','countries','years','models','dynamics','robustness','report','data'];
 const rendered={};
-const renderers={analysis:renderAnalysis,overview:renderOverview,countries:renderCountry,years:renderYears,models:renderModels,dynamics:renderDynamics,robustness:()=>{renderRobust();renderMT($('#r-mt'),['primary','H3_components','H5_family']);},report:renderReport,data:()=>{}};
+const renderers={analysis:renderAnalysis,monitor:renderMonitor,track:renderTrack,overview:renderOverview,countries:renderCountry,years:renderYears,models:renderModels,dynamics:renderDynamics,robustness:()=>{renderRobust();renderMT($('#r-mt'),['primary','H3_components','H5_family']);},report:renderReport,data:()=>{}};
 function route(){ let v=location.hash.replace('#',''); if(!views.includes(v)) v='analysis';
   views.forEach(x=>{ $('#v-'+x).hidden=(x!==v); });
   document.querySelectorAll('#tabs a').forEach(a=>a.setAttribute('aria-current',a.getAttribute('href')==='#'+v?'page':'false'));

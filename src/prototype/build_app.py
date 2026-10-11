@@ -7,7 +7,16 @@ def main():
     bundle = (RESULTS / "prototype" / "bundle.json").read_text().replace("</", "<\\/")
     out = RESULTS / "prototype" / "index.html"
     ca = (RESULTS / "prototype" / "country_analysis.json").read_text().replace("</", "<\\/")
-    out.write_text(tpl.replace("__BUNDLE__", bundle).replace("__CABUNDLE__", ca))
+    import json
+    import pandas as pd
+    P = RESULTS / "prototype"
+    risk = json.loads((P / "risk.json").read_text())
+    vul = json.loads((P / "vulnerability.json").read_text())
+    rp = pd.read_csv(RESULTS / "tables" / "rolling_point_summary.csv")
+    spec = json.loads((ROOT / "report" / "preregistration_2026_spec.json").read_text())
+    rb = {"risk": risk, "vul": vul, "rolling_point": json.loads(rp.to_json(orient="records")), "prereg": spec}
+    rbs = json.dumps(rb, separators=(",", ":")).replace("</", "<\\/")
+    out.write_text(tpl.replace("__BUNDLE__", bundle).replace("__CABUNDLE__", ca).replace("__RISKBUNDLE__", rbs))
     print(out, round(out.stat().st_size / 1024), "KB")
 
 

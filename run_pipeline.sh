@@ -40,6 +40,10 @@ $PY -m src.visualisation.figures
 
 echo "== 8. Interactive prototype"
 $PY -m src.forecast.country_model
+$PY -c "from src.forecast.country_model import rolling_point_backtest; rolling_point_backtest()"
+$PY -m src.forecast.risk
+$PY -m src.forecast.vulnerability
+# report/preregistration_2026_* is frozen (git tag prereg-2026-elections); do not regenerate
 $PY -m src.prototype.export_bundle
 $PY -m src.prototype.build_app
 echo "done"

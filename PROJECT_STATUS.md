@@ -17,6 +17,16 @@
 | Phase 9 QA | **Completed**: full rerun from archived raw data reproduced all tables byte-for-byte; 21/21 tests pass | `results/logs/full_rerun.log` |
 | Notebooks (`notebooks/01–06`) | **Not created**: the pipeline is script-based (`run_pipeline.sh`). Notebooks would duplicate it. | — |
 
+## Policy tier (added 2026-10-11)
+
+| Item | Status | Where |
+|---|---|---|
+| Flows at risk: 5th–95th percentiles of next-4-quarter gross inflows | **Completed**: lean quantile model blended with country history, tails calibrated in real time. Rolling 2019Q4–2024Q4: 5.2% of outcomes below the 5th percentile. | `src/forecast/risk.py`, `results/tables/far_*` |
+| Sudden-stop probability | **Completed**: logit and base-rate blend. Rolling AUC 0.735, Brier 0.128 vs 0.141 for the base rate. | same |
+| Vulnerability panel and buffer stress tests | **Completed**: 6 indicators with conventional thresholds; reserve cover of ST debt + CA deficit, of the flows-at-risk shortfall and of the worst year. IMF ARA metric not computed. | `src/forecast/vulnerability.py`, `results/tables/vulnerability_panel.csv` |
+| Rolling ex-ante backtest 2020–2025 | **Completed**: EMDE gross inflows blend RMSE 9.24 vs 9.88 for the long-run average; for AE, nothing beats the average. | `results/tables/rolling_point_summary.csv` |
+| Pre-registered 2026–27 election test | **Registered** (git tag `prereg-2026-elections`). Low power (22% at −2 pp), stated in the registration. | `report/preregistration_2026_elections.md` |
+
 ## Source versions used
 
 IMF BOP v21.0.0 (data to 2026Q2); IMF WEO (DataMapper vintage at retrieval); WDI (2026-10-08); WGI 2026 release (2026-09-25); V-Dem v16 (2026-03-17); IDEA VTD; Wikipedia calendars 2010–2026 (revision IDs in raw JSON); WUI July 2026; GPR (to 2026-09); RSUI (to 2026-05); KAOPEN 2023; BIS WS_CBPOL; FRED. All retrieved 2026-10-11.
@@ -31,6 +41,8 @@ IMF BOP v21.0.0 (data to 2026Q2); IMF WEO (DataMapper vintage at retrieval); WDI
 6. Three literature-matrix rows (Julio & Yook 2016; Forbes & Warnock 2012; Rey 2015) summarise designs without a retrieved abstract. Check them against the full text.
 
 ## Next exact actions
+
+0. Run the pre-registered test when BOP data cover 2027Q4 election quarters (mid-2028). Do not regenerate the registration files.
 
 1. Draft a pre-registration (protocol v2.0) for an out-of-sample test: election-quarter dummy, EMDE sample, private gross inflows, 2026 elections. Freeze it before 2026Q3 BOP data are released.
 2. Ingest UNCTAD WIR 2026 annex tables (greenfield announcements vs realised FDI) and BIS LBS cross-border claims. Re-estimate H3 with these.
