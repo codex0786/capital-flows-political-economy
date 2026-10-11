@@ -1219,7 +1219,7 @@ function route(){ let v=location.hash.replace('#',''); if(!views.includes(v)) v=
   renderers[v](); rendered[v]=true; }
 let lastW=window.innerWidth, rzT; window.addEventListener('resize',()=>{ clearTimeout(rzT); rzT=setTimeout(()=>{ if(Math.abs(window.innerWidth-lastW)<40) return; lastW=window.innerWidth; route(); },200); });
 /* flag tables wider than the screen so the swipe hint shows */
-let sxT; function markScroll(){ cancelAnimationFrame(sxT); sxT=requestAnimationFrame(()=>document.querySelectorAll('.tbl').forEach(t=>t.classList.toggle('scrollx',t.scrollWidth>t.clientWidth+4))); }
+let sxT; function markScroll(){ clearTimeout(sxT); sxT=setTimeout(()=>document.querySelectorAll('.tbl').forEach(t=>t.classList.toggle('scrollx',t.scrollWidth>t.clientWidth+4)),60); }
 new MutationObserver(markScroll).observe(document.body,{childList:true,subtree:true}); window.addEventListener('resize',markScroll);
 window.addEventListener('hashchange',()=>{ route(); toView(location.hash.replace('#','')||'analysis'); });
 /* clicking the tab that is already open still jumps to its top */
