@@ -33,7 +33,7 @@ IMF BOP v21.0.0 (data to 2026Q2); IMF WEO (DataMapper vintage at retrieval); WDI
 
 ## Unresolved issues
 
-1. The post-hoc EMDE election-quarter effect needs out-of-sample confirmation with the window fixed in advance. Candidates: 2026 elections, once 2026Q3–2027Q1 BOP data are published.
+1. The post-hoc EMDE election-quarter effect awaits its pre-registered out-of-sample test (2026Q3–2027Q4 elections). Power is low; a faster test would use market data around elections.
 2. The WGI vintage-sensitivity test is infeasible, because only the revised 2026 vintage is accessible via the API.
 3. Not ingested: UNCTAD greenfield and cross-border M&A data, and BIS LBS / international debt securities.
 4. Not coded: election closeness or polarisation, government-formation delays, coalition changes.
@@ -42,9 +42,7 @@ IMF BOP v21.0.0 (data to 2026Q2); IMF WEO (DataMapper vintage at retrieval); WDI
 
 ## Next exact actions
 
-0. Run the pre-registered test when BOP data cover 2027Q4 election quarters (mid-2028). Do not regenerate the registration files.
-
-1. Draft a pre-registration (protocol v2.0) for an out-of-sample test: election-quarter dummy, EMDE sample, private gross inflows, 2026 elections. Freeze it before 2026Q3 BOP data are released.
+1. Run the pre-registered test when BOP data cover 2027Q4 election quarters (mid-2028). Do not regenerate the registration files.
 2. Ingest UNCTAD WIR 2026 annex tables (greenfield announcements vs realised FDI) and BIS LBS cross-border claims. Re-estimate H3 with these.
 3. Build the hand-coded policy-event codebook (investment screening, repatriation rules, capital-flow management measures) with two coders and κ reporting.
 4. Audit the early-election classification against constitutional term lengths (e.g. Constitute Project) and re-run the scheduled-only design.
